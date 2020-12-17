@@ -17,7 +17,7 @@ class SignInButtons extends StatelessWidget {
                 onTap: () {},
                 child: Center(
                   child: Text(
-                    'LOGIN',
+                    'REGISTER',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class SignInButtons extends StatelessWidget {
                   ),
                   SizedBox(width: 10.0),
                   Center(
-                    child: Text('Log in with Google',
+                    child: Text('Register with Google',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Montserrat')),
@@ -63,16 +63,16 @@ class SignInButtons extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'New to GS Suite ?',
+                'Have an account ?',
                 style: TextStyle(fontFamily: 'Montserrat'),
               ),
               SizedBox(width: 5.0),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/register');
+                  Navigator.of(context).pushNamed('/login');
                 },
                 child: Text(
-                  'Register',
+                  'Log In',
                   style: TextStyle(
                       color: Colors.teal[400],
                       fontFamily: 'Montserrat',

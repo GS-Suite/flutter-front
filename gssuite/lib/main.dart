@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gssuite/Components/Login_Screen/TitleComponent.dart';
-import 'Components/Login_Screen/TextField_Component.dart';
-import 'Components/Login_Screen/SignInButton_Component.dart';
+import 'package:gssuite/Components/Register_Screen/register.dart';
+import 'Components/Login_Screen/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,38 +13,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      routes: <String, WidgetBuilder>{
+        '/register': (BuildContext context) => new SignUp(),
+        '/login': (BuildContext context) => new SignIn(),
+      },
       theme: ThemeData(
         fontFamily: 'Montserrat',
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TitleComponent(), TextFieldComponent(), SignInButtons()],
-          ),
-        ),
-      ),
+      home: SignIn(title: 'Flutter Demo Home Page'),
     );
   }
 }
