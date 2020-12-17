@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gssuite/Components/Login_Screen/Hello_Component.dart';
+import 'package:gssuite/Components/Login_Screen/TitleComponent.dart';
 import 'Components/Login_Screen/TextField_Component.dart';
+import 'Components/Login_Screen/SignInButton_Component.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,10 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Montserrat',
-        primarySwatch: Colors.lightBlue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
+        primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -44,10 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HelloComponent(),
-              TextFieldComponent(),
-            ],
+            children: [TitleComponent(), TextFieldComponent(), SignInButtons()],
           ),
         ),
       ),

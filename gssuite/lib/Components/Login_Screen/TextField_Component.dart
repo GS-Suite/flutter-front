@@ -21,17 +21,40 @@ class TextFieldComponent extends StatelessWidget {
                       color: Colors.grey)),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             height: 60,
             child: TextField(
               obscureText: true,
               decoration: InputDecoration(
-                  labelText: 'Passcode',
+                  labelText: 'Password',
                   labelStyle: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey)),
             ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            alignment: Alignment(1.0, 0.0),
+            padding: EdgeInsets.only(top: 10),
+            child: InkWell(
+              child: Text(
+                'Forgot Password',
+                style: TextStyle(
+                    color: Colors.teal[400],
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat',
+                    decoration: TextDecoration.underline),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
           )
         ],
       ),
