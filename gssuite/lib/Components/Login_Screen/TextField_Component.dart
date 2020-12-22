@@ -20,7 +20,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{,2}$', //change to (8,) before production ready!
   );
 
-  final _baseLog = 'http://192.168.0.105:8000/auth/jwt/';
+  final _baseLog = 'https://gstestsuite.herokuapp.com/auth/jwt/';
 
   @override
   void initState() {
@@ -31,14 +31,14 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
   login() async {
     var response = await http.post(_baseLog, body: {
-      'email': emailController.text,
+      'username': emailController.text,
       'password': passwordController.text
     });
-    var jsonres = await json.decode(response.body);
+    var res = await json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', response.headers['token']);
+    prefs.setString('token', res['token']);
     print(prefs.getString('token'));
-    return jsonres;
+    await prefs.clear();
   }
 
   @override
@@ -139,8 +139,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                   height: 40,
                   child: GestureDetector(
                     onTap: () {
-                      print('CLicked');
                       login();
+                      Navigator.of(context).pushNamed('/dashboard');
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(10),

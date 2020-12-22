@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gssuite/Components/Register_Screen/register.dart';
 import 'Components/Login_Screen/login.dart';
+import 'Components/Dashboard/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/register': (BuildContext context) => new SignUp(),
         '/login': (BuildContext context) => new SignIn(),
+        '/dashboard': (BuildContext context) => new Dashboard(),
       },
       theme: ThemeData(
         fontFamily: 'Montserrat',
