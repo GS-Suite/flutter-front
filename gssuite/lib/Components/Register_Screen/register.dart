@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gssuite/Components/Login_Screen/TitleComponent.dart';
 import 'TextField_Component.dart';
-import 'SignUpButton_Component.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key key, this.title}) : super(key: key);
@@ -21,7 +20,10 @@ class _SignUp extends State<SignUp> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [TitleComponent(), TextFieldComponent(), SignInButtons()],
+            children: [
+              TitleComponent(),
+              TextFieldComponent(),
+            ],
           ),
         ),
       ),
