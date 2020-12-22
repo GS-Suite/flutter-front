@@ -1,2 +1,5 @@
 # flutter-front
-Flutter front-end
+`cd gssuite`
+
+
+`flutter run`
