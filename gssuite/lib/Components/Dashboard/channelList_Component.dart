@@ -19,15 +19,11 @@ class ChannelList extends StatelessWidget {
                   child: Card(
                     color: Colors.grey[200],
                     child: Container(
-                      child: Column(
-                        children: [
-                          SafeArea(
-                            child: Image.network(
-                              'https://source.unsplash.com/random',
-                            ),
-                          )
-                        ],
-                      ),
+                      child: Center(
+                          child: Text(
+                        'Channel  ' + numbers[index].toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 36.0),
+                      )),
                     ),
                   ),
                 ),
