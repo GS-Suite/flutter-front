@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:flash/flash.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -14,8 +15,9 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   bool isPasswordValid = true;
   bool _showPassword = true;
   RegExp emailRegExp = new RegExp(
-      // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?\s^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-      r"^[a-z]+"); //Only for testing with email kp and password kp.
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?\s^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    // r"^[a-z]+"
+  ); //Only for testing with email kp and password kp.
   RegExp passwordRegExp = new RegExp(
     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{,2}$', //change to (8,) before production ready!
   );
@@ -38,7 +40,12 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', res['token']);
     print(prefs.getString('token'));
-    await prefs.clear();
+    if (prefs.getString('token') != null) {
+      Navigator.of(context).pushNamed('/dashboard');
+    } else {
+      _showBasicsFlash(
+          flashStyle: FlashStyle.grounded, duration: Duration(seconds: 2));
+    }
   }
 
   @override
@@ -79,14 +86,14 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
             height: 60,
             child: TextField(
               // Uncommment the section after testing with kp
-              // onChanged: (value) {
-              //   if (!passwordRegExp.hasMatch(value)) {
-              //     isPasswordValid = false;
-              //   } else {
-              //     isPasswordValid = true;
-              //   }
-              //   setState(() {});
-              // },
+              onChanged: (value) {
+                if (!passwordRegExp.hasMatch(value)) {
+                  isPasswordValid = false;
+                } else {
+                  isPasswordValid = true;
+                }
+                setState(() {});
+              },
               obscureText: _showPassword,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -140,7 +147,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                   child: GestureDetector(
                     onTap: () {
                       login();
-                      Navigator.of(context).pushNamed('/dashboard');
+                      // Navigator.of(context).pushNamed('/dashboard');
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(10),
@@ -218,6 +225,27 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           )
         ],
       ),
+    );
+  }
+
+  void _showBasicsFlash({
+    Duration duration,
+    flashStyle = FlashStyle.floating,
+  }) {
+    showFlash(
+      context: context,
+      duration: duration,
+      builder: (context, controller) {
+        return Flash(
+          controller: controller,
+          style: flashStyle,
+          boxShadows: kElevationToShadow[4],
+          horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+          child: FlashBar(
+            message: Text('This is a basic flash'),
+          ),
+        );
+      },
     );
   }
 }

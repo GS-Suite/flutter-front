@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gssuite/Components/Register_Screen/register.dart';
 import 'Components/Login_Screen/login.dart';
 import 'Components/Dashboard/dashboard.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,11 +15,35 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        '/register': (BuildContext context) => new SignUp(),
-        '/login': (BuildContext context) => new SignIn(),
-        '/dashboard': (BuildContext context) => new Dashboard(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/register':
+            return PageTransition(
+              child: SignUp(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          case '/login':
+            return PageTransition(
+              child: SignIn(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          case '/dashboard':
+            return PageTransition(
+              child: Dashboard(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          default:
+            return null;
+        }
       },
+      // routes: <String, WidgetBuilder>{
+      //   '/register': (BuildContext context) => new SignUp(),
+      //   '/login': (BuildContext context) => new SignIn(),
+      //   '/dashboard': (BuildContext context) => new Dashboard(),
+      // },
       theme: ThemeData(
         fontFamily: 'Montserrat',
         primarySwatch: Colors.teal,

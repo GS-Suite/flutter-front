@@ -11,13 +11,13 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    // var pref = () async {
-    //   SharedPreferences pref = await SharedPreferences.getInstance();
-    //   if (pref.getString('token').isEmpty) {
-    //     Navigator.pop(context);
-    //   }
-    // };
-    // pref();
+    var pref = () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        Navigator.pop(context);
+      }
+    };
+    pref();
   }
 
   @override
