@@ -24,6 +24,14 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     passwordController = TextEditingController();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+  }
+
   login() async {
     var response = await http.post(_baseLog, body: {
       'username': usernameController.text,
