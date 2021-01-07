@@ -39,6 +39,7 @@ dev_dependencies:
   http:
   page_transition: "^1.1.7+2"
   flash:
+  colorful_safe_area: ^0.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

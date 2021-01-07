@@ -10,30 +10,23 @@ class TextFieldComponent extends StatefulWidget {
 }
 
 class _TextFieldComponentState extends State<TextFieldComponent> {
-  TextEditingController emailController, passwordController;
-  bool isEmailValid = true;
+  TextEditingController usernameController, passwordController;
+  bool isUsernameValid = true;
   bool isPasswordValid = true;
   bool _showPassword = true;
-  RegExp emailRegExp = new RegExp(
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?\s^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    // r"^[a-z]+"
-  ); //Only for testing with email kp and password kp.
-  RegExp passwordRegExp = new RegExp(
-    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{,2}$', //change to (8,) before production ready!
-  );
 
   final _baseLog = 'https://gstestsuite.herokuapp.com/auth/jwt/';
 
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
+    usernameController = TextEditingController();
     passwordController = TextEditingController();
   }
 
   login() async {
     var response = await http.post(_baseLog, body: {
-      'username': emailController.text,
+      'username': usernameController.text,
       'password': passwordController.text
     });
     var res = await json.decode(response.body.toString());
@@ -41,10 +34,12 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     prefs.setString('token', res['token']);
     print(prefs.getString('token'));
     if (prefs.getString('token') != null) {
-      Navigator.of(context).pushNamed('/dashboard');
+      prefs.setString('username', usernameController.text);
+      Navigator.of(context).pushNamed(
+        '/dashboard',
+      );
     } else {
-      _showBasicsFlash(
-          flashStyle: FlashStyle.grounded, duration: Duration(seconds: 2));
+      _showBasicsFlash(flashStyle: FlashStyle.grounded);
     }
   }
 
@@ -60,23 +55,18 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
             height: 60,
             child: TextField(
               onChanged: (value) {
-                if (value.length > 7) {
-                  if (emailRegExp.hasMatch(value)) {
-                    isEmailValid = true;
-                  } else {
-                    isEmailValid = false;
-                  }
+                if (value.length > 5) {
                   setState(() {});
                 }
               },
               decoration: InputDecoration(
-                  hintText: 'Email',
+                  hintText: 'Username',
                   labelStyle: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
-                  errorText: isEmailValid ? null : "Invalid email"),
-              controller: emailController,
+                  errorText: isUsernameValid ? null : "Invalid username"),
+              controller: usernameController,
             ),
           ),
           SizedBox(
@@ -85,15 +75,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           Container(
             height: 60,
             child: TextField(
-              // Uncommment the section after testing with kp
-              onChanged: (value) {
-                if (!passwordRegExp.hasMatch(value)) {
-                  isPasswordValid = false;
-                } else {
-                  isPasswordValid = true;
-                }
-                setState(() {});
-              },
               obscureText: _showPassword,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -149,17 +130,19 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                       login();
                       // Navigator.of(context).pushNamed('/dashboard');
                     },
-                    child: Material(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.teal[400],
-                      elevation: 7.0,
-                      child: Center(
-                        child: Text(
-                          'LOGIN',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat'),
+                    child: InkWell(
+                      child: Material(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.teal[400],
+                        elevation: 7.0,
+                        child: Center(
+                          child: Text(
+                            'LOGIN',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat'),
+                          ),
                         ),
                       ),
                     ),
@@ -242,7 +225,20 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           boxShadows: kElevationToShadow[4],
           horizontalDismissDirection: HorizontalDismissDirection.horizontal,
           child: FlashBar(
-            message: Text('This is a basic flash'),
+            actions: [
+              FlatButton(
+                  onPressed: () => {
+                        Navigator.of(context).pushNamed('/register'),
+                        controller.dismiss()
+                      },
+                  child: Text('Register')),
+              FlatButton(
+                  onPressed: () =>
+                      {passwordController.text = '', controller.dismiss()},
+                  child: Text('Try Again')),
+            ],
+            message: Text(
+                'Password/Email Id doesn\'t match. Please check your credentials.'),
           ),
         );
       },

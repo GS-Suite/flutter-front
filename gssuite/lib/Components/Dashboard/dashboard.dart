@@ -8,14 +8,16 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  String _username;
+  static SharedPreferences prefs;
+
   @override
   void initState() {
     super.initState();
     var pref = () async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (prefs.getString('token') == null) {
-        Navigator.pop(context);
-      }
+      prefs = await SharedPreferences.getInstance();
+
+      _username = prefs.getString('username');
     };
     pref();
   }
@@ -40,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
                   fontSize: 33),
               children: <TextSpan>[
                 TextSpan(
-                    text: 'Hi, ' + 'kp!',
+                    text: 'Hi, ' + 'kp!', // To be changed
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black)),
               ],

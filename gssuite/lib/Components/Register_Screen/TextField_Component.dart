@@ -8,6 +8,7 @@ class TextFieldComponent extends StatefulWidget {
 class _TextFieldComponentState extends State<TextFieldComponent> {
   TextEditingController emailController, passwordController;
   bool isEmailValid = true;
+  bool isUsernameValid = true;
   bool isPasswordValid = true;
   bool _showPassword = true;
   RegExp emailRegExp = new RegExp(
@@ -53,13 +54,22 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           Container(
             height: 60,
             child: TextField(
-              obscureText: true,
+              onChanged: (value) {
+                if (value.length > 5) {
+                  if (value.contains('!@#^&*')) {
+                    isUsernameValid = false;
+                  }
+                  setState(() {});
+                }
+              },
               decoration: InputDecoration(
-                  labelText: 'Username',
+                  hintText: 'Username',
                   labelStyle: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey)),
+                      color: Colors.grey),
+                  errorText: isEmailValid ? null : "Invalid username"),
+              controller: emailController,
             ),
           ),
           SizedBox(
