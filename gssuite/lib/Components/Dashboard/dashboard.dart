@@ -8,16 +8,12 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  String _username;
-  static SharedPreferences prefs;
-
+  SharedPreferences prefs;
   @override
   void initState() {
     super.initState();
     var pref = () async {
       prefs = await SharedPreferences.getInstance();
-
-      _username = prefs.getString('username');
     };
     pref();
   }

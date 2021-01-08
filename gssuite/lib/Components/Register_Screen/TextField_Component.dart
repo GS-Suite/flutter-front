@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -26,7 +26,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     emailController = TextEditingController();
     usernameController = TextEditingController();
@@ -35,7 +34,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     usernameController.dispose();
@@ -43,25 +41,32 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   register() async {
-    var response = await http.post(_baseLog, body: {
-      {
-        'username': usernameController.text,
-        'password1': passwordController.text,
-        'password2': passwordController.text,
-        'name': usernameController.text
-      }
+    print('clicked');
+    final creds = jsonEncode({
+      'username': usernameController.text,
+      'password1': passwordController.text,
+      'password2': passwordController.text,
+      'name': usernameController.text,
     });
+    var response = await http.post(_baseLog,
+        headers: {"Content-Type": "application/json"}, body: creds);
     var res = await json.decode(response.body.toString());
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', res['token']);
-    print(prefs.getString('token'));
-    if (prefs.getString('token') != null) {
-      prefs.setString('username', usernameController.text);
-      Navigator.of(context).pushNamed(
-        '/dashboard',
-      );
+    print(res);
+    if (res['result'] == true) {
+      print('yes');
+      Fluttertoast.showToast(
+          msg: "Account created successfully!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          fontSize: 16.0);
     } else {
-      // _showBasicsFlash(flashStyle: FlashStyle.grounded);
+      print('no');
+      Fluttertoast.showToast(
+        msg: 'error',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -116,7 +121,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
-                  errorText: isEmailValid ? null : "Invalid username"),
+                  errorText: isUsernameValid ? null : "Invalid username"),
               controller: usernameController,
             ),
           ),
