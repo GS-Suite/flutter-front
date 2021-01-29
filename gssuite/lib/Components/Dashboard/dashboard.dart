@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'subscription_Component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Drawer Component/drawer.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -46,6 +47,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
+      drawer: AppDrawer(),
       body: Container(
         alignment: Alignment.topLeft,
         width: double.infinity,

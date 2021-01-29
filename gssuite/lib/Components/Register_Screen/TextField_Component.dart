@@ -21,7 +21,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?\s^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
   );
   RegExp passwordRegExp = new RegExp(
-    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$',
+    r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
   );
 
   @override
