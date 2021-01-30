@@ -16,7 +16,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   bool isPasswordValid = true;
   bool _showPassword = true;
 
-  final _baseLog = sign_in;
+  final _baseLog = signIn;
 
   @override
   void initState() {
@@ -33,16 +33,15 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   login() async {
-    var response = await http.post(_baseLog, body: {
-      'username': usernameController.text,
-      'password': passwordController.text
-    });
+    var username = usernameController.text;
+    var response = await http.post(_baseLog,
+        body: {'username': username, 'password': passwordController.text});
     var res = await json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', res['token']);
     print(prefs.getString('token'));
     if (prefs.getString('token') != null) {
-      prefs.setString('username', usernameController.text);
+      prefs.setString('username', username);
       Navigator.of(context).pushNamed(
         '/dashboard',
       );

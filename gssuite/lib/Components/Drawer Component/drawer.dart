@@ -43,18 +43,20 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           _createHeader(),
           _createDrawerItem(
-              icon: Icons.create_new_folder, text: 'Create Class'),
+              icon: Icons.create_new_folder_outlined, text: 'Create Class'),
           _createDrawerItem(
-            icon: Icons.note,
+            icon: Icons.note_outlined,
             text: 'Saved Notes',
           ),
           _createDrawerItem(
-              icon: Icons.collections_bookmark, text: 'Bookmarks'),
+              icon: Icons.collections_bookmark_outlined, text: 'Bookmarks'),
           Divider(),
-          _createDrawerItem(icon: Icons.fingerprint, text: 'Attendance'),
-          _createDrawerItem(icon: Icons.forum, text: 'Forums'),
+          _createDrawerItem(
+              icon: Icons.fingerprint_outlined, text: 'Attendance'),
+          _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),
           Divider(),
-          _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
+          _createDrawerItem(
+              icon: Icons.bug_report_outlined, text: 'Report an issue'),
           ListTile(
             title: Text('0.0.1'),
             onTap: () {},

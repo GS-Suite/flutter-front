@@ -1,3 +1,3 @@
-final sign_up = 'https://gstestsuite.herokuapp.com/sign_up/';
+final signUp = 'https://gstestsuite.herokuapp.com/sign_up/';
 
-final sign_in = 'https://gstestsuite.herokuapp.com/auth/jwt/';
+final signIn = 'https://gstestsuite.herokuapp.com/auth/jwt/';

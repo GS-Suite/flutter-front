@@ -41,7 +41,7 @@ dev_dependencies:
   flash:
   colorful_safe_area: ^0.2.1
   fluttertoast: ^7.1.6
-  video_player: ^0.10.9
+  flutter_spinkit: ^4.1.2+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
