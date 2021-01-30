@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gssuite/apis/api.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   bool isPasswordValid = true;
   bool _showPassword = true;
 
-  final _baseLog = 'https://gstestsuite.herokuapp.com/sign_up/';
+  final _baseLog = sign_up;
 
   RegExp emailRegExp = new RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?\s^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flash/flash.dart';
+import 'package:gssuite/apis/api.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   bool isPasswordValid = true;
   bool _showPassword = true;
 
-  final _baseLog = 'https://gstestsuite.herokuapp.com/auth/jwt/';
+  final _baseLog = sign_in;
 
   @override
   void initState() {
