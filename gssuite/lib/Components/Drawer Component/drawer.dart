@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:gssuite/apis/api.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget _createHeader() {
@@ -20,7 +22,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _createDrawerItem(
-      {IconData icon, String text, GestureTapCallback onTap}) {
+      {IconData icon, String text, GestureTapCallback tap}) {
     return ListTile(
       title: Row(
         children: <Widget>[
@@ -31,7 +33,7 @@ class AppDrawer extends StatelessWidget {
           )
         ],
       ),
-      onTap: onTap,
+      onTap: tap,
     );
   }
 
@@ -56,10 +58,19 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),
           Divider(),
           _createDrawerItem(
-              icon: Icons.bug_report_outlined, text: 'Report an issue'),
+              icon: Icons.bug_report_outlined,
+              text: 'Report an issue',
+              tap: () async {
+                print('mailto reached');
+                final url = mail;
+                try {
+                  await launch(url);
+                } catch (e) {
+                  print(e);
+                }
+              }),
           ListTile(
             title: Text('0.0.1'),
-            onTap: () {},
           ),
         ],
       ),

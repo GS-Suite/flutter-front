@@ -18,8 +18,6 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     pref();
-    print(_user);
-    print('init end');
   }
 
   pref() async {
@@ -58,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
                       fontSize: 33),
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'Hi, ' + _user, // To be changed
+                        text: 'Hi, ' + _user + '!', // To be changed
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black)),
                   ],
