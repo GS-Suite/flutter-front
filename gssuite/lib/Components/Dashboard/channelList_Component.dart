@@ -15,7 +15,9 @@ class ChannelList extends StatelessWidget {
               child: Container(
                 width: 250,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    print(index);
+                  },
                   child: Card(
                     color: Colors.grey[200],
                     child: Container(

@@ -3,6 +3,7 @@ import 'package:gssuite/Components/Register_Screen/register.dart';
 import 'Components/Login_Screen/login.dart';
 import 'Components/Dashboard/dashboard.dart';
 import 'package:page_transition/page_transition.dart';
+import 'Components/Create Class/create_class_form.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +36,13 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
+          case '/create_class':
+            return PageTransition(
+              child: CreateClass(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+
           default:
             return null;
         }
