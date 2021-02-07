@@ -105,7 +105,6 @@ class _DashboardState extends State<Dashboard> {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               sleep(Duration(microseconds: 1));
               if (prefs.getString('username') != null) {
-                print(prefs.getString('username'));
                 exit(0);
               } else {
                 Navigator.of(context).pop(true);
