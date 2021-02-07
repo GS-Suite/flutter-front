@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'subscription_Component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,25 +89,38 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  AlertDialog alert(BuildContext context) => AlertDialog(
+        title: Text("Attention!"),
+        content: Text("DO you want to exit? "),
+        actions: [
+          FlatButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+          FlatButton(
+            child: Text("Continue"),
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              sleep(Duration(microseconds: 1));
+              if (prefs.getString('username') != null) {
+                print(prefs.getString('username'));
+                exit(0);
+              } else {
+                Navigator.of(context).pop(true);
+              }
+            },
+          ),
+        ],
+      );
+
   Future<bool> _onBackPressed() {
     return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: Text("NO"),
-              ),
-              SizedBox(height: 16),
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(true),
-                child: Text("YES"),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+      context: context,
+      builder: (BuildContext context) {
+        return alert(context);
+      },
+    );
   }
 }
