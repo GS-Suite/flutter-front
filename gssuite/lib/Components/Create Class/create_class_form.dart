@@ -11,7 +11,7 @@ class _CreateClassState extends State<CreateClass> {
     return Scaffold(
       body: Container(
           child: Center(
-        child: Text('Create a Class'), //test
+        child: Text('Create a Class'),
       )),
     );
   }
