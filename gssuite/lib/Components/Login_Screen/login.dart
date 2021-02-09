@@ -39,10 +39,13 @@ class _SignIn extends State<SignIn> {
     return _isLoggedIn != true
         ? _isLoggedIn == false
             ? main()
-            : Center(
-                child: SpinKitWanderingCubes(
-                color: Colors.blueAccent,
-              ))
+            : Container(
+                color: Colors.white,
+                child: Center(
+                    child: SpinKitThreeBounce(
+                  color: Colors.teal[400],
+                )),
+              )
         : Dashboard();
   }
 

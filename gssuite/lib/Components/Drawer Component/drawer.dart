@@ -71,9 +71,9 @@ class AppDrawer extends StatelessWidget {
                   print(e);
                 }
               }),
-          ListTile(
-            title: Text('0.0.1'),
-          ),
+          Divider(),
+          _createDrawerItem(
+              icon: Icons.power_settings_new_outlined, text: 'Log Out'),
         ],
       ),
     );
