@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
+import 'package:gssuite/utils/TnC.dart';
 
 class CreateClass extends StatefulWidget {
   @override
@@ -23,29 +24,29 @@ class _CreateClassState extends State<CreateClass> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (int i = 1; i <= 3; i++)
-            ListTile(
-              title: Text(
-                'option $i',
-              ),
-              leading: Radio(
-                value: i,
-                groupValue: 1,
-                onChanged: (_) {},
+          Center(
+            child: Container(
+              margin: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(3.0),
+              child: SingleChildScrollView(
+                child: Text(tnc),
               ),
             ),
+          )
         ],
       ),
       actions: [
         FlatButton(
-          onPressed: () => () {
-            print('Act 1');
-          },
-          child: Text('ACTION 1'),
+          onPressed: () => {Navigator.pushNamed(context, '/dashboard')},
+          child: Text('Deny'),
         ),
         FlatButton(
-          onPressed: () => () {},
-          child: Text('ACTION 2'),
+          onPressed: () {
+            setState(() {
+              _notice = false;
+            });
+          },
+          child: Text('Accept & Continue'),
         ),
       ],
     );
@@ -81,7 +82,11 @@ class _CreateClassState extends State<CreateClass> {
         ),
       ),
       drawer: AppDrawer(),
-      body: dialog,
+      body: _notice
+          ? dialog
+          : Center(
+              child: Text('create class'),
+            ),
     );
   }
 
