@@ -11,11 +11,17 @@ class TextFieldComponent extends StatefulWidget {
 }
 
 class _TextFieldComponentState extends State<TextFieldComponent> {
-  TextEditingController emailController, usernameController, passwordController;
+  TextEditingController emailController,
+      usernameController,
+      passwordController,
+      firstNameController,
+      lastNameController;
   bool isEmailValid = true;
   bool isUsernameValid = true;
   bool isPasswordValid = true;
   bool _showPassword = true;
+  bool isFirstNameValid = true;
+  bool isLastNameValid = true;
 
   final _baseLog = signUp;
 
@@ -25,6 +31,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     emailController = TextEditingController();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
   }
 
   @override
@@ -33,31 +41,39 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     emailController.dispose();
     usernameController.dispose();
     passwordController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
   }
 
   register() async {
     print('clicked');
+    print(usernameController.text);
+    print(passwordController.text);
+    print(emailController.text);
+    print(firstNameController.text);
+    print(lastNameController.text);
     final creds = jsonEncode({
       'username': usernameController.text,
-      'password1': passwordController.text,
-      'password2': passwordController.text,
-      'name': usernameController.text,
+      'password': passwordController.text,
+      'email': emailController.text,
+      'first_name': firstNameController.text,
+      'last_name': lastNameController.text,
     });
     var response = await http.post(_baseLog,
         headers: {"Content-Type": "application/json"}, body: creds);
     var res = await json.decode(response.body.toString());
     print(res);
-    if (res['result'] == true) {
+    if (res['success'] == true) {
       print('yes');
       Fluttertoast.showToast(
-          msg: "Account created successfully!",
+          msg: res['message'],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           fontSize: 16.0);
     } else {
       print('no');
       Fluttertoast.showToast(
-        msg: 'error',
+        msg: res['message'],
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         fontSize: 16.0,
@@ -73,6 +89,78 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Container(
+            height: 60,
+            child: TextField(
+              onChanged: (value) {
+                if (value.length > 5) {
+                  if (value.contains('!@#^&*')) {
+                    isUsernameValid = false;
+                  }
+                  setState(() {});
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: 'Username',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                  errorText: isUsernameValid ? null : "Invalid username"),
+              controller: usernameController,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 60,
+            child: TextField(
+              onChanged: (value) {
+                if (value.length > 5) {
+                  if (value.contains('!@#^&*')) {
+                    isFirstNameValid = false;
+                  }
+                  setState(() {});
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: 'First name',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                  errorText: isUsernameValid ? null : "Invalid first name"),
+              controller: firstNameController,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 60,
+            child: TextField(
+              onChanged: (value) {
+                if (value.length > 5) {
+                  if (value.contains('!@#^&*')) {
+                    isLastNameValid = false;
+                  }
+                  setState(() {});
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: 'First name',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                  errorText: isUsernameValid ? null : "Invalid first name"),
+              controller: lastNameController,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             height: 60,
             child: TextField(
@@ -94,30 +182,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                       color: Colors.grey),
                   errorText: isEmailValid ? null : "Invalid email"),
               controller: emailController,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 60,
-            child: TextField(
-              onChanged: (value) {
-                if (value.length > 5) {
-                  if (value.contains('!@#^&*')) {
-                    isUsernameValid = false;
-                  }
-                  setState(() {});
-                }
-              },
-              decoration: InputDecoration(
-                  hintText: 'Username',
-                  labelStyle: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
-                  errorText: isUsernameValid ? null : "Invalid username"),
-              controller: usernameController,
             ),
           ),
           SizedBox(

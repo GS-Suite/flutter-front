@@ -9,10 +9,10 @@ class AppDrawer extends StatelessWidget {
         Positioned(
             bottom: 12.0,
             left: 16.0,
-            child: Text("",
+            child: Text("GS - Suite",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20.0,
+                    fontSize: 35.0,
                     fontWeight: FontWeight.w500))),
       ]),
       decoration: BoxDecoration(
@@ -24,11 +24,14 @@ class AppDrawer extends StatelessWidget {
   Widget _createDrawerItem(
       {IconData icon, String text, GestureTapCallback tap}) {
     return ListTile(
+      contentPadding: EdgeInsets.only(left: 20),
       title: Row(
         children: <Widget>[
-          Icon(icon),
+          Icon(
+            icon,
+          ),
           Padding(
-            padding: EdgeInsets.only(left: 8.0),
+            padding: EdgeInsets.only(left: 15.0),
             child: Text(text),
           )
         ],
@@ -54,7 +57,9 @@ class AppDrawer extends StatelessWidget {
           ),
           _createDrawerItem(
               icon: Icons.collections_bookmark_outlined, text: 'Bookmarks'),
-          Divider(),
+          Divider(
+            indent: 5,
+          ),
           _createDrawerItem(
               icon: Icons.fingerprint_outlined, text: 'Attendance'),
           _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),

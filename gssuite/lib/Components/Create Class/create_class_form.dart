@@ -9,12 +9,15 @@ class CreateClass extends StatefulWidget {
 
 class _CreateClassState extends State<CreateClass> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  static bool _notice = true;
+  static bool _notice;
 
   @override
   void initState() {
     super.initState();
     print('init');
+    setState(() {
+      _notice = true;
+    });
   }
 
   Widget _noticeModal() {
@@ -29,7 +32,11 @@ class _CreateClassState extends State<CreateClass> {
               margin: const EdgeInsets.all(15.0),
               padding: const EdgeInsets.all(3.0),
               child: SingleChildScrollView(
-                child: Text(tnc),
+                child: Column(
+                  children: [
+                    Text(tnc),
+                  ],
+                ),
               ),
             ),
           )
@@ -52,6 +59,7 @@ class _CreateClassState extends State<CreateClass> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false, // set it to false
       key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,

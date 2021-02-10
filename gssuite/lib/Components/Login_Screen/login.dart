@@ -33,20 +33,25 @@ class _SignIn extends State<SignIn> {
     isLoggedIn();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   print(_isLoggedIn);
+  //   return _isLoggedIn != true
+  //       ? _isLoggedIn == false
+  //           ? main()
+  //           : Container(
+  //               color: Colors.white,
+  //               child: Center(
+  //                   child: SpinKitThreeBounce(
+  //                 color: Colors.teal[400],
+  //               )),
+  //             )
+  //       : Dashboard();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    print(_isLoggedIn);
-    return _isLoggedIn != true
-        ? _isLoggedIn == false
-            ? main()
-            : Container(
-                color: Colors.white,
-                child: Center(
-                    child: SpinKitThreeBounce(
-                  color: Colors.teal[400],
-                )),
-              )
-        : Dashboard();
+    return main();
   }
 
   Widget main() {
