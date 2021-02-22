@@ -33,14 +33,21 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   login() async {
+    print(_baseLog);
+    print('login started');
     var username = usernameController.text;
     var response = await http.post(_baseLog,
         body: {'username': username, 'password': passwordController.text});
+
     var res = await json.decode(response.body.toString());
+    print(res);
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString('token', res['data']['token']['token']);
     prefs.setString('token', res['token']);
     print(prefs.getString('token'));
+
     if (prefs.getString('token') != null) {
+      print(prefs.getString('token'));
       prefs.setString('username', username);
       Navigator.of(context).pushNamed(
         '/dashboard',

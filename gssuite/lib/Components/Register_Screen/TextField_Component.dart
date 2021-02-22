@@ -237,6 +237,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     elevation: 7.0,
                     child: GestureDetector(
                       onTap: () {
+                        print('tapped');
                         register();
                       },
                       child: Center(
