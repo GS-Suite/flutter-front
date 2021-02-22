@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import 'package:gssuite/utils/TnC.dart';
+import './createClassForm.dart';
 
 class CreateClass extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class _CreateClassState extends State<CreateClass> {
   @override
   void initState() {
     super.initState();
-    print('init');
     setState(() {
       _notice = true;
     });
@@ -90,11 +90,7 @@ class _CreateClassState extends State<CreateClass> {
         ),
       ),
       drawer: AppDrawer(),
-      body: _notice
-          ? dialog
-          : Center(
-              child: Text('create class'),
-            ),
+      body: _notice ? dialog : CreateClassForm(),
     );
   }
 

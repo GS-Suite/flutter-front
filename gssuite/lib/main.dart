@@ -4,6 +4,7 @@ import 'Components/Login_Screen/login.dart';
 import 'Components/Dashboard/dashboard.dart';
 import 'package:page_transition/page_transition.dart';
 import 'Components/Create Class/create_class_form.dart';
+import 'Components/Create Class/createClassForm.dart';
 
 void main() {
   runApp(MyApp());
