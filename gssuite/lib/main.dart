@@ -4,7 +4,7 @@ import 'Components/Login_Screen/login.dart';
 import 'Components/Dashboard/dashboard.dart';
 import 'package:page_transition/page_transition.dart';
 import 'Components/Create Class/create_class_form.dart';
-import 'Components/Create Class/createClassForm.dart';
+import './Components/AdvancedOptions/advanced_options.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,6 +40,12 @@ class MyApp extends StatelessWidget {
           case '/create_class':
             return PageTransition(
               child: CreateClass(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          case '/advanced_options':
+            return PageTransition(
+              child: AdvancedOption(),
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;

@@ -66,17 +66,9 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),
           Divider(),
           _createDrawerItem(
-              icon: Icons.bug_report_outlined,
-              text: 'Report an issue',
-              tap: () async {
-                print('mailto reached');
-                final url = mail;
-                try {
-                  await launch(url);
-                } catch (e) {
-                  print(e);
-                }
-              }),
+              icon: Icons.settings_outlined,
+              text: 'Advanced Options',
+              tap: () => Navigator.pushNamed(context, '/advanced_options')),
           Divider(),
           _createDrawerItem(
               icon: Icons.power_settings_new_outlined,
