@@ -46,12 +46,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   register() async {
-    print('clicked');
-    print(usernameController.text);
-    print(passwordController.text);
-    print(emailController.text);
-    print(firstNameController.text);
-    print(lastNameController.text);
     final creds = jsonEncode({
       'username': usernameController.text,
       'password': passwordController.text,
@@ -237,7 +231,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     elevation: 7.0,
                     child: GestureDetector(
                       onTap: () {
-                        print('tapped');
                         register();
                       },
                       child: Center(

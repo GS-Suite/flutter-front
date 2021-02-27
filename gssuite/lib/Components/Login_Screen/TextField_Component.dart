@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
+import 'package:gssuite/modal/User.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -34,18 +35,16 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
   login() async {
     print(_baseLog);
-    print('login started');
     var username = usernameController.text;
-    var response = await http.post(_baseLog,
-        body: {'username': username, 'password': passwordController.text});
-
-    var res = await json.decode(response.body.toString());
-    print(res);
+    var _body = json
+        .encode({'username': username, 'password': passwordController.text});
+    var response = await http
+        .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
+    var res = json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setString('token', res['data']['token']['token']);
-    prefs.setString('token', res['token']);
-    print(prefs.getString('token'));
-
+    var user = User.fromJson(res);
+    print(user.data.token);
+    prefs.setString('token', user.data.token);
     if (prefs.getString('token') != null) {
       print(prefs.getString('token'));
       prefs.setString('username', username);

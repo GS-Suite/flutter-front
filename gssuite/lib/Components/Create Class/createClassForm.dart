@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import './createClassTitle.dart';
+import '../Classroom/ClassroomPanel.dart';
 
 class CreateClassForm extends StatefulWidget {
   CreateClassForm({Key key}) : super(key: key);
@@ -37,8 +38,10 @@ class _CreateClassFormState extends State<CreateClassForm> {
             height: 60,
             child: TextField(
               onChanged: (value) {
-                if (value.length > 5) {
-                  setState(() {});
+                if (value.contains('!@#^&*')) {
+                  setState(() {
+                    isClassNameValid = false;
+                  });
                 }
               },
               style: TextStyle(fontSize: 25),
@@ -47,13 +50,39 @@ class _CreateClassFormState extends State<CreateClassForm> {
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
-                  errorText: isClassNameValid ? null : "Invalid username"),
+                  errorText: isClassNameValid ? null : "Invalid classname"),
               controller: classNameController,
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
+          Container(
+            height: 40,
+            child: Material(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.teal[400],
+              elevation: 7.0,
+              child: InkWell(
+                onTap: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ClassroomPanel(
+                            classId: '1',
+                            className: classNameController.text,
+                          )))
+                },
+                child: Center(
+                  child: Text(
+                    'NEXT',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat'),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

@@ -91,7 +91,7 @@ class _DashboardState extends State<Dashboard> {
 
   AlertDialog alert(BuildContext context) => AlertDialog(
         title: Text("Attention!"),
-        content: Text("DO you want to exit? "),
+        content: Text("Do you want to exit? "),
         actions: [
           FlatButton(
             child: Text("Cancel"),
