@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:gssuite/apis/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget _createHeader() {
@@ -78,7 +79,14 @@ class AppDrawer extends StatelessWidget {
               }),
           Divider(),
           _createDrawerItem(
-              icon: Icons.power_settings_new_outlined, text: 'Log Out'),
+              icon: Icons.power_settings_new_outlined,
+              text: 'Log Out',
+              tap: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                await preferences.clear();
+                Navigator.pushNamed(context, '/login');
+              }),
         ],
       ),
     );

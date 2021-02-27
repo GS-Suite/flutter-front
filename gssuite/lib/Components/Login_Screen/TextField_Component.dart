@@ -43,7 +43,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     var res = json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var user = User.fromJson(res);
-    print(user.data.token);
+
     prefs.setString('token', user.data.token);
     if (prefs.getString('token') != null) {
       print(prefs.getString('token'));
@@ -52,7 +52,9 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         '/dashboard',
       );
     } else {
-      _showBasicsFlash(flashStyle: FlashStyle.grounded);
+      _showBasicsFlash(
+        flashStyle: FlashStyle.grounded,
+      );
     }
   }
 
@@ -227,33 +229,32 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   void _showBasicsFlash({
     Duration duration,
     flashStyle = FlashStyle.floating,
+    String message,
   }) {
     showFlash(
       context: context,
       duration: duration,
       builder: (context, controller) {
         return Flash(
-          controller: controller,
-          style: flashStyle,
-          boxShadows: kElevationToShadow[4],
-          horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-          child: FlashBar(
-            actions: [
-              FlatButton(
-                  onPressed: () => {
-                        Navigator.of(context).pushNamed('/register'),
-                        controller.dismiss()
-                      },
-                  child: Text('Register')),
-              FlatButton(
-                  onPressed: () =>
-                      {passwordController.text = '', controller.dismiss()},
-                  child: Text('Try Again')),
-            ],
-            message: Text(
-                'Password/Email Id doesn\'t match. Please check your credentials.'),
-          ),
-        );
+            controller: controller,
+            style: flashStyle,
+            boxShadows: kElevationToShadow[4],
+            horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+            child: FlashBar(
+              actions: [
+                FlatButton(
+                    onPressed: () => {
+                          Navigator.of(context).pushNamed('/register'),
+                          controller.dismiss()
+                        },
+                    child: Text('Register')),
+                FlatButton(
+                    onPressed: () =>
+                        {passwordController.text = '', controller.dismiss()},
+                    child: Text('Try Again')),
+              ],
+              message: Text(message ?? 'Account doesn\'t exists.'),
+            ));
       },
     );
   }
