@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/modal/User.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -12,6 +13,10 @@ class TextFieldComponent extends StatefulWidget {
 }
 
 class _TextFieldComponentState extends State<TextFieldComponent> {
+  GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          '808232082652-jbq7r93nlk2e9hql7k8nam3or43leg6s.apps.googleusercontent.com');
+
   TextEditingController usernameController, passwordController;
   bool isUsernameValid = true;
   bool isPasswordValid = true;
@@ -169,28 +174,31 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                 Container(
                   height: 40.0,
                   color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.black,
-                            style: BorderStyle.solid,
-                            width: 1.0),
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          child: ImageIcon(AssetImage('assets/google.png')),
-                        ),
-                        SizedBox(width: 10.0),
-                        Center(
-                          child: Text('Log in with Google',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')),
-                        )
-                      ],
+                  child: GestureDetector(
+                    onTap: () => {startSignIn()},
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.black,
+                              style: BorderStyle.solid,
+                              width: 1.0),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: ImageIcon(AssetImage('assets/google.png')),
+                          ),
+                          SizedBox(width: 10.0),
+                          Center(
+                            child: Text('Log in with Google',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat')),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -257,5 +265,14 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
             ));
       },
     );
+  }
+
+  void startSignIn() async {
+    GoogleSignInAccount user = await googleSignIn.signIn();
+    if (user == null) {
+      print('Sign In Failed');
+    } else {
+      print(user.hashCode);
+    }
   }
 }

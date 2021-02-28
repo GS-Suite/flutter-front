@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:gssuite/apis/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {
