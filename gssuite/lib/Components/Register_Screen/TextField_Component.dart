@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/regEx.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -12,6 +12,9 @@ class TextFieldComponent extends StatefulWidget {
 }
 
 class _TextFieldComponentState extends State<TextFieldComponent> {
+  GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          '808232082652-jbq7r93nlk2e9hql7k8nam3or43leg6s.apps.googleusercontent.com');
   TextEditingController emailController,
       usernameController,
       passwordController,
@@ -268,28 +271,31 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                 Container(
                   height: 40.0,
                   color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.black,
-                            style: BorderStyle.solid,
-                            width: 1.0),
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          child: ImageIcon(AssetImage('assets/google.png')),
-                        ),
-                        SizedBox(width: 10.0),
-                        Center(
-                          child: Text('Register with Google',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')),
-                        )
-                      ],
+                  child: GestureDetector(
+                    onTap: () => startGoogleRegister(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.black,
+                              style: BorderStyle.solid,
+                              width: 1.0),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: ImageIcon(AssetImage('assets/google.png')),
+                          ),
+                          SizedBox(width: 10.0),
+                          Center(
+                            child: Text('Register with Google',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat')),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -323,5 +329,64 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         ],
       ),
     );
+  }
+
+  void startGoogleRegister() async {
+    GoogleSignInAccount user = await googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await user.authentication;
+    if (user == null) {
+      print('Sign Up Failed');
+    } else {
+      print(user.email);
+      print(user.displayName);
+      print(googleAuth);
+      print(googleAuth.accessToken);
+      print(user.hashCode);
+      final creds = jsonEncode({
+        'username':
+            user.displayName.substring(0, user.displayName.indexOf(' ')),
+        'password': googleAuth.accessToken,
+        'email': user.email,
+        'first_name': user.displayName,
+        'last_name': user.displayName,
+      });
+      var response = await http.post(_baseLog,
+          headers: {"Content-Type": "application/json"}, body: creds);
+      var res = await json.decode(response.body.toString());
+      print(res);
+      if (res['success'] == true) {
+        Navigator.of(context).pushNamed('/login');
+      } else {
+        String message = 'User exists';
+        showFlash(
+          context: context,
+          builder: (context, controller) {
+            return Flash(
+                controller: controller,
+                style: FlashStyle.grounded,
+                boxShadows: kElevationToShadow[4],
+                horizontalDismissDirection:
+                    HorizontalDismissDirection.horizontal,
+                child: FlashBar(
+                  actions: [
+                    FlatButton(
+                        onPressed: () => {
+                              Navigator.of(context).pushNamed('/login'),
+                              controller.dismiss()
+                            },
+                        child: Text('Login')),
+                    FlatButton(
+                        onPressed: () => {
+                              passwordController.text = '',
+                              controller.dismiss()
+                            },
+                        child: Text('Try Again')),
+                  ],
+                  message: Text(message),
+                ));
+          },
+        );
+      }
+    }
   }
 }
