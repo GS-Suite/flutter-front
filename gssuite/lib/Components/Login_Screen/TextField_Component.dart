@@ -6,6 +6,7 @@ import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/modal/User.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gssuite/utils/vernamCreds.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -273,21 +274,35 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     if (user == null) {
       print('Sign In Failed');
     } else {
-      print(googleAuth);
+      print(_baseLog);
+      print(user.displayName.substring(0, user.displayName.indexOf(' ')));
       print(googleAuth.accessToken);
-      print(user.hashCode);
+      print({
+        'id': user.id,
+        'image': user.photoUrl,
+        'username': user.displayName.contains(' ')
+            ? user.displayName.substring(0, user.displayName.indexOf(' '))
+            : user.displayName,
+        'password':
+            generateCreds(user.hashCode.toString(), user.email.toString())
+      });
       var _body = json.encode({
-        'username':
-            user.displayName.substring(0, user.displayName.indexOf(' ')),
-        'password': googleAuth.accessToken
+        'username': user.displayName.contains(' ')
+            ? user.displayName.substring(0, user.displayName.indexOf(' '))
+            : user.displayName,
+        'password':
+            generateCreds(user.hashCode.toString(), user.email.toString())
       });
       var response = await http
           .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
       var res = json.decode(response.body.toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userData = User.fromJson(res);
+      if (res['success'] == true) {
+        var userData = User.fromJson(res);
 
-      prefs.setString('token', userData.data.token);
+        prefs.setString('token', userData.data.token);
+        print(prefs.getString('token'));
+      }
       if (prefs.getString('token') != null) {
         print(prefs.getString('token'));
         prefs.setString('username', user.displayName);

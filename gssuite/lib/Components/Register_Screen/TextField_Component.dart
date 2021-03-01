@@ -5,6 +5,7 @@ import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gssuite/utils/vernamCreds.dart';
 
 class TextFieldComponent extends StatefulWidget {
   @override
@@ -50,6 +51,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   register() async {
+    print(_baseLog);
     print('register');
     final creds = jsonEncode({
       'username': usernameController.text,
@@ -337,15 +339,25 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     if (user == null) {
       print('Sign Up Failed');
     } else {
-      print(user.email);
-      print(user.displayName);
-      print(googleAuth);
-      print(googleAuth.accessToken);
-      print(user.hashCode);
+      print({
+        'id': user.id,
+        'image': user.photoUrl,
+        'username': user.displayName.contains(' ')
+            ? user.displayName.substring(0, user.displayName.indexOf(' '))
+            : user.displayName,
+        'password':
+            generateCreds(user.hashCode.toString(), user.email.toString()),
+        'email': user.email,
+        'first_name': user.displayName,
+        'last_name': user.displayName,
+      });
+      print(generateCreds(user.hashCode.toString(), user.email.toString()));
       final creds = jsonEncode({
-        'username':
-            user.displayName.substring(0, user.displayName.indexOf(' ')),
-        'password': googleAuth.accessToken,
+        'username': user.displayName.contains(' ')
+            ? user.displayName.substring(0, user.displayName.indexOf(' '))
+            : user.displayName,
+        'password':
+            generateCreds(user.hashCode.toString(), user.email.toString()),
         'email': user.email,
         'first_name': user.displayName,
         'last_name': user.displayName,
@@ -353,6 +365,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       var response = await http.post(_baseLog,
           headers: {"Content-Type": "application/json"}, body: creds);
       var res = await json.decode(response.body.toString());
+
       print(res);
       if (res['success'] == true) {
         Navigator.of(context).pushNamed('/login');
