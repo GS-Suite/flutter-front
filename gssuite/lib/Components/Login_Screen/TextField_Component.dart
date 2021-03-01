@@ -276,6 +276,29 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       print(googleAuth);
       print(googleAuth.accessToken);
       print(user.hashCode);
+      var _body = json.encode({
+        'username':
+            user.displayName.substring(0, user.displayName.indexOf(' ')),
+        'password': googleAuth.accessToken
+      });
+      var response = await http
+          .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
+      var res = json.decode(response.body.toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var userData = User.fromJson(res);
+
+      prefs.setString('token', userData.data.token);
+      if (prefs.getString('token') != null) {
+        print(prefs.getString('token'));
+        prefs.setString('username', user.displayName);
+        Navigator.of(context).pushNamed(
+          '/dashboard',
+        );
+      } else {
+        _showBasicsFlash(
+          flashStyle: FlashStyle.grounded,
+        );
+      }
     }
   }
 }
