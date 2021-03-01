@@ -269,9 +269,12 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
   void startSignIn() async {
     GoogleSignInAccount user = await googleSignIn.signIn();
+    GoogleSignInAuthentication googleAuth = await user.authentication;
     if (user == null) {
       print('Sign In Failed');
     } else {
+      print(googleAuth);
+      print(googleAuth.accessToken);
       print(user.hashCode);
     }
   }

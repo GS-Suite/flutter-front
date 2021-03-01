@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flash/flash.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/regEx.dart';
 
@@ -46,6 +47,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
   }
 
   register() async {
+    print('register');
     final creds = jsonEncode({
       'username': usernameController.text,
       'password': passwordController.text,
@@ -58,19 +60,33 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     var res = await json.decode(response.body.toString());
     print(res);
     if (res['success'] == true) {
-      print('yes');
-      Fluttertoast.showToast(
-          msg: res['message'],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          fontSize: 16.0);
+      Navigator.of(context).pushNamed('/login');
     } else {
-      print('no');
-      Fluttertoast.showToast(
-        msg: res['message'],
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        fontSize: 16.0,
+      String message = 'User exists';
+      showFlash(
+        context: context,
+        builder: (context, controller) {
+          return Flash(
+              controller: controller,
+              style: FlashStyle.grounded,
+              boxShadows: kElevationToShadow[4],
+              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+              child: FlashBar(
+                actions: [
+                  FlatButton(
+                      onPressed: () => {
+                            Navigator.of(context).pushNamed('/register'),
+                            controller.dismiss()
+                          },
+                      child: Text('Register')),
+                  FlatButton(
+                      onPressed: () =>
+                          {passwordController.text = '', controller.dismiss()},
+                      child: Text('Try Again')),
+                ],
+                message: Text(message ?? 'Account doesn\'t exists.'),
+              ));
+        },
       );
     }
   }
@@ -143,7 +159,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                 }
               },
               decoration: InputDecoration(
-                  hintText: 'First name',
+                  hintText: 'Last name',
                   labelStyle: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
@@ -231,6 +247,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     elevation: 7.0,
                     child: GestureDetector(
                       onTap: () {
+                        print('tapped');
                         register();
                       },
                       child: Center(
