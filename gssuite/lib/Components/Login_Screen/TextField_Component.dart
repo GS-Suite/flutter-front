@@ -50,7 +50,12 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var user = User.fromJson(res);
 
-    prefs.setString('token', user.data.token);
+    if (res['success'] == true) {
+      var userData = User.fromJson(res);
+
+      prefs.setString('token', userData.data.token);
+      print(prefs.getString('token'));
+    }
     if (prefs.getString('token') != null) {
       print(prefs.getString('token'));
       prefs.setString('username', username);
@@ -96,6 +101,17 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           Container(
             height: 60,
             child: TextField(
+              onChanged: (text) {
+                if (text.length > 4 && text.length < 9) {
+                  setState(() {
+                    isPasswordValid = false;
+                  });
+                } else {
+                  setState(() {
+                    isPasswordValid = true;
+                  });
+                }
+              },
               obscureText: _showPassword,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -114,8 +130,9 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
                     color: Colors.grey),
-                errorText:
-                    isPasswordValid ? null : "Try for some strong password!",
+                errorText: isPasswordValid
+                    ? null
+                    : "Password is atleaast 8 characters!",
               ),
               controller: passwordController,
             ),
@@ -262,7 +279,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                         {passwordController.text = '', controller.dismiss()},
                     child: Text('Try Again')),
               ],
-              message: Text(message ?? 'Account doesn\'t exists.'),
+              message: Text(message ?? 'Invalid username/pasword!'),
             ));
       },
     );

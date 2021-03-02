@@ -1,0 +1,105 @@
+Date : 2021-03-01 20:29:04
+Directory : c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite
+Total : 42 files,  2080 codes, 114 comments, 177 blanks, all 2371 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Dart       |         23 |      1,666 |         34 |        114 |      1,814 |
+| JSON       |          2 |        145 |          0 |          2 |        147 |
+| XML        |          7 |        113 |         40 |          8 |        161 |
+| Groovy     |          3 |         84 |          3 |         22 |        109 |
+| YAML       |          1 |         37 |         36 |         17 |         90 |
+| Markdown   |          2 |         13 |          0 |          9 |         22 |
+| Swift      |          1 |         12 |          0 |          2 |         14 |
+| Properties |          2 |          9 |          1 |          2 |         12 |
+| C++        |          1 |          1 |          0 |          1 |          2 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                      | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                         |         42 |      2,080 |        114 |        177 |      2,371 |
+| android                                                                                                                   |         10 |        145 |         42 |         30 |        217 |
+| android\app                                                                                                               |          6 |        101 |         41 |         18 |        160 |
+| android\app\src                                                                                                           |          5 |         52 |         38 |          6 |         96 |
+| android\app\src\debug                                                                                                     |          1 |          4 |          3 |          1 |          8 |
+| android\app\src\main                                                                                                      |          3 |         44 |         32 |          4 |         80 |
+| android\app\src\main\res                                                                                                  |          2 |         13 |         16 |          3 |         32 |
+| android\app\src\main\res\drawable                                                                                         |          1 |          4 |          7 |          2 |         13 |
+| android\app\src\main\res\values                                                                                           |          1 |          9 |          9 |          1 |         19 |
+| android\app\src\profile                                                                                                   |          1 |          4 |          3 |          1 |          8 |
+| android\gradle                                                                                                            |          1 |          5 |          1 |          1 |          7 |
+| android\gradle\wrapper                                                                                                    |          1 |          5 |          1 |          1 |          7 |
+| ios                                                                                                                       |          7 |        222 |          2 |          9 |        233 |
+| ios\Runner                                                                                                                |          7 |        222 |          2 |          9 |        233 |
+| ios\Runner\Assets.xcassets                                                                                                |          3 |        148 |          0 |          4 |        152 |
+| ios\Runner\Assets.xcassets\AppIcon.appiconset                                                                             |          1 |        122 |          0 |          1 |        123 |
+| ios\Runner\Assets.xcassets\LaunchImage.imageset                                                                           |          2 |         26 |          0 |          3 |         29 |
+| ios\Runner\Base.lproj                                                                                                     |          2 |         61 |          2 |          2 |         65 |
+| lib                                                                                                                       |         22 |      1,652 |         24 |        107 |      1,783 |
+| lib\Components                                                                                                            |         15 |      1,500 |          5 |         83 |      1,588 |
+| lib\Components\AdvancedOptions                                                                                            |          1 |        118 |          0 |          2 |        120 |
+| lib\Components\Classroom                                                                                                  |          1 |         21 |          0 |          3 |         24 |
+| lib\Components\Create Class                                                                                               |          3 |        242 |          0 |         18 |        260 |
+| lib\Components\Dashboard                                                                                                  |          3 |        191 |          0 |         14 |        205 |
+| lib\Components\Drawer Component                                                                                           |          1 |         81 |          0 |          4 |         85 |
+| lib\Components\Login_Screen                                                                                               |          3 |        413 |          5 |         25 |        443 |
+| lib\Components\Register_Screen                                                                                            |          2 |        424 |          0 |         15 |        439 |
+| lib\Components\Report Bug                                                                                                 |          1 |         10 |          0 |          2 |         12 |
+| lib\apis                                                                                                                  |          1 |          3 |          1 |          3 |          7 |
+| lib\modal                                                                                                                 |          1 |         32 |         12 |         12 |         56 |
+| lib\utils                                                                                                                 |          4 |         56 |          0 |          5 |         61 |
+| test                                                                                                                      |          1 |         14 |         10 |          7 |         31 |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                  | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\README.md                                                     | Markdown   |         10 |          0 |          7 |         17 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\build.gradle                                      | Groovy     |         49 |          3 |         12 |         64 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\src\debug\AndroidManifest.xml                     | XML        |          4 |          3 |          1 |          8 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\src\main\AndroidManifest.xml                      | XML        |         31 |         16 |          1 |         48 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\src\main\res\drawable\launch_background.xml       | XML        |          4 |          7 |          2 |         13 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\src\main\res\values\styles.xml                    | XML        |          9 |          9 |          1 |         19 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\app\src\profile\AndroidManifest.xml                   | XML        |          4 |          3 |          1 |          8 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\build.gradle                                          | Groovy     |         27 |          0 |          6 |         33 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\gradle.properties                                     | Properties |          4 |          0 |          1 |          5 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\gradle\wrapper\gradle-wrapper.properties              | Properties |          5 |          1 |          1 |          7 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\android\settings.gradle                                       | Groovy     |          8 |          0 |          4 |         12 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\AppDelegate.swift                                  | Swift      |         12 |          0 |          2 |         14 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Assets.xcassets\AppIcon.appiconset\Contents.json   | JSON       |        122 |          0 |          1 |        123 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Assets.xcassets\LaunchImage.imageset\Contents.json | JSON       |         23 |          0 |          1 |         24 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Assets.xcassets\LaunchImage.imageset\README.md     | Markdown   |          3 |          0 |          2 |          5 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Base.lproj\LaunchScreen.storyboard                 | XML        |         36 |          1 |          1 |         38 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Base.lproj\Main.storyboard                         | XML        |         25 |          1 |          1 |         27 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\ios\Runner\Runner-Bridging-Header.h                           | C++        |          1 |          0 |          1 |          2 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\AdvancedOptions\advanced_options.dart          | Dart       |        118 |          0 |          2 |        120 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Classroom\ClassroomPanel.dart                  | Dart       |         21 |          0 |          3 |         24 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Create Class\createClassForm.dart              | Dart       |        103 |          0 |          9 |        112 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Create Class\createClassTitle.dart             | Dart       |         44 |          0 |          2 |         46 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Create Class\create_class_form.dart            | Dart       |         95 |          0 |          7 |        102 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Dashboard\channelList_Component.dart           | Dart       |         36 |          0 |          2 |         38 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Dashboard\dashboard.dart                       | Dart       |        117 |          0 |          9 |        126 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Dashboard\subscription_Component.dart          | Dart       |         38 |          0 |          3 |         41 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Drawer Component\drawer.dart                   | Dart       |         81 |          0 |          4 |         85 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Login_Screen\TextField_Component.dart          | Dart       |        306 |          1 |         13 |        320 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Login_Screen\TitleComponent.dart               | Dart       |         44 |          0 |          2 |         46 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Login_Screen\login.dart                        | Dart       |         63 |          4 |         10 |         77 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Register_Screen\TextField_Component.dart       | Dart       |        396 |          0 |         10 |        406 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Register_Screen\register.dart                  | Dart       |         28 |          0 |          5 |         33 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\Components\Report Bug\mailto.dart                         | Dart       |         10 |          0 |          2 |         12 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\apis\api.dart                                             | Dart       |          3 |          1 |          3 |          7 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\main.dart                                                 | Dart       |         61 |          6 |          4 |         71 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\modal\User.dart                                           | Dart       |         32 |         12 |         12 |         56 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\utils\FlashMessages.dart                                  | Dart       |         33 |          0 |          2 |         35 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\utils\TnC.dart                                            | Dart       |          3 |          0 |          1 |          4 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\utils\regEx.dart                                          | Dart       |          6 |          0 |          1 |          7 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\lib\utils\vernamCreds.dart                                    | Dart       |         14 |          0 |          1 |         15 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\pubspec.yaml                                                  | YAML       |         37 |         36 |         17 |         90 |
+| c:\Users\Jaisal Shah\Desktop\Projects\flutter-front\gssuite\test\widget_test.dart                                         | Dart       |         14 |         10 |          7 |         31 |
+| Total                                                                                                                     |            |      2,080 |        114 |        177 |      2,371 |
++---------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
