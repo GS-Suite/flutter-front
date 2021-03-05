@@ -351,6 +351,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         'first_name': user.displayName,
         'last_name': user.displayName,
       });
+      print(user.hashCode);
       print(generateCreds(user.hashCode.toString(), user.email.toString()));
       final creds = jsonEncode({
         'username': user.displayName.contains(' ')
@@ -370,7 +371,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       if (res['success'] == true) {
         Navigator.of(context).pushNamed('/login');
       } else {
-        String message = 'User exists';
+        String message = res['message'] ?? 'Unexpected Error';
         showFlash(
           context: context,
           builder: (context, controller) {

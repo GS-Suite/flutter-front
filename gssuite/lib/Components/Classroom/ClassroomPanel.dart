@@ -13,7 +13,7 @@ class ClassroomPanel extends StatelessWidget {
           child: Column(
             children: [
               Text(this.className != null ? className : 'null ClassName'),
-              Text(this.classId != null ? classId : 'null ClassId')
+              Text(this.classId != null ? classId : 'null ClassId'),
             ],
           ),
         ),

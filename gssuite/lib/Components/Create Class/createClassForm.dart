@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gssuite/apis/api.dart';
 import '../Drawer Component/drawer.dart';
 import './createClassTitle.dart';
 import '../Classroom/ClassroomPanel.dart';
+import 'package:gssuite/utils/refreshToken.dart';
 
 class CreateClassForm extends StatefulWidget {
   CreateClassForm({Key key}) : super(key: key);
@@ -65,6 +67,7 @@ class _CreateClassFormState extends State<CreateClassForm> {
               elevation: 7.0,
               child: InkWell(
                 onTap: () => {
+                  tokenRefresh(),
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ClassroomPanel(
                             classId: '1',

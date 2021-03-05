@@ -20,6 +20,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     pref();
+    refreshToken();
   }
 
   pref() async {
@@ -121,5 +122,9 @@ class _DashboardState extends State<Dashboard> {
         return alert(context);
       },
     );
+  }
+
+  void refreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 }

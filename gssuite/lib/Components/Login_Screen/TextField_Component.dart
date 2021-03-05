@@ -48,12 +48,11 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
     var res = json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var user = User.fromJson(res);
 
     if (res['success'] == true) {
       var userData = User.fromJson(res);
 
-      prefs.setString('token', userData.data.token);
+      prefs.setString('token', userData.token);
       print(prefs.getString('token'));
     }
     if (prefs.getString('token') != null) {
@@ -317,8 +316,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       if (res['success'] == true) {
         var userData = User.fromJson(res);
 
-        prefs.setString('token', userData.data.token);
-        print(prefs.getString('token'));
+        prefs.setString('token', userData.token);
+        print('Token' + prefs.getString('token'));
       }
       if (prefs.getString('token') != null) {
         print(prefs.getString('token'));
