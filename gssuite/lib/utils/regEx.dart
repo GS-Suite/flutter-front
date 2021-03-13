@@ -4,3 +4,4 @@ RegExp emailRegExp = new RegExp(
 RegExp passwordRegExp = new RegExp(
   r'^(?=.*?[a-z])(?=.*?[0-9]).{9,}$',
 );
+RegExp classnmaeRegExp = RegExp(r'^[a-zA-Z0-9]+$');

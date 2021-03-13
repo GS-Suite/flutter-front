@@ -61,7 +61,11 @@ class _DashboardState extends State<Dashboard> {
                         fontSize: 33),
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'Hi, ' + _user + '!', // To be changed
+                          text: _user.contains(' ')
+                              ? 'Hi, ' +
+                                  _user.substring(0, _user.indexOf(' ')) +
+                                  '!'
+                              : _user, // To be changed
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),

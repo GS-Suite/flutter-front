@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gssuite/apis/api.dart';
 import '../Drawer Component/drawer.dart';
 import './createClassTitle.dart';
 import '../Classroom/ClassroomPanel.dart';
+import 'package:gssuite/utils/regEx.dart';
+import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/refreshToken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CreateClassForm extends StatefulWidget {
   CreateClassForm({Key key}) : super(key: key);
@@ -15,18 +19,35 @@ class CreateClassForm extends StatefulWidget {
 class _CreateClassFormState extends State<CreateClassForm> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController classNameController;
-  bool isClassNameValid = true;
+  bool isClassNameValid;
 
   @override
   void initState() {
     super.initState();
     classNameController = TextEditingController();
+    isClassNameValid = true;
   }
 
   @override
   void dispose() {
     super.dispose();
     classNameController.dispose();
+  }
+
+  createClass(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> queryParams = {
+      'token': prefs.getString('token'),
+    };
+    String queryString = Uri(queryParameters: queryParams).query;
+    var requestUrl = createClassroom + '?' + queryString;
+    print(requestUrl);
+    print('Create class clicked');
+    print(name);
+    var _body = json.encode({'class_name': name});
+    var response = await http.post(requestUrl, body: _body);
+    var res = json.decode(response.body.toString());
+    print(res);
   }
 
   Widget _textFieldComponent() {
@@ -40,7 +61,11 @@ class _CreateClassFormState extends State<CreateClassForm> {
             height: 60,
             child: TextField(
               onChanged: (value) {
-                if (value.contains('!@#^&*')) {
+                if (classnmaeRegExp.hasMatch(value)) {
+                  setState(() {
+                    isClassNameValid = true;
+                  });
+                } else {
                   setState(() {
                     isClassNameValid = false;
                   });
@@ -67,12 +92,12 @@ class _CreateClassFormState extends State<CreateClassForm> {
               elevation: 7.0,
               child: InkWell(
                 onTap: () => {
-                  tokenRefresh(),
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ClassroomPanel(
-                            classId: '1',
-                            className: classNameController.text,
-                          )))
+                  createClass(classNameController.text),
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => ClassroomPanel(
+                  //           classId: '1',
+                  //           className: classNameController.text,
+                  //         )))
                 },
                 child: Center(
                   child: Text(
