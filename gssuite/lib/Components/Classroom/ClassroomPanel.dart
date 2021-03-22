@@ -23,6 +23,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: false,
@@ -142,6 +143,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
             ),
           ],
         ),
+        drawer: AppDrawer(),
       ),
     );
   }
