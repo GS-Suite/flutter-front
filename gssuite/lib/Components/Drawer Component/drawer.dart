@@ -47,10 +47,6 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           _createHeader(),
           _createDrawerItem(
-              icon: Icons.create_new_folder_outlined,
-              text: 'Create Class',
-              tap: () => Navigator.pushNamed(context, '/create_class')),
-          _createDrawerItem(
             icon: Icons.note_outlined,
             text: 'Saved Notes',
           ),
