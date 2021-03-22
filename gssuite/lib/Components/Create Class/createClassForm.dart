@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import './createClassTitle.dart';
+import '../../modal/Classrooms.dart';
 import '../Classroom/ClassroomPanel.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:gssuite/apis/api.dart';
-import 'package:gssuite/utils/refreshToken.dart';
+import 'package:flash/flash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -40,13 +41,46 @@ class _CreateClassFormState extends State<CreateClassForm> {
       'token': prefs.getString('token'),
     };
     var _body = json.encode({'class_name': name});
-    print('Create class clicked');
-    print(name);
     var response =
         await http.post(createClassroom, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());
-    print('Response');
-    print(res);
+    if (res['success'] == true) {
+      var classRoomData = Classroom.fromJson(res);
+      print(classRoomData);
+      print(classRoomData.data.uid);
+    } else {
+      _showBasicsFlash(
+        flashStyle: FlashStyle.grounded,
+      );
+    }
+  }
+
+  void _showBasicsFlash({
+    Duration duration,
+    flashStyle = FlashStyle.floating,
+    String message,
+  }) {
+    showFlash(
+      context: context,
+      duration: duration,
+      builder: (context, controller) {
+        return Flash(
+            controller: controller,
+            style: flashStyle,
+            boxShadows: kElevationToShadow[4],
+            horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+            child: FlashBar(
+              actions: [
+                FlatButton(
+                    onPressed: () =>
+                        {classNameController.text = '', controller.dismiss()},
+                    child: Text('Try Again')),
+              ],
+              message: Text(
+                  message ?? 'Classroom "${classNameController.text}" exists'),
+            ));
+      },
+    );
   }
 
   Widget _textFieldComponent() {
@@ -60,7 +94,7 @@ class _CreateClassFormState extends State<CreateClassForm> {
             height: 60,
             child: TextField(
               onChanged: (value) {
-                if (classnmaeRegExp.hasMatch(value)) {
+                if (classnmaeRegExp.hasMatch(value) && value.length > 5) {
                   setState(() {
                     isClassNameValid = true;
                   });

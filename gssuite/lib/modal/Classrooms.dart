@@ -1,34 +1,45 @@
-import 'dart:convert';
-
-List<dynamic> classroomsFromJson(String str) =>
-    List<dynamic>.from(json.decode(str).map((x) => x));
-
-String classroomsToJson(List<dynamic> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x)));
-
-class ClassroomsClass {
-  ClassroomsClass({
-    this.success,
-    this.message,
-    this.data,
-  });
-
+class Classroom {
   bool success;
   String message;
-  List<List<String>> data;
+  String token;
+  Data data;
 
-  factory ClassroomsClass.fromJson(Map<String, dynamic> json) =>
-      ClassroomsClass(
-        success: json["success"],
-        message: json["message"],
-        data: List<List<String>>.from(
-            json["data"].map((x) => List<String>.from(x.map((x) => x)))),
-      );
+  Classroom({this.success, this.message, this.token, this.data});
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "data": List<dynamic>.from(
-            data.map((x) => List<dynamic>.from(x.map((x) => x)))),
-      };
+  Classroom.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    message = json['message'];
+    token = json['token'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['message'] = this.message;
+    data['token'] = this.token;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  String name;
+  String uid;
+
+  Data({this.name, this.uid});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    uid = json['uid'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['uid'] = this.uid;
+    return data;
+  }
 }
