@@ -17,11 +17,6 @@ class _DashboardState extends State<Dashboard>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   SharedPreferences prefs;
   static String _user;
-  AdvFabController mabialaFABController;
-  bool useFloatingSpaceBar = false;
-  bool useAsFloatingActionButton = false;
-  bool useNavigationBar = true;
-  bool isPlaying = false;
 
   @override
   void initState() {

@@ -1,93 +1,44 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
-import './createClassTitle.dart';
-import '../../modal/Classrooms.dart';
+import './joinClassTitle.dart';
 import '../Classroom/ClassroomPanel.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:gssuite/apis/api.dart';
-import 'package:flash/flash.dart';
+import 'package:gssuite/utils/refreshToken.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class CreateClassForm extends StatefulWidget {
-  CreateClassForm({Key key}) : super(key: key);
+class JoinClassForm extends StatefulWidget {
+  JoinClassForm({Key key}) : super(key: key);
 
   @override
-  _CreateClassFormState createState() => _CreateClassFormState();
+  _JoinClassFormState createState() => _JoinClassFormState();
 }
 
-class _CreateClassFormState extends State<CreateClassForm> {
+class _JoinClassFormState extends State<JoinClassForm> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController classNameController;
-  bool isClassNameValid;
+  TextEditingController joinCodeController;
+  bool isjoinCodeValid;
 
   @override
   void initState() {
     super.initState();
-    classNameController = TextEditingController();
-    isClassNameValid = true;
+    joinCodeController = TextEditingController();
+    isjoinCodeValid = true;
   }
 
   @override
   void dispose() {
     super.dispose();
-    classNameController.dispose();
+    joinCodeController.dispose();
   }
 
   createClass(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, String> _headers = {
+    Map<String, String> queryParams = {
       'token': prefs.getString('token'),
     };
-    var _body = json.encode({'class_name': name});
-    var response =
-        await http.post(createClassroom, body: _body, headers: _headers);
-    var res = json.decode(response.body.toString());
-    if (res['success'] == true) {
-      var classRoomData = Classroom.fromJson(res);
-      if (classRoomData.data.uid != null) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ClassroomPanel(
-                  classId: classRoomData.data.uid,
-                  className: classRoomData.data.name,
-                )));
-      }
-      print(classRoomData);
-      print(classRoomData.data.uid);
-    } else {
-      _showBasicsFlash(
-        flashStyle: FlashStyle.grounded,
-      );
-    }
-  }
-
-  void _showBasicsFlash({
-    Duration duration,
-    flashStyle = FlashStyle.floating,
-    String message,
-  }) {
-    showFlash(
-      context: context,
-      duration: duration,
-      builder: (context, controller) {
-        return Flash(
-            controller: controller,
-            style: flashStyle,
-            boxShadows: kElevationToShadow[4],
-            horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-            child: FlashBar(
-              actions: [
-                FlatButton(
-                    onPressed: () =>
-                        {classNameController.text = '', controller.dismiss()},
-                    child: Text('Try Again')),
-              ],
-              message: Text(
-                  message ?? 'Classroom "${classNameController.text}" exists'),
-            ));
-      },
-    );
   }
 
   Widget _textFieldComponent() {
@@ -101,13 +52,13 @@ class _CreateClassFormState extends State<CreateClassForm> {
             height: 60,
             child: TextField(
               onChanged: (value) {
-                if (classnmaeRegExp.hasMatch(value) && value.length > 5) {
+                if (classnmaeRegExp.hasMatch(value)) {
                   setState(() {
-                    isClassNameValid = true;
+                    isjoinCodeValid = true;
                   });
                 } else {
                   setState(() {
-                    isClassNameValid = false;
+                    isjoinCodeValid = false;
                   });
                 }
               },
@@ -117,8 +68,8 @@ class _CreateClassFormState extends State<CreateClassForm> {
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
-                  errorText: isClassNameValid ? null : "Invalid classname"),
-              controller: classNameController,
+                  errorText: isjoinCodeValid ? null : "Invalid classname"),
+              controller: joinCodeController,
             ),
           ),
           SizedBox(
@@ -132,7 +83,7 @@ class _CreateClassFormState extends State<CreateClassForm> {
               elevation: 7.0,
               child: InkWell(
                 onTap: () => {
-                  createClass(classNameController.text),
+                  createClass(joinCodeController.text),
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (context) => ClassroomPanel(
                   //           classId: '1',
@@ -141,7 +92,7 @@ class _CreateClassFormState extends State<CreateClassForm> {
                 },
                 child: Center(
                   child: Text(
-                    'NEXT',
+                    'JOIN',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
