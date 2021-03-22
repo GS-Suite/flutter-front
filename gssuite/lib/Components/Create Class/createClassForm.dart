@@ -36,17 +36,16 @@ class _CreateClassFormState extends State<CreateClassForm> {
 
   createClass(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, String> queryParams = {
+    Map<String, String> _headers = {
       'token': prefs.getString('token'),
     };
-    String queryString = Uri(queryParameters: queryParams).query;
-    var requestUrl = createClassroom + '?' + queryString;
-    print(requestUrl);
+    var _body = json.encode({'class_name': name});
     print('Create class clicked');
     print(name);
-    var _body = json.encode({'class_name': name});
-    var response = await http.post(requestUrl, body: _body);
+    var response =
+        await http.post(createClassroom, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());
+    print('Response');
     print(res);
   }
 

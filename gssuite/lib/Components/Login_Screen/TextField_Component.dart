@@ -44,8 +44,10 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     var username = usernameController.text;
     var _body = json
         .encode({'username': username, 'password': passwordController.text});
-    var response = await http
-        .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
+    var response = await http.post(
+      'https://gs-suite-dev.herokuapp.com/sign_in/',
+      body: _body,
+    );
     var res = json.decode(response.body.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
