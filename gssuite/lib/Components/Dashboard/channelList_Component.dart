@@ -23,7 +23,7 @@ class ChannelList extends StatelessWidget {
                     child: Container(
                       child: Center(
                           child: Text(
-                        'Channel  ' + numbers[index].toString(),
+                        'Channel ' + numbers[index].toString(),
                         style: TextStyle(color: Colors.white, fontSize: 36.0),
                       )),
                     ),

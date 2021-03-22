@@ -152,36 +152,43 @@ class _DashboardState extends State<Dashboard>
                               SizedBox(
                                 width: 10,
                               ),
-                              Container(
-                                padding: EdgeInsets.all(15.0),
-                                width: 130,
-                                height: 100,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Icon(
-                                        Icons.arrow_circle_up_sharp,
-                                        size: 35.0,
-                                        color: Colors.teal[400],
+                              GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop('dialog'),
+                                  Navigator.pushNamed(context, '/join_class')
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(15.0),
+                                  width: 130,
+                                  height: 100,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Icon(
+                                          Icons.arrow_circle_up_sharp,
+                                          size: 35.0,
+                                          color: Colors.teal[400],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Center(
-                                      child: Text('Join class',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold)),
-                                    )
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[100],
-                                  shape: BoxShape.rectangle,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Center(
+                                        child: Text('Join class',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                      )
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[100],
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                  ),
                                 ),
                               )
                             ],

@@ -4,6 +4,7 @@ import 'Components/Login_Screen/login.dart';
 import 'Components/Dashboard/dashboard.dart';
 import 'package:page_transition/page_transition.dart';
 import 'Components/Create Class/create_class_form.dart';
+import 'Components/Join Class/joinClassForm.dart';
 import './Components/AdvancedOptions/advanced_options.dart';
 
 void main() {
@@ -17,7 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +46,12 @@ class _MyAppState extends State<MyApp> {
           case '/create_class':
             return PageTransition(
               child: CreateClass(),
+              type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          case '/join_class':
+            return PageTransition(
+              child: JoinClassForm(),
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
