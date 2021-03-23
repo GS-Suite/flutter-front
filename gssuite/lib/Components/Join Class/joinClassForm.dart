@@ -34,11 +34,17 @@ class _JoinClassFormState extends State<JoinClassForm> {
     joinCodeController.dispose();
   }
 
-  createClass(String name) async {
+  joinClass(String entry_code) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, String> queryParams = {
+    Map<String, String> _headers = {
       'token': prefs.getString('token'),
     };
+
+    var _body = json.encode({'entry_code': entry_code});
+    var response =
+        await http.post(createClassroom, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    print(res);
   }
 
   Widget _textFieldComponent() {

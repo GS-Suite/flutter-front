@@ -19,6 +19,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
   SharedPreferences prefs;
   static String _user;
   var _userClassrooms = [];
@@ -49,6 +50,13 @@ class _DashboardState extends State<Dashboard>
       print('Response didn\'t fetch');
       print(res);
     }
+  }
+
+  Future<Null> refreshClassrooms() async {
+    refreshKey.currentState?.show(atTop: false);
+    await Future.delayed(Duration(seconds: 2));
+    pref();
+    return null;
   }
 
   @override
@@ -109,6 +117,8 @@ class _DashboardState extends State<Dashboard>
                     children: [
                       SubscribedCourses(
                         classrooms: _userClassrooms,
+                        refreshKey: refreshKey,
+                        onRefresh: refreshClassrooms,
                       ),
                     ],
                   ),
@@ -117,8 +127,9 @@ class _DashboardState extends State<Dashboard>
               floatingActionButton: FloatingActionButton(
                 child: Icon(
                   Icons.add,
-                  color: Colors.teal[400],
+                  color: Colors.white,
                 ),
+                backgroundColor: Colors.teal[400],
                 onPressed: () => {
                   showDialog(
                       context: context,
@@ -211,9 +222,7 @@ class _DashboardState extends State<Dashboard>
                             ],
                           ))))
                 },
-                backgroundColor: Colors.white60,
-                foregroundColor: Colors.teal[400],
-                splashColor: Colors.teal[100],
+                splashColor: Colors.teal[300],
               )));
     }
   }
