@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClassroomPanel extends StatefulWidget {
   String className;
@@ -16,7 +17,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
   @override
   void initState() {
     super.initState();
-    print('classroom panel init');
+    getClassroomDetails();
   }
 
   Widget build(BuildContext context) {
@@ -146,5 +147,9 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
         drawer: AppDrawer(),
       ),
     );
+  }
+
+  void getClassroomDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 }

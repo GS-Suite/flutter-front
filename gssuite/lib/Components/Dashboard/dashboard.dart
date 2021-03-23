@@ -5,7 +5,11 @@ import 'subscription_Component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Drawer Component/drawer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:adv_fab/adv_fab.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../../modal/ClassroomDetails.dart';
+import '../../apis/api.dart';
+import '../Login_Screen/TextField_Component.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -17,6 +21,7 @@ class _DashboardState extends State<Dashboard>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   SharedPreferences prefs;
   static String _user;
+  var _userClassrooms = [];
 
   @override
   void initState() {
@@ -29,11 +34,26 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _user = prefs.getString('username');
     });
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+    print(_headers);
+    var response = await http.post(getUserClassrooms, headers: _headers);
+    var res = json.decode(response.body.toString());
+    if (res['success'] == true) {
+      setState(() {
+        _userClassrooms = res['data'];
+      });
+      prefs.setString('token', res['token'].toString());
+    } else {
+      print('Response didn\'t fetch');
+      print(res);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
+    if (_user == null || _userClassrooms == []) {
       return Center(
           child: Container(
         child: SpinKitWanderingCubes(
@@ -87,7 +107,9 @@ class _DashboardState extends State<Dashboard>
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      SubscribedCourses(),
+                      SubscribedCourses(
+                        classrooms: _userClassrooms,
+                      ),
                     ],
                   ),
                 ),

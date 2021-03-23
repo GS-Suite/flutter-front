@@ -64,7 +64,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         '/dashboard',
       );
     } else {
-      _showBasicsFlash(
+      showBasicsFlash(
         flashStyle: FlashStyle.grounded,
       );
     }
@@ -253,7 +253,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     );
   }
 
-  void _showBasicsFlash({
+  void showBasicsFlash({
     Duration duration,
     flashStyle = FlashStyle.floating,
     String message,
@@ -328,7 +328,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           '/dashboard',
         );
       } else {
-        _showBasicsFlash(
+        showBasicsFlash(
           flashStyle: FlashStyle.grounded,
         );
       }

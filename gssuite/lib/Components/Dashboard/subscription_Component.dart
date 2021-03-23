@@ -3,6 +3,8 @@ import 'channelList_Component.dart';
 
 class SubscribedCourses extends StatelessWidget {
   final _title = 'Subscribed Channels';
+  final List classrooms;
+  const SubscribedCourses({Key key, this.classrooms}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,9 @@ class SubscribedCourses extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          ChannelList(),
+          ChannelList(
+            classrooms: this.classrooms,
+          ),
         ],
       ),
     );
