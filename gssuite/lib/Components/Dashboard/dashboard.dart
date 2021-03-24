@@ -26,6 +26,7 @@ class _DashboardState extends State<Dashboard>
 
   @override
   void initState() {
+    print('init');
     super.initState();
     pref();
   }
@@ -139,10 +140,12 @@ class _DashboardState extends State<Dashboard>
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               GestureDetector(
-                                onTap: () => {
+                                onTap: () async => {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop('dialog'),
-                                  Navigator.pushNamed(context, '/create_class')
+                                  await Navigator.pushNamed(
+                                      context, '/create_class'),
+                                  setState(() => {print('insetstate'), pref()})
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(15.0),

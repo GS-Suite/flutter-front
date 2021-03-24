@@ -89,7 +89,7 @@ class _JoinClassFormState extends State<JoinClassForm> {
               elevation: 7.0,
               child: InkWell(
                 onTap: () => {
-                  createClass(joinCodeController.text),
+                  // joinClass(joinCodeController.text),
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (context) => ClassroomPanel(
                   //           classId: '1',
