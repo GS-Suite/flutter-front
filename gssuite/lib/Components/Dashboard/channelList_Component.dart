@@ -53,18 +53,26 @@ class ChannelList extends StatelessWidget {
                           child: Column(
                             children: [
                               Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(7),
+                                      topRight: Radius.circular(7)),
+                                ),
                                 color: Color(
                                         (math.Random().nextDouble() * 0xFFFFFF)
                                             .toInt())
                                     .withOpacity(0.30),
                                 child: Container(
                                   height: 130,
-                                  child: Center(
-                                      child: Text(
-                                    this.classrooms[index]['name'].toString(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 36.0),
-                                  )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                        child: Text(
+                                      this.classrooms[index]['name'].toString(),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 36.0),
+                                    )),
+                                  ),
                                 ),
                               ),
                               Row(
@@ -73,18 +81,18 @@ class ChannelList extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.person_pin_outlined),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 12.0),
-                                          child: Text(
-                                            this
-                                                .classrooms[index]['name']
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontFamily: 'Montseratt',
-                                                fontSize: 16.0),
-                                          ),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child:
+                                              Icon(Icons.person_pin_outlined),
+                                        ),
+                                        Text(
+                                          this
+                                              .classrooms[index]['name']
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontFamily: 'Montseratt',
+                                              fontSize: 16.0),
                                         ),
                                       ],
                                     ),
