@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'channelList_Component.dart';
 
 class SubscribedCourses extends StatelessWidget {
-  final _title = 'Subscribed Channels';
+  final _title = 'Your Classes';
   final List classrooms;
   final refreshKey;
   final Function onRefresh;
@@ -26,13 +26,6 @@ class SubscribedCourses extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              InkWell(
-                child: Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  size: 18,
-                  color: Colors.teal[400],
-                ),
-              )
             ],
           ),
           SizedBox(
