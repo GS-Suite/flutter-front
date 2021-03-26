@@ -34,17 +34,43 @@ class _JoinClassFormState extends State<JoinClassForm> {
     joinCodeController.dispose();
   }
 
-  joinClass(String entry_code) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, String> _headers = {
-      'token': prefs.getString('token'),
-    };
+  getClassUid({String joinCode, String token}) async {
+    print('getclassuid');
+    print(joinCode + ' ' + token);
+    Map<String, String> _headers = {'entry_code': joinCode, 'token': token};
+    var _body = json.encode({'op': 'namej'});
+    try {
+      var response =
+          await http.post(getClassUid, body: _body, headers: _headers);
+      var res = json.decode(response.body.toString());
+      print('res');
+      print(res);
+      if (res['success'] == true) {
+        print(res['data']['classroom_uid']);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-    var _body = json.encode({'entry_code': entry_code});
-    var response =
-        await http.post(createClassroom, body: _body, headers: _headers);
-    var res = json.decode(response.body.toString());
-    print(res);
+  joinClass(String entry_code) async {
+    print('join');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = await prefs.getString('token');
+    print('token' + token);
+
+    var classroom_uid = await getClassUid(joinCode: entry_code, token: token);
+    // print(classroom_uid);
+    // Map<String, String> _headers = {
+    //   'token': prefs.getString('token'),
+    // };
+
+    // var _body =
+    //     json.encode({'classroom_uid': classroom_uid, 'entry_code': entry_code});
+    // var response =
+    //     await http.post(enrollClassroom, body: _body, headers: _headers);
+    // var res = json.decode(response.body.toString());
+    // print(res);
   }
 
   Widget _textFieldComponent() {
@@ -89,7 +115,7 @@ class _JoinClassFormState extends State<JoinClassForm> {
               elevation: 7.0,
               child: InkWell(
                 onTap: () => {
-                  // joinClass(joinCodeController.text),
+                  joinClass(joinCodeController.text),
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (context) => ClassroomPanel(
                   //           classId: '1',

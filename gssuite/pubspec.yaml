@@ -42,7 +42,7 @@ dev_dependencies:
   flutter_spinkit: ^4.1.2+1
   url_launcher:
   google_sign_in: ^4.5.9
-  fluttertoast: ^8.0.3
+  fluttertoast:
   adv_fab: ^1.0.5
 
 # For information on the generic Dart part of this file, see the

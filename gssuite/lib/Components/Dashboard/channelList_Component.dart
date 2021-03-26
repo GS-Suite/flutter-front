@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../Classroom/ClassroomPanel.dart';
 import 'dart:math' as math;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../apis/api.dart';
 import 'package:http/http.dart' as http;
-import '../../modal/JoinCode.dart';
-import '../Dashboard/dashboard.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 
 class ChannelList extends StatelessWidget {
   final List classrooms;
-  final refreshKey;
   final Function onRefresh;
+  final bool enrolled;
 
-  const ChannelList({Key key, this.classrooms, this.refreshKey, this.onRefresh})
+  const ChannelList({Key key, this.classrooms, this.onRefresh, this.enrolled})
       : super(key: key);
 
   timer() {}
@@ -158,12 +155,10 @@ class ChannelList extends StatelessWidget {
           msg: "Copied to clipboard!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.SNACKBAR,
-          backgroundColor: Colors.grey,
-          textColor: Colors.black,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
           fontSize: 16.0);
       Clipboard.setData(new ClipboardData(text: joinCode));
-      print(joinCode);
-      prefs.setString('joinCode', joinCode);
       return joinCode;
     } else {
       print('error');

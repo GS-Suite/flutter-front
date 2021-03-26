@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'channelList_Component.dart';
 
 class SubscribedCourses extends StatelessWidget {
-  final _title = 'Your Classes';
+  final String title;
   final List classrooms;
-  final refreshKey;
   final Function onRefresh;
+  final bool enrolled;
   const SubscribedCourses(
-      {Key key, this.classrooms, this.refreshKey, this.onRefresh})
+      {Key key, this.title, this.classrooms, this.onRefresh, this.enrolled})
       : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class SubscribedCourses extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _title,
+                this.title,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -31,10 +31,7 @@ class SubscribedCourses extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          ChannelList(
-              classrooms: this.classrooms,
-              refreshKey: refreshKey,
-              onRefresh: onRefresh),
+          ChannelList(classrooms: this.classrooms, enrolled: this.enrolled),
         ],
       ),
     );

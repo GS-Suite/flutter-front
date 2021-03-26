@@ -23,7 +23,7 @@ class _DashboardState extends State<Dashboard>
   SharedPreferences prefs;
   static String _user;
   var _userClassrooms = [];
-  var _createdClassroomSucces = '';
+  var _userEnrolledClasrooms = [];
 
   @override
   void initState() {
@@ -41,16 +41,59 @@ class _DashboardState extends State<Dashboard>
       'token': prefs.getString('token'),
     };
     print(_headers);
-    var response = await http.post(getUserClassrooms, headers: _headers);
-    var res = json.decode(response.body.toString());
-    if (res['success'] == true) {
-      setState(() {
-        _userClassrooms = res['data'];
-      });
-      prefs.setString('token', res['token'].toString());
-    } else {
-      print('Response didn\'t fetch');
-      print(res);
+    try {
+      // For fetching your created classes
+      var response = await http.post(getUserClassrooms, headers: _headers);
+      var res = json.decode(response.body.toString());
+      if (res['success'] == true) {
+        print(res);
+        setState(() {
+          _userClassrooms = res['data'];
+        });
+        prefs.setString('token', res['token'].toString());
+      } else {
+        print('Response didn\'t fetch');
+        print(res);
+      }
+
+      // For fetching your enrolled classes
+      response = await http.post(getEnrolledClassrooms, headers: _headers);
+      res = json.decode(response.body.toString());
+      if (res['success'] == true) {
+        print('hello');
+        if (res['message'] == 'You aren\'t enrolled in any classroom') {
+          print("you're not enrolled");
+        } else {
+          var enrolledList = [];
+          var _body;
+          var resp;
+          print(res['data']);
+          for (var i = 0; i < res['data'].length; i++) {
+            print(res['data'][i]);
+            var _body = json.encode({'classroom_uid': res['data'][i]});
+            var val = await http.post(getClassroomDetails,
+                headers: _headers, body: _body);
+            var valRes = json.decode(val.body.toString());
+            if (valRes['success'] == true) {
+              print(true);
+              setState(() {
+                print(valRes['data']['name']);
+                _userEnrolledClasrooms.add({
+                  'name': valRes['data']['name'],
+                  'uid': valRes['data']['uid']
+                });
+              });
+            }
+          }
+          print('over');
+          print(_userEnrolledClasrooms);
+        }
+      } else {
+        print('Response didn\'t fetch');
+        print(res);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -118,9 +161,17 @@ class _DashboardState extends State<Dashboard>
                   child: Column(
                     children: [
                       SubscribedCourses(
+                        title: 'Your Classes',
                         classrooms: _userClassrooms,
-                        refreshKey: refreshKey,
                         onRefresh: refreshClassrooms,
+                        enrolled: false,
+                      ),
+                      SizedBox(height: 12.0),
+                      SubscribedCourses(
+                        title: 'Enrolled Classes',
+                        classrooms: _userEnrolledClasrooms,
+                        onRefresh: refreshClassrooms,
+                        enrolled: true,
                       ),
                     ],
                   ),
