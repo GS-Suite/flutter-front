@@ -23,6 +23,7 @@ class _DashboardState extends State<Dashboard>
   SharedPreferences prefs;
   static String _user;
   var _userClassrooms = [];
+  var _createdClassroomSucces = '';
 
   @override
   void initState() {
@@ -145,7 +146,7 @@ class _DashboardState extends State<Dashboard>
                                       .pop('dialog'),
                                   await Navigator.pushNamed(
                                       context, '/create_class'),
-                                  setState(() => {print('insetstate'), pref()})
+                                  setState(() => {pref()})
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(15.0),

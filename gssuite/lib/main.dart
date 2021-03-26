@@ -55,6 +55,7 @@ class _MyAppState extends State<MyApp> {
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
+
           case '/advanced_options':
             return PageTransition(
               child: AdvancedOption(),

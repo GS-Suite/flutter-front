@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../Classroom/ClassroomPanel.dart';
 import 'dart:math' as math;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import '../../apis/api.dart';
+import 'package:http/http.dart' as http;
+import '../../modal/JoinCode.dart';
 import '../Dashboard/dashboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
 
 class ChannelList extends StatelessWidget {
   final List classrooms;
@@ -11,17 +18,28 @@ class ChannelList extends StatelessWidget {
 
   const ChannelList({Key key, this.classrooms, this.refreshKey, this.onRefresh})
       : super(key: key);
+
+  timer() {}
   @override
   Widget build(BuildContext context) {
     return this.classrooms.length == 0
         ? Container(
             height: 165,
             child: Center(
-              child: SpinKitThreeBounce(
-                color: Colors.teal[400],
-                size: 50.0,
-              ),
-            ),
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  color: Colors.teal[100],
+                  size: 40,
+                ),
+                Text(
+                  "You haven't created any classrooms",
+                  style: TextStyle(color: Colors.grey[400]),
+                )
+              ],
+            )),
           )
         : Container(
             height: 200,
@@ -96,13 +114,23 @@ class ChannelList extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    IconButton(
-                                        icon: Icon(
-                                          Icons.more_vert,
-                                          size: 16.0,
-                                        ),
-                                        onPressed: () =>
-                                            {print('vert_menu clicked')})
+                                    PopupMenuButton(
+                                      itemBuilder: (BuildContext bc) => [
+                                        PopupMenuItem(
+                                            child: Text("Invite Code"),
+                                            value: "0"),
+                                      ],
+                                      onSelected: (route) async {
+                                        if (route == "0") {
+                                          var joincCode =
+                                              await generate_join_code(
+                                                  classroom_uid:
+                                                      this.classrooms[index]
+                                                          ['uid']);
+                                          print(joincCode);
+                                        }
+                                      },
+                                    ),
                                   ])
                             ],
                           ),
@@ -112,5 +140,33 @@ class ChannelList extends StatelessWidget {
                   );
                 }),
           );
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<String> generate_join_code({String classroom_uid}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+    var _body = json.encode({'classroom_uid': classroom_uid});
+    var response =
+        await http.post(generateJoinCode, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    if (res['success'] == true) {
+      var joinCode = res['data']['entry_code'].toString();
+      Fluttertoast.showToast(
+          msg: "Copied to clipboard!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey,
+          textColor: Colors.black,
+          fontSize: 16.0);
+      Clipboard.setData(new ClipboardData(text: joinCode));
+      print(joinCode);
+      prefs.setString('joinCode', joinCode);
+      return joinCode;
+    } else {
+      print('error');
+    }
   }
 }
