@@ -113,18 +113,31 @@ class ChannelList extends StatelessWidget {
                                     ),
                                     PopupMenuButton(
                                       itemBuilder: (BuildContext bc) => [
-                                        PopupMenuItem(
-                                            child: Text("Invite Code"),
-                                            value: "0"),
+                                        this.enrolled
+                                            ? PopupMenuItem(
+                                                child: Text("Unenroll"),
+                                                value: "unenroll")
+                                            : PopupMenuItem(
+                                                child: Text("Invite Code"),
+                                                value: "invite_code"),
                                       ],
                                       onSelected: (route) async {
-                                        if (route == "0") {
+                                        if (route == "invite_code") {
                                           var joincCode =
                                               await generate_join_code(
                                                   classroom_uid:
                                                       this.classrooms[index]
                                                           ['uid']);
                                           print(joincCode);
+                                        }
+                                        if (route == 'unenroll') {
+                                          Fluttertoast.showToast(
+                                              msg: "Under Development",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              gravity: ToastGravity.SNACKBAR,
+                                              backgroundColor: Colors.grey[200],
+                                              textColor: Colors.black38,
+                                              fontSize: 16.0);
                                         }
                                       },
                                     ),
