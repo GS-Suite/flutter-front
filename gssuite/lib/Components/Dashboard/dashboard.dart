@@ -71,7 +71,7 @@ class _DashboardState extends State<Dashboard>
           for (var i = 0; i < res['data'].length; i++) {
             print(res['data'][i]);
             var _body = json.encode({'classroom_uid': res['data'][i]});
-            var val = await http.post(getClassroomDetails,
+            var val = await http.post(getClassroomDetail,
                 headers: _headers, body: _body);
             var valRes = json.decode(val.body.toString());
             if (valRes['success'] == true) {
@@ -166,7 +166,7 @@ class _DashboardState extends State<Dashboard>
                         onRefresh: refreshClassrooms,
                         enrolled: false,
                       ),
-                      SizedBox(height: 12.0),
+                      SizedBox(height: 20.0),
                       SubscribedCourses(
                         title: 'Enrolled Classes',
                         classrooms: _userEnrolledClasrooms,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Classroom/ClassroomPanel.dart';
+import '../Classroom/UserClassrooms/ClassroomPanel.dart';
+import '../Classroom/EnrollClassrooms/ClassroomPanelEnrolled.dart';
 import 'dart:math' as math;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -50,13 +51,22 @@ class ChannelList extends StatelessWidget {
                       margin: EdgeInsets.only(right: 10.0),
                       width: 250,
                       child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ClassroomPanel(
-                                    classId: this.classrooms[index]['uid'],
-                                    className: this.classrooms[index]['name'],
-                                  )));
-                        },
+                        onTap: enrolled
+                            ? () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        ClassroomPanelEnrolled(
+                                          classId: this.classrooms[index]
+                                              ['uid'],
+                                        )));
+                              }
+                            : () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ClassroomPanel(
+                                          classId: this.classrooms[index]
+                                              ['uid'],
+                                        )));
+                              },
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(

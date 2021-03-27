@@ -8,7 +8,7 @@ final refreshToken = 'https://gs-suite-dev.herokuapp.com/refresh_token/';
 
 final createClassroom = 'https://gs-suite-dev.herokuapp.com/create_classroom/';
 
-final getClassroomDetails =
+final getClassroomDetail =
     'https://gs-suite-dev.herokuapp.com/get_classroom_details/';
 
 final getUserClassrooms =

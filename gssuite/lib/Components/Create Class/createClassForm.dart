@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import './createClassTitle.dart';
 import '../../modal/Classrooms.dart';
-import '../Classroom/ClassroomPanel.dart';
+import '../Classroom/UserClassrooms/ClassroomPanel.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:flash/flash.dart';
@@ -50,7 +50,6 @@ class _CreateClassFormState extends State<CreateClassForm> {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ClassroomPanel(
                   classId: classRoomData.data.uid,
-                  className: classRoomData.data.name,
                 )));
       }
       print(classRoomData);

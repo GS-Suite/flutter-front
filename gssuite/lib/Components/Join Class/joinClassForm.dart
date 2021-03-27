@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import './joinClassTitle.dart';
-import '../Classroom/ClassroomPanel.dart';
+import '../Classroom/UserClassrooms/ClassroomPanel.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/refreshToken.dart';
