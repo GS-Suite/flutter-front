@@ -64,9 +64,6 @@ class _DashboardState extends State<Dashboard>
         if (res['message'] == 'You aren\'t enrolled in any classroom') {
           print("you're not enrolled");
         } else {
-          var enrolledList = [];
-          var _body;
-          var resp;
           print(res['data']);
           for (var i = 0; i < res['data'].length; i++) {
             print(res['data'][i]);

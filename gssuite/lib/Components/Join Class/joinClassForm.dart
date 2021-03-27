@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../Drawer Component/drawer.dart';
 import './joinClassTitle.dart';
-import '../Classroom/UserClassrooms/ClassroomPanel.dart';
+import '../Classroom/EnrollClassrooms/ClassroomPanelEnrolled.dart';
 import 'package:gssuite/utils/regEx.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:gssuite/utils/refreshToken.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -37,16 +38,20 @@ class _JoinClassFormState extends State<JoinClassForm> {
   getClassUid({String joinCode, String token}) async {
     print('getclassuid');
     print(joinCode + ' ' + token);
-    Map<String, String> _headers = {'entry_code': joinCode, 'token': token};
-    var _body = json.encode({'op': 'namej'});
+    Map<String, String> _headers = {'token': token};
+    var _body = json.encode({'entry_code': joinCode});
+    print('post init');
     try {
       var response =
-          await http.post(getClassUid, body: _body, headers: _headers);
+          await http.post(getClassroomUid, body: _body, headers: _headers);
+      print('response');
+      print(response);
+      print(response.body.toString());
       var res = json.decode(response.body.toString());
       print('res');
       print(res);
       if (res['success'] == true) {
-        print(res['data']['classroom_uid']);
+        return res['data']['classroom_uid'];
       }
     } catch (e) {
       print(e);
@@ -60,17 +65,38 @@ class _JoinClassFormState extends State<JoinClassForm> {
     print('token' + token);
 
     var classroom_uid = await getClassUid(joinCode: entry_code, token: token);
-    print(classroom_uid);
-    // Map<String, String> _headers = {
-    //   'token': prefs.getString('token'),
-    // };
 
-    // var _body =
-    //     json.encode({'classroom_uid': classroom_uid, 'entry_code': entry_code});
-    // var response =
-    //     await http.post(enrollClassroom, body: _body, headers: _headers);
-    // var res = json.decode(response.body.toString());
-    // print(res);
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+
+    var _body =
+        json.encode({'classroom_uid': classroom_uid, 'entry_code': entry_code});
+    var response =
+        await http.post(enrollClassroom, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    print(res);
+    if (res['success'] == true) {
+      Fluttertoast.showToast(
+          msg: res['message'],
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ClassroomPanelEnrolled(
+                classId: classroom_uid,
+              )));
+    } else {
+      Fluttertoast.showToast(
+          msg: res['message'],
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+    }
   }
 
   Widget _textFieldComponent() {
