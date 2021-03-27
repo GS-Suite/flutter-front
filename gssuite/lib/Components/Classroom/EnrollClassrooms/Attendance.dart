@@ -17,6 +17,8 @@ class Attendance extends StatefulWidget {
 class _AttendanceState extends State<Attendance> {
   TextEditingController attendanceCodeController;
   bool _isCodeValid = true;
+  bool shouldButtonEnabled = true;
+  bool _markedAttendance = false;
 
   @override
   void initState() {
@@ -35,62 +37,72 @@ class _AttendanceState extends State<Attendance> {
     return Container(
       width: 400,
       padding: EdgeInsets.only(top: 35, left: 20, right: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 30,
-            height: 60,
-            child: Center(
-              child: TextField(
-                onChanged: (value) => {
-                  if (value.length > 2)
-                    {
-                      if (value.length != 9)
-                        {
-                          setState(() => {_isCodeValid = false})
-                        }
-                      else
-                        {
-                          setState(() => {_isCodeValid = true})
-                        }
-                    }
-                  else
-                    {
-                      setState(() => {_isCodeValid = true})
-                    },
-                },
-                style: TextStyle(fontSize: 25),
-                decoration: InputDecoration(
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    errorText:
-                        _isCodeValid ? null : "Invalid attendance token"),
-                controller: attendanceCodeController,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50.0),
+      child: _markedAttendance
+          ? Center(
+              child: Text('You\'ve marked your attendance'),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 30,
+                  height: 60,
+                  child: Center(
+                    child: TextField(
+                      onChanged: (value) => {
+                        if (value.length > 2)
+                          {
+                            if (value.length != 9)
+                              {
+                                setState(() => {_isCodeValid = false})
+                              }
+                            else
+                              {
+                                setState(() => {_isCodeValid = true})
+                              }
+                          }
+                        else
+                          {
+                            setState(() => {_isCodeValid = true})
+                          },
+                      },
+                      style: TextStyle(fontSize: 25),
+                      decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          errorText:
+                              _isCodeValid ? null : "Invalid attendance token"),
+                      controller: attendanceCodeController,
+                    ),
+                  ),
                 ),
-                onPressed: _isCodeValid ? () => {markAttendance()} : () => {},
-                child: Text('Mark Attendance',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Montseratt',
-                        color: Colors.teal[400]))),
-          ),
-        ],
-      ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      onPressed:
+                          _isCodeValid ? () => {markAttendance()} : () => {},
+                      child: Text('Mark Attendance',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Montseratt',
+                              color: Colors.teal[400]))),
+                ),
+              ],
+            ),
     );
+  }
+
+  _disabledButton() {
+    shouldButtonEnabled = false;
+    Timer(Duration(seconds: 30), () => shouldButtonEnabled = true);
   }
 
   markAttendance() async {
@@ -110,6 +122,9 @@ class _AttendanceState extends State<Attendance> {
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       print(res);
+      setState(() {
+        _markedAttendance = true;
+      });
       Fluttertoast.showToast(
           msg: 'Attendance marked successfully',
           toastLength: Toast.LENGTH_LONG,

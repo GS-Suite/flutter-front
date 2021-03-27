@@ -62,8 +62,9 @@ class _AttendanceState extends State<Attendance> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0),
                     ),
-                    onPressed: () =>
-                        {generateAttendanceToken(), _disabledButton()},
+                    onPressed: () => {
+                          generateAttendanceToken(),
+                        },
                     child: Text('Take Attendance',
                         style: TextStyle(
                             fontSize: 18,
