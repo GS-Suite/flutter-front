@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../apis/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
 
 class Attendance extends StatefulWidget {
   final classId;
@@ -17,6 +18,7 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
   var _attendanceToken;
+  bool shouldButtonEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,9 @@ class _AttendanceState extends State<Attendance> {
                               })
                     ]),
                     RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
                         onPressed: () => {stopTakingAttendance()},
                         child: Text('Stop Attendance',
                             style: TextStyle(
@@ -54,12 +59,21 @@ class _AttendanceState extends State<Attendance> {
               )
             : Center(
                 child: RaisedButton(
-                    onPressed: () => {generateAttendanceToken()},
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    onPressed: () =>
+                        {generateAttendanceToken(), _disabledButton()},
                     child: Text('Take Attendance',
                         style: TextStyle(
                             fontSize: 18,
                             fontFamily: 'Montseratt',
                             color: Colors.teal[400])))));
+  }
+
+  _disabledButton() {
+    shouldButtonEnabled = false;
+    Timer(Duration(seconds: 30), () => shouldButtonEnabled = true);
   }
 
   generateAttendanceToken() async {
@@ -70,10 +84,14 @@ class _AttendanceState extends State<Attendance> {
       print('headers:');
       print(_headers);
       print(this.widget.classId);
-      var _body =
-          json.encode({'classroom_uid': this.widget.classId.toString()});
+      var _body = json.encode({
+        'classroom_uid': this.widget.classId.toString(),
+        'timeout_minutes': 30,
+      });
       var response =
           await http.post(takeAttendance, body: _body, headers: _headers);
+
+      print(response.body.toString());
       var res = json.decode(response.body.toString());
       if (res['success'] == true) {
         print(res);

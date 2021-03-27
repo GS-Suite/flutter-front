@@ -44,7 +44,7 @@ dev_dependencies:
   google_sign_in: ^4.5.9
   fluttertoast:
   adv_fab: ^1.0.5
-
+  timer_button: ^1.0.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

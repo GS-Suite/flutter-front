@@ -39,6 +39,7 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
               )),
             )
           : DefaultTabController(
+              initialIndex: 1,
               length: 3,
               child: Scaffold(
                 key: _scaffoldKey,
@@ -141,7 +142,9 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                 body: TabBarView(
                   children: [
                     Feed(),
-                    Attendance(),
+                    Attendance(
+                      classId: this.widget.classId,
+                    ),
                     Forums(),
                   ],
                 ),

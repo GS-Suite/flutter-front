@@ -27,3 +27,5 @@ final getEnrolledClassrooms =
 final takeAttendance = 'https://gs-suite-dev.herokuapp.com/take_attendance/';
 
 final stopAttendance = 'https://gs-suite-dev.herokuapp.com/stop_attendance/';
+
+final giveAttendance = 'https://gs-suite-dev.herokuapp.com/give_attendance/';
