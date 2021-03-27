@@ -23,3 +23,5 @@ final getClassUid = 'https://gs-suite-dev.herokuapp.com/get_classroom_uid/';
 
 final getEnrolledClassrooms =
     'https://gs-suite-dev.herokuapp.com/get_user_enrolled/';
+
+final takeAttendance = 'https://gs-suite-dev.herokuapp.com/take_attendance/';
