@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../apis/api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Attendance extends StatefulWidget {
   final classId;
@@ -25,37 +26,29 @@ class _AttendanceState extends State<Attendance> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(_attendanceToken,
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontFamily: 'Montseratt',
-                                color: Colors.teal[400])),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.copy,
-                              color: Colors.blueAccent,
-                            ),
-                            onPressed: () => {
-                                  Clipboard.setData(
-                                      new ClipboardData(text: _attendanceToken))
-                                })
-                      ],
-                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(_attendanceToken,
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: 'Montseratt',
+                              color: Colors.teal[400])),
+                      IconButton(
+                          icon: Icon(
+                            Icons.copy,
+                            color: Colors.blueAccent,
+                          ),
+                          onPressed: () => {
+                                Clipboard.setData(
+                                    new ClipboardData(text: _attendanceToken))
+                              })
+                    ]),
                     RaisedButton(
-                        onPressed: () => {
-                              setState(() => {_attendanceToken = null})
-                            },
+                        onPressed: () => {stopTakingAttendance()},
                         child: Text('Stop Attendance',
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: 'Montseratt',
-                                color: Colors.teal[400])))
+                                color: Colors.red[300])))
                   ],
                 ),
               )
@@ -73,7 +66,6 @@ class _AttendanceState extends State<Attendance> {
     {
       print('take attendance');
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var timeout = 30;
       Map<String, String> _headers = {'token': prefs.getString('token')};
       print('headers:');
       print(_headers);
@@ -93,6 +85,47 @@ class _AttendanceState extends State<Attendance> {
         print('Response didn\'t fetch');
         print(res);
       }
+    }
+  }
+
+  stopTakingAttendance() async {
+    print('stop attendance');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(_attendanceToken);
+    Map<String, String> _headers = {'token': prefs.getString('token')};
+    print('headers:');
+    print(_headers);
+    print(this.widget.classId);
+    var _body = json.encode({
+      'classroom_uid': this.widget.classId.toString(),
+      'attendance_token': _attendanceToken
+    });
+    var response =
+        await http.post(stopAttendance, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    if (res['success'] == true) {
+      print(res);
+      setState(() {
+        this._attendanceToken = null;
+      });
+      Fluttertoast.showToast(
+          msg: res['message'],
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+      prefs.setString('token', res['token'].toString());
+    } else {
+      print('Response didn\'t fetch');
+      print(res);
+      Fluttertoast.showToast(
+          msg: 'Error',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
     }
   }
 }

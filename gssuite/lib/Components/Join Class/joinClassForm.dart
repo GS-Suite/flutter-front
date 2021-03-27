@@ -60,7 +60,7 @@ class _JoinClassFormState extends State<JoinClassForm> {
     print('token' + token);
 
     var classroom_uid = await getClassUid(joinCode: entry_code, token: token);
-    // print(classroom_uid);
+    print(classroom_uid);
     // Map<String, String> _headers = {
     //   'token': prefs.getString('token'),
     // };
