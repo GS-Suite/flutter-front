@@ -39,7 +39,23 @@ class _AttendanceState extends State<Attendance> {
       padding: EdgeInsets.only(top: 35, left: 20, right: 20),
       child: _markedAttendance
           ? Center(
-              child: Text('You\'ve marked your attendance'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Center(
+                        child: Icon(
+                      Icons.check_circle_outline_rounded,
+                      color: Colors.grey[400],
+                      size: 70,
+                    )),
+                  ),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  Text('You\'ve marked your attendance'),
+                ],
+              ),
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
