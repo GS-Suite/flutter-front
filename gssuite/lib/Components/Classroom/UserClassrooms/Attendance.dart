@@ -48,7 +48,11 @@ class _AttendanceState extends State<Attendance> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0),
                         ),
-                        onPressed: () => {stopTakingAttendance()},
+                        onPressed: () => {
+                              stopTakingAttendance(),
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) => ViewAttendance()))
+                            },
                         child: Text('Stop Attendance',
                             style: TextStyle(
                                 fontSize: 18,

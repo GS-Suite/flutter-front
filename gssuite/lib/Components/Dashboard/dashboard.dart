@@ -7,22 +7,18 @@ import '../Drawer Component/drawer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../modal/ClassroomDetails.dart';
 import '../../apis/api.dart';
-import '../Login_Screen/TextField_Component.dart';
 
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  var refreshKey = GlobalKey<RefreshIndicatorState>();
   SharedPreferences prefs;
   static String _user;
-  var _userClassrooms = [];
+  var _userClassrooms;
   var _userEnrolledClasrooms = [];
 
   @override
@@ -94,13 +90,6 @@ class _DashboardState extends State<Dashboard>
     }
   }
 
-  Future<Null> refreshClassrooms() async {
-    refreshKey.currentState?.show(atTop: false);
-    await Future.delayed(Duration(seconds: 2));
-    pref();
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_user == null || _userClassrooms == []) {
@@ -111,171 +100,173 @@ class _DashboardState extends State<Dashboard>
         ),
       ));
     } else {
-      return WillPopScope(
-          onWillPop: _onBackPressed,
-          child: Scaffold(
-              key: _scaffoldKey,
-              appBar: AppBar(
-                automaticallyImplyLeading: false,
-                centerTitle: false,
-                elevation: 0,
-                backgroundColor: Colors.white,
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 0, top: 15),
-                  child: GestureDetector(
-                    onTap: () => _scaffoldKey.currentState.openDrawer(),
-                    child: RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        text: '# ',
-                        style: TextStyle(
-                            color: Colors.teal[400],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 33),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: _user.contains(' ')
-                                  ? 'Hi, ' +
-                                      _user.substring(0, _user.indexOf(' ')) +
-                                      '!'
-                                  : _user, // To be changed
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              drawer: AppDrawer(),
-              body: Container(
-                alignment: Alignment.topLeft,
-                width: double.infinity,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      SubscribedCourses(
-                        title: 'Your Classes',
-                        classrooms: _userClassrooms,
-                        onRefresh: refreshClassrooms,
-                        enrolled: false,
-                      ),
-                      SizedBox(height: 20.0),
-                      SubscribedCourses(
-                        title: 'Enrolled Classes',
-                        classrooms: _userEnrolledClasrooms,
-                        onRefresh: refreshClassrooms,
-                        enrolled: true,
-                      ),
+      return Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: false,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Padding(
+              padding: const EdgeInsets.only(left: 0, top: 15),
+              child: GestureDetector(
+                onTap: () => _scaffoldKey.currentState.openDrawer(),
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: '# ',
+                    style: TextStyle(
+                        color: Colors.teal[400],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 33),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: _user.contains(' ')
+                              ? 'Hi, ' +
+                                  _user.substring(0, _user.indexOf(' ')) +
+                                  '!'
+                              : _user, // To be changed
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
                     ],
                   ),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-                backgroundColor: Colors.teal[400],
-                onPressed: () => {
-                  showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                              content: Container(
-                                  child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              GestureDetector(
-                                onTap: () async => {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop('dialog'),
-                                  await Navigator.pushNamed(
-                                      context, '/create_class'),
-                                  setState(() => {pref()})
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(15.0),
-                                  height: 100,
-                                  width: 130,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Icon(
-                                          Icons.create_new_folder_outlined,
-                                          size: 35.0,
-                                          color: Colors.teal[400],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Center(
-                                        child: Text('Create class',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold)),
-                                      )
-                                    ],
+            ),
+          ),
+          drawer: AppDrawer(),
+          body: Container(
+            alignment: Alignment.topLeft,
+            width: double.infinity,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: _userClassrooms != null
+                  ? Column(
+                      children: [
+                        SubscribedCourses(
+                          title: 'Your Classes',
+                          classrooms: _userClassrooms,
+                          enrolled: false,
+                        ),
+                        SizedBox(height: 20.0),
+                        SubscribedCourses(
+                          title: 'Enrolled Classes',
+                          classrooms: _userEnrolledClasrooms,
+                          enrolled: true,
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: SpinKitThreeBounce(
+                        color: Colors.teal[400],
+                      ),
+                    ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.teal[400],
+            onPressed: () => {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                          content: Container(
+                              child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () async => {
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop('dialog'),
+                              await Navigator.pushNamed(
+                                  context, '/create_class'),
+                              setState(() => {pref()})
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(15.0),
+                              height: 100,
+                              width: 130,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Icon(
+                                      Icons.create_new_folder_outlined,
+                                      size: 35.0,
+                                      color: Colors.teal[400],
+                                    ),
                                   ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    shape: BoxShape.rectangle,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
+                                  SizedBox(
+                                    height: 5.0,
                                   ),
-                                ),
+                                  Center(
+                                    child: Text('Create class',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
                               ),
-                              SizedBox(
-                                width: 10,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
                               ),
-                              GestureDetector(
-                                onTap: () => {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop('dialog'),
-                                  Navigator.pushNamed(context, '/join_class')
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(15.0),
-                                  width: 130,
-                                  height: 100,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Icon(
-                                          Icons.arrow_circle_up_sharp,
-                                          size: 35.0,
-                                          color: Colors.teal[400],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Center(
-                                        child: Text('Join class',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold)),
-                                      )
-                                    ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () => {
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop('dialog'),
+                              Navigator.pushNamed(context, '/join_class')
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(15.0),
+                              width: 130,
+                              height: 100,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Icon(
+                                      Icons.arrow_circle_up_sharp,
+                                      size: 35.0,
+                                      color: Colors.teal[400],
+                                    ),
                                   ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    shape: BoxShape.rectangle,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
+                                  SizedBox(
+                                    height: 5.0,
                                   ),
-                                ),
-                              )
-                            ],
-                          ))))
-                },
-                splashColor: Colors.teal[300],
-              )));
+                                  Center(
+                                    child: Text('Join class',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ))))
+            },
+            splashColor: Colors.teal[300],
+          ));
     }
   }
 
