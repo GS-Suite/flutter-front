@@ -75,52 +75,69 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                               visualDensity:
                                   VisualDensity(horizontal: 0, vertical: -4),
                               contentPadding: EdgeInsets.all(0),
-                              title: Column(
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8.0, left: 0, bottom: 8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            _keyList[index]
-                                                    .toString()
-                                                    .substring(11, 19) +
-                                                ' Hrs',
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            _keyList[index]
-                                                .toString()
-                                                .substring(0, 10),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[600]),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            _valList[index]
-                                                ? 'Attended'
-                                                : 'Not Attended',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[600]),
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 0, bottom: 8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  _keyList[index]
+                                                          .toString()
+                                                          .substring(11, 19) +
+                                                      ' Hrs',
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  _keyList[index]
+                                                      .toString()
+                                                      .substring(0, 10),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.grey[600]),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          _valList[index]
+                                              ? 'Attended'
+                                              : 'Not Attended',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
