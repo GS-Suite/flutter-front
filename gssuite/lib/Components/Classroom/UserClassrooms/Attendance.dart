@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../apis/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
+import './ViewAttendance.dart';
 
 class Attendance extends StatefulWidget {
   final classId;
@@ -50,8 +51,10 @@ class _AttendanceState extends State<Attendance> {
                         ),
                         onPressed: () => {
                               stopTakingAttendance(),
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) => ViewAttendance()))
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ViewAttendance(
+                                        classId: this.widget.classId,
+                                      )))
                             },
                         child: Text('Stop Attendance',
                             style: TextStyle(
