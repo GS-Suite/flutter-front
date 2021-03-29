@@ -4,6 +4,7 @@ import '../../../apis/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import './ViewSTudentAttendance.dart';
 import 'package:http/http.dart' as http;
 
 class ViewAttendance extends StatefulWidget {
@@ -116,7 +117,19 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                               trailing: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: GestureDetector(
-                                    onTap: () => {},
+                                    onTap: () => {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewStudentsAttendance(
+                                                        studentList:
+                                                            _val_list[index]
+                                                                ['students'],
+                                                        dateTime:
+                                                            _attendanceList[
+                                                                index],
+                                                      )))
+                                        },
                                     child: Icon(Icons.chevron_right_sharp)),
                               ),
                             ),
