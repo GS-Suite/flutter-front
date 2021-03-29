@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../../apis/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../../Drawer Component/drawer.dart';
 
 class ViewAttendance extends StatefulWidget {
   final classId;
@@ -13,6 +15,7 @@ class ViewAttendance extends StatefulWidget {
 }
 
 class _ViewAttendanceState extends State<ViewAttendance> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _keyList = null;
   var _valList = [];
   var _attendedCount;
@@ -27,9 +30,111 @@ class _ViewAttendanceState extends State<ViewAttendance> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(this.widget.classId),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 0, top: 15),
+            child: GestureDetector(
+              onTap: () => _scaffoldKey.currentState.openDrawer(),
+              child: RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  text: '# ',
+                  style: TextStyle(
+                      color: Colors.teal[400],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 33),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Attendance Logs', // To be changed
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        drawer: AppDrawer(),
+        body: _keyList != null
+            ? Container(
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: _keyList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: Container(
+                            margin: EdgeInsets.only(right: 10.0),
+                            width: 250,
+                            child: ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: 0, vertical: -4),
+                              contentPadding: EdgeInsets.all(0),
+                              title: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, left: 0, bottom: 8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _keyList[index]
+                                                    .toString()
+                                                    .substring(11, 19) +
+                                                ' Hrs',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _keyList[index]
+                                                .toString()
+                                                .substring(0, 10),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[600]),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _valList[index]
+                                                ? 'Attended'
+                                                : 'Not Attended',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[600]),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom:
+                                        BorderSide(color: Colors.black26)))),
+                      );
+                    }),
+              )
+            : Center(
+                child: SpinKitThreeBounce(
+                color: Colors.teal[400],
+              )));
   }
 
   void viewAttendanceByStudent() async {
@@ -41,8 +146,8 @@ class _ViewAttendanceState extends State<ViewAttendance> {
     print(_headers);
     print(this.widget.classId);
     var _body = json.encode({'classroom_uid': this.widget.classId.toString()});
-    var response = await http.post(viewClassroomAttendance,
-        body: _body, headers: _headers);
+    var response =
+        await http.post(studentViewAttendance, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       print(res);
