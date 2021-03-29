@@ -33,3 +33,6 @@ final giveAttendance = 'https://gs-suite-dev.herokuapp.com/give_attendance/';
 
 final viewClassroomAttendance =
     'https://gs-suite-dev.herokuapp.com/view_classroom_attendance/';
+
+final studentViewAttendance =
+    'https://gs-suite-dev.herokuapp.com/view_student_attendance';

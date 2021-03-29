@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import './ViewAttendance.dart';
 
 class Attendance extends StatefulWidget {
   final classId;
@@ -54,6 +55,21 @@ class _AttendanceState extends State<Attendance> {
                     width: 40,
                   ),
                   Text('You\'ve marked your attendance'),
+                  RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      onPressed: () => {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ViewAttendance(
+                                      classId: this.widget.classId,
+                                    )))
+                          },
+                      child: Text('View Attendance',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Montseratt',
+                              color: Colors.teal[400]))),
                 ],
               ),
             )
