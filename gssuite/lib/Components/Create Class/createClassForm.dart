@@ -40,6 +40,8 @@ class _CreateClassFormState extends State<CreateClassForm> {
     Map<String, String> _headers = {
       'token': prefs.getString('token'),
     };
+
+    //For create class
     var _body = json.encode({'class_name': name});
     var response =
         await http.post(createClassroom, body: _body, headers: _headers);
@@ -47,10 +49,25 @@ class _CreateClassFormState extends State<CreateClassForm> {
     if (res['success'] == true) {
       var classRoomData = Classroom.fromJson(res);
       if (classRoomData.data.uid != null) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ClassroomPanel(
-                  classId: classRoomData.data.uid,
-                )));
+        print('creating forum');
+        var _forBody = json.encode({'classroom_uid': classRoomData.data.uid});
+        var _forResponse =
+            await http.post(createForum, body: _forBody, headers: _headers);
+        var _forRes = json.decode(_forResponse.body.toString());
+        if (_forRes['success'] == true) {
+          print(_forRes['token']);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ClassroomPanel(
+                    classId: classRoomData.data.uid,
+                    forumId: _forRes['token'],
+                  )));
+        } else {
+          print('error creating forum');
+          _showBasicsFlash(
+            message: 'Forum creation error',
+            flashStyle: FlashStyle.grounded,
+          );
+        }
       }
       print(classRoomData);
       print(classRoomData.data.uid);

@@ -4,9 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../apis/api.dart';
-import './Feed.dart';
-import './Attendance.dart';
-import './Forums.dart';
+import './Feed/Feed.dart';
+import 'Attendance/Attendance.dart';
+import 'Forums/Forums.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ClassroomPanelEnrolled extends StatefulWidget {
