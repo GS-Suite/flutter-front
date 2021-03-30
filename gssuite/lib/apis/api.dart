@@ -38,3 +38,5 @@ final studentViewAttendance =
     'https://gs-suite-dev.herokuapp.com/view_student_attendance';
 
 final createForum = 'https://gs-suite-dev.herokuapp.com/create_forum/';
+
+final forumChats = 'https://gs-suite-dev.herokuapp.com/get_forum_chat/';
