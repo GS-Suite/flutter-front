@@ -27,8 +27,7 @@ class _ForumsState extends State<Forums> {
     super.initState();
     _postMessageController = TextEditingController();
     getForumChat();
-    timer = Timer.periodic(Duration(seconds: 10),
-        (Timer t) => {print('timeer called'), getForumChat()});
+    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {getForumChat()});
   }
 
   @override
@@ -247,10 +246,8 @@ class _ForumsState extends State<Forums> {
       setState(() {
         getForumChat();
       });
-      // this.build(context);
       this.build.call(context); // Don't change this at any cost
 
-      // log(_chatList);
       _postMessageController.clear();
       prefs.setString('token', res['token'].toString());
     } else {
