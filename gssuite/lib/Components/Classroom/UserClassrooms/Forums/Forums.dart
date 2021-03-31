@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../../apis/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'dart:developer';
+import 'dart:async';
 
 class Forums extends StatefulWidget {
   final classId;
@@ -14,14 +16,19 @@ class Forums extends StatefulWidget {
 }
 
 class _ForumsState extends State<Forums> {
+  TextEditingController _postMessageController;
   var _chatList;
   var _classroom_owner_uid;
   var _classroom_owner_username;
+  Timer timer;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _postMessageController = TextEditingController();
     getForumChat();
+    timer = Timer.periodic(Duration(seconds: 10),
+        (Timer t) => {print('timeer called'), getForumChat()});
   }
 
   @override
@@ -38,7 +45,6 @@ class _ForumsState extends State<Forums> {
                       itemCount: _chatList.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.only(top: 10, bottom: 10),
-                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Container(
                             width: 25,
@@ -172,16 +178,22 @@ class _ForumsState extends State<Forums> {
                     ),
                     height: 50,
                     width: 340,
-                    padding: EdgeInsets.all(10.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Post Message',
+                    child: Center(
+                      child: TextField(
+                        controller: _postMessageController,
+                        decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            hintText: "Post a message"),
                       ),
                     ),
                   ),
-                  IconButton(
-                      icon: Icon(Icons.send),
-                      onPressed: () => {print('send clicked')})
+                  GestureDetector(
+                      onTap: () => {print('clicked'), sendNewMessage()},
+                      child: Icon(Icons.send))
                 ],
               ),
             ),
@@ -192,21 +204,15 @@ class _ForumsState extends State<Forums> {
   }
 
   void getForumChat() async {
-    print('take attendance');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> _headers = {'token': prefs.getString('token')};
-    print('headers:');
-    print(_headers);
-    print(this.widget.classId);
     var _body = json.encode({
       'classroom_uid': this.widget.classId.toString(),
       'timeout_minutes': 30,
     });
     var response = await http.post(forumChats, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());
-    print(res);
     if (res['success'] == true) {
-      print('object');
       var forum_dets = res['data']['forum_stuff'];
       setState(() {
         _classroom_owner_uid = forum_dets['classroom_owner_uid'];
@@ -214,7 +220,39 @@ class _ForumsState extends State<Forums> {
         _chatList = forum_dets['posts'];
       });
       prefs.setString('token', res['token'].toString());
-      print(_chatList);
+    } else {
+      print('Response didn\'t fetch');
+      print(res);
+    }
+  }
+
+  sendNewMessage() async {
+    // print('check this');
+    // print(
+    //     '{success: true, message: Forum messages have been acquired, token: 0b8548b1c1c284483402661585940a55437d3ec7ab3888cbd98f8d5aec2dc801, data: {forum_stuff: {classroom_uid: 737c056eaa3d4179915b97d0fe5a1f37, classroom_owner_uid: 342a159f-d594-445c-ab46-9e7eff0ae977, classroom_owner_username: testing, forum_id: 737c056eaa3d4179915b97d0fe5a1f37-F, thread: main, posts: [{message_id: WKlBr0SIUDACKII, reply_user_id: , reply_username: , reply_msg_id: , user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, username: testing, message: First Message, date: 27-03-2021, time: 10:26:35}, {message_id: vlUNIzBkcCEbFwD, reply_user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, reply_username: testing, reply_msg_id: WKlBr0SIUDACKII, user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, username: testing, message: First Message, date: 27-03-2021, time: 10:27:40}, {message_id: tIUwA');
+    print('send message');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {'token': prefs.getString('token')};
+    print(this.widget.classId);
+    var _body = json.encode({
+      "classroom_uid": this.widget.classId,
+      "message": _postMessageController.text,
+      "reply_user_id": "",
+      "reply_msg_id": ""
+    });
+    var response = await http.post(sendMessage, body: _body, headers: _headers);
+
+    var res = json.decode(response.body.toString());
+    if (res['success'] == true) {
+      setState(() {
+        getForumChat();
+      });
+      // this.build(context);
+      this.build.call(context); // Don't change this at any cost
+
+      // log(_chatList);
+      _postMessageController.clear();
+      prefs.setString('token', res['token'].toString());
     } else {
       print('Response didn\'t fetch');
       print(res);
