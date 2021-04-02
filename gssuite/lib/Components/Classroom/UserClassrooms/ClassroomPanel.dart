@@ -141,16 +141,19 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                         ),
                       )),
                 ),
-                body: TabBarView(
-                  children: [
-                    Feed(),
-                    Attendance(
-                      classId: this.widget.classId,
-                    ),
-                    Forums(
-                      classId: this.widget.classId,
-                    ),
-                  ],
+                body: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TabBarView(
+                    children: [
+                      Feed(),
+                      Attendance(
+                        classId: this.widget.classId,
+                      ),
+                      Forums(
+                        classId: this.widget.classId,
+                      ),
+                    ],
+                  ),
                 ),
                 drawer: AppDrawer(),
               ),

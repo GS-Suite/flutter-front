@@ -112,9 +112,13 @@ class ChannelList extends StatelessWidget {
                                               Icon(Icons.person_pin_outlined),
                                         ),
                                         Text(
-                                          this
-                                              .classrooms[index]['name']
-                                              .toString(),
+                                          enrolled
+                                              ? this
+                                                  .classrooms[index]['name']
+                                                  .toString()
+                                              : this
+                                                  .classrooms[index]['name']
+                                                  .toString(),
                                           style: TextStyle(
                                               fontFamily: 'Montseratt',
                                               fontSize: 16.0),

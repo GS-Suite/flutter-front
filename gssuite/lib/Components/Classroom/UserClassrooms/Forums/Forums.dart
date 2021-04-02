@@ -17,6 +17,7 @@ class Forums extends StatefulWidget {
 
 class _ForumsState extends State<Forums> {
   TextEditingController _postMessageController;
+  var _chatEmpty;
   var _chatList;
   var _classroom_owner_uid;
   var _classroom_owner_username;
@@ -27,134 +28,73 @@ class _ForumsState extends State<Forums> {
     super.initState();
     _postMessageController = TextEditingController();
     getForumChat();
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {getForumChat()});
+    timer =
+        Timer.periodic(Duration(seconds: 10), (Timer t) => {getForumChat()});
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_chatList.length);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
             child: _chatList != null
-                ? Container(
-                    color: Colors.white,
-                    child: ListView.builder(
-                      itemCount: _chatList.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      itemBuilder: (context, index) {
-                        return Container(
-                            width: 25,
-                            padding:
-                                EdgeInsets.only(left: 14, right: 14, top: 10),
-                            child: Align(
-                              alignment: (_chatList[index]['username'] !=
-                                      _classroom_owner_username
-                                  ? Alignment.topLeft
-                                  : Alignment.topRight),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: _chatList[index]['username'] ==
+                ? !_chatEmpty
+                    ? Container(
+                        color: Colors.white,
+                        child: ListView.builder(
+                          itemCount: _chatList == null ? 0 : _chatList.length,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          itemBuilder: (context, index) {
+                            return Container(
+                                width: 25,
+                                padding: EdgeInsets.only(
+                                    left: 14, right: 14, top: 10),
+                                child: Align(
+                                  alignment: (_chatList[index]['username'] !=
                                           _classroom_owner_username
-                                      ? BorderRadius.only(
-                                          bottomLeft: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15))
-                                      : BorderRadius.only(
-                                          bottomRight: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15)),
-                                  color: (_chatList[index]['username'] !=
-                                          _classroom_owner_username
-                                      ? Colors.grey.shade200
-                                      : Colors.blue[200]),
-                                ),
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment: _chatList[index]
-                                                    ['username'] ==
-                                                _classroom_owner_username
-                                            ? MainAxisAlignment.end
-                                            : MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            _chatList[index]['username'] ==
-                                                    _classroom_owner_username
-                                                ? 'You'
-                                                : _chatList[index]['username'],
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
+                                      ? Alignment.topLeft
+                                      : Alignment.topRight),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: _chatList[index]
+                                                  ['username'] ==
+                                              _classroom_owner_username
+                                          ? BorderRadius.only(
+                                              bottomLeft: Radius.circular(15),
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15))
+                                          : BorderRadius.only(
+                                              bottomRight: Radius.circular(15),
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15)),
+                                      color: (_chatList[index]['username'] !=
+                                              _classroom_owner_username
+                                          ? Colors.grey.shade200
+                                          : Colors.blue[200]),
                                     ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment: _chatList[index]
-                                                    ['username'] ==
-                                                _classroom_owner_username
-                                            ? MainAxisAlignment.end
-                                            : MainAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              _chatList[index]['message'],
-                                              textAlign: _chatList[index]
-                                                          ['username'] ==
-                                                      _classroom_owner_username
-                                                  ? TextAlign.end
-                                                  : TextAlign.start,
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment: _chatList[index]
-                                                    ['username'] ==
-                                                _classroom_owner_username
-                                            ? MainAxisAlignment.end
-                                            : MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            _chatList[index]['time']
-                                                .toString()
-                                                .substring(0, 5),
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: _chatList[index]
-                                                          ['username'] ==
-                                                      _classroom_owner_username
-                                                  ? Colors.grey[200]
-                                                  : Colors.grey[600],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ));
-                      },
-                    ),
-                  )
+                                    padding: EdgeInsets.all(16),
+                                    child: Text((index).toString() +
+                                        ' ' +
+                                        _chatList[index]['message']),
+                                  ),
+                                ));
+                          },
+                        ),
+                      )
+                    : Container(
+                        child: Center(child: Text('No chat yet')),
+                      )
                 : Container(
                     color: Colors.white,
                     child: Center(
@@ -214,12 +154,14 @@ class _ForumsState extends State<Forums> {
     if (res['success'] == true) {
       var forum_dets = res['data']['forum_stuff'];
       setState(() {
+        _chatEmpty = false;
         _classroom_owner_uid = forum_dets['classroom_owner_uid'];
         _classroom_owner_username = forum_dets['classroom_owner_username'];
         _chatList = forum_dets['posts'];
       });
       prefs.setString('token', res['token'].toString());
     } else {
+      _chatEmpty = true;
       print('Response didn\'t fetch');
       print(res);
     }
@@ -236,8 +178,9 @@ class _ForumsState extends State<Forums> {
     var _body = json.encode({
       "classroom_uid": this.widget.classId,
       "message": _postMessageController.text,
+      "datetimestamp": DateTime.now().toString(),
       "reply_user_id": "",
-      "reply_msg_id": ""
+      "reply_msg_id": "",
     });
     var response = await http.post(sendMessage, body: _body, headers: _headers);
 
