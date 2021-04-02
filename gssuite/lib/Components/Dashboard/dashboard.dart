@@ -56,28 +56,32 @@ class _DashboardState extends State<Dashboard> {
       response = await http.post(getEnrolledClassrooms, headers: _headers);
       res = json.decode(response.body.toString());
       if (res['success'] == true) {
-        print('hello');
         if (res['message'] == 'You aren\'t enrolled in any classroom') {
           print("you're not enrolled");
         } else {
-          print(res['data']);
           for (var i = 0; i < res['data'].length; i++) {
-            print(res['data'][i]);
-            var _body = json.encode({'classroom_uid': res['data'][i]});
+            print('data !!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            print(res['data'][i]['uid']);
+            var _body = json.encode({'classroom_uid': res['data'][i]['uid']});
             var val = await http.post(getClassroomDetail,
                 headers: _headers, body: _body);
             var valRes = json.decode(val.body.toString());
+            print(valRes);
             if (valRes['success'] == true) {
               print(true);
+              print('yuor truly');
               setState(() {
                 print(valRes['data']['name']);
                 _userEnrolledClasrooms.add({
                   'name': valRes['data']['name'],
-                  'uid': valRes['data']['uid']
+                  'uid': valRes['data']['uid'],
                 });
               });
+            } else {
+              print('failed');
             }
           }
+
           print('over');
           print(_userEnrolledClasrooms);
         }

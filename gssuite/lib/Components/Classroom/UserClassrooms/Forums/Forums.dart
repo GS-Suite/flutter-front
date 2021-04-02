@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../../apis/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:developer';
 import 'dart:async';
 
 class Forums extends StatefulWidget {
@@ -17,8 +16,9 @@ class Forums extends StatefulWidget {
 
 class _ForumsState extends State<Forums> {
   TextEditingController _postMessageController;
+  final _controller = ScrollController();
   var _chatEmpty;
-  var _chatList;
+  var _chatList = null;
   var _classroom_owner_uid;
   var _classroom_owner_username;
   Timer timer;
@@ -28,96 +28,123 @@ class _ForumsState extends State<Forums> {
     super.initState();
     _postMessageController = TextEditingController();
     getForumChat();
-    timer =
-        Timer.periodic(Duration(seconds: 10), (Timer t) => {getForumChat()});
+    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {getForumChat()});
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_chatList.length);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
             child: _chatList != null
-                ? !_chatEmpty
-                    ? Container(
-                        color: Colors.white,
-                        child: ListView.builder(
-                          itemCount: _chatList == null ? 0 : _chatList.length,
-                          shrinkWrap: true,
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          itemBuilder: (context, index) {
-                            return Container(
-                                width: 25,
-                                padding: EdgeInsets.only(
-                                    left: 14, right: 14, top: 10),
-                                child: Align(
-                                  alignment: (_chatList[index]['username'] !=
+                ? Container(
+                    color: Colors.white,
+                    child: ListView.builder(
+                      controller: _controller,
+                      itemCount: _chatList.length,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      itemBuilder: (context, index) {
+                        return Container(
+                            width: 25,
+                            padding:
+                                EdgeInsets.only(left: 14, right: 14, top: 10),
+                            child: Align(
+                              alignment: (_chatList[index]['username'] !=
+                                      _classroom_owner_username
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: _chatList[index]['username'] ==
                                           _classroom_owner_username
-                                      ? Alignment.topLeft
-                                      : Alignment.topRight),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: _chatList[index]
-                                                  ['username'] ==
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15))
+                                      : BorderRadius.only(
+                                          bottomRight: Radius.circular(15),
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15)),
+                                  color: (_chatList[index]['username'] !=
+                                          _classroom_owner_username
+                                      ? Colors.grey.shade200
+                                      : Colors.blue[200]),
+                                ),
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: _chatList[index]
+                                              ['username'] ==
+                                          _classroom_owner_username
+                                      ? CrossAxisAlignment.end
+                                      : CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      _chatList[index]['username'] ==
                                               _classroom_owner_username
-                                          ? BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15))
-                                          : BorderRadius.only(
-                                              bottomRight: Radius.circular(15),
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15)),
-                                      color: (_chatList[index]['username'] !=
-                                              _classroom_owner_username
-                                          ? Colors.grey.shade200
-                                          : Colors.blue[200]),
+                                          ? 'You'
+                                          : _chatList[index]['username'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                    padding: EdgeInsets.all(16),
-                                    child: Text((index).toString() +
-                                        ' ' +
-                                        _chatList[index]['message']),
-                                  ),
-                                ));
-                          },
-                        ),
-                      )
-                    : Container(
-                        child: Center(child: Text('No chat yet')),
-                      )
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        _chatList[index]['message'],
+                                        textAlign: _chatList[index]
+                                                    ['username'] ==
+                                                _classroom_owner_username
+                                            ? TextAlign.end
+                                            : TextAlign.start,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                          _chatList[index]['datetimestamp']
+                                              .toString()
+                                              .substring(11, 16),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey[600],
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ));
+                      },
+                    ),
+                  )
                 : Container(
                     color: Colors.white,
                     child: Center(
                       child: SpinKitThreeBounce(color: Colors.teal[400]),
                     )),
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.brown[50],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                    ),
-                    height: 50,
-                    width: 340,
-                    child: Center(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  height: 60,
+                  width: 335,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: TextField(
                         controller: _postMessageController,
                         decoration: new InputDecoration(
@@ -126,15 +153,19 @@ class _ForumsState extends State<Forums> {
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintText: "Post a message"),
+                            hintText: "Post a message",
+                            hintStyle: TextStyle(color: Colors.grey[400])),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                      onTap: () => {print('clicked'), sendNewMessage()},
-                      child: Icon(Icons.send))
-                ],
-              ),
+                ),
+                GestureDetector(
+                    onTap: () => {print('clicked'), sendNewMessage()},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.send),
+                    ))
+              ],
             ),
           ),
         ],
@@ -192,6 +223,7 @@ class _ForumsState extends State<Forums> {
       this.build.call(context); // Don't change this at any cost
 
       _postMessageController.clear();
+      _controller.jumpTo(_controller.position.maxScrollExtent);
       prefs.setString('token', res['token'].toString());
     } else {
       print('Response didn\'t fetch');

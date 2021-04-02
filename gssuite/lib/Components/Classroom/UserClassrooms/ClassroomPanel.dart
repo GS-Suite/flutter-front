@@ -78,6 +78,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                       preferredSize: Size.fromHeight(55),
                       child: Align(
                         child: Container(
+                          color: Colors.white,
                           height: 43,
                           child: TabBar(
                               unselectedLabelColor: Colors.teal[400],
