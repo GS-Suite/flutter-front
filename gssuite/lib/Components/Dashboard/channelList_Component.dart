@@ -133,6 +133,9 @@ class ChannelList extends StatelessWidget {
                                             : PopupMenuItem(
                                                 child: Text("Invite Code"),
                                                 value: "invite_code"),
+                                        PopupMenuItem(
+                                            child: Text("Students"),
+                                            value: "students"),
                                       ],
                                       onSelected: (route) async {
                                         if (route == "invite_code") {
@@ -146,6 +149,16 @@ class ChannelList extends StatelessWidget {
                                         if (route == 'unenroll') {
                                           Fluttertoast.showToast(
                                               msg: "Under Development",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              gravity: ToastGravity.SNACKBAR,
+                                              backgroundColor: Colors.grey[200],
+                                              textColor: Colors.black38,
+                                              fontSize: 16.0);
+                                        }
+                                        if (route == "students") {
+                                          Fluttertoast.showToast(
+                                              msg:
+                                                  "View Students Under Development",
                                               toastLength: Toast.LENGTH_LONG,
                                               gravity: ToastGravity.SNACKBAR,
                                               backgroundColor: Colors.grey[200],
