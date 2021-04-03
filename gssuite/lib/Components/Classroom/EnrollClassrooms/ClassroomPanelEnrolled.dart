@@ -141,7 +141,9 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                 ),
                 body: TabBarView(
                   children: [
-                    Feed(),
+                    Feed(
+                      classId: this.widget.classId,
+                    ),
                     Attendance(
                       classId: this.widget.classId,
                     ),

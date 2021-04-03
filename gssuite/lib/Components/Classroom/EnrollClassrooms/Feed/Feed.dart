@@ -3,6 +3,9 @@ import './Announcement/Announcement.dart';
 import './Lectures/Lecture.dart';
 
 class Feed extends StatefulWidget {
+  final classId;
+
+  const Feed({Key key, this.classId}) : super(key: key);
   @override
   _FeedState createState() => _FeedState();
 }
@@ -38,7 +41,9 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
       body: TabBarView(
         children: <Widget>[
           Lecture(),
-          Announcement(),
+          Announcement(
+            classId: this.widget.classId,
+          ),
         ],
         controller: _tabController,
       ),

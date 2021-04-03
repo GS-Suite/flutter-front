@@ -15,10 +15,11 @@ class Forums extends StatefulWidget {
 }
 
 class _ForumsState extends State<Forums> {
+  var _isChatValid = false;
   TextEditingController _postMessageController;
   final _controller = ScrollController();
   var _chatEmpty;
-  var _chatList = null;
+  var _chatList = [];
   var _classroom_owner_uid;
   var _classroom_owner_username;
   Timer timer;
@@ -28,7 +29,13 @@ class _ForumsState extends State<Forums> {
     super.initState();
     _postMessageController = TextEditingController();
     getForumChat();
-    timer = Timer.periodic(Duration(seconds: 2), (Timer t) => {getForumChat()});
+    timer = Timer.periodic(
+        Duration(seconds: 4),
+        (Timer t) => {
+              print('tiemr'),
+              getForumChat(),
+              _controller.jumpTo(_controller.position.maxScrollExtent)
+            });
   }
 
   @override
@@ -125,11 +132,15 @@ class _ForumsState extends State<Forums> {
                       },
                     ),
                   )
-                : Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: SpinKitThreeBounce(color: Colors.teal[400]),
-                    )),
+                : _chatEmpty
+                    ? Container(
+                        child: Center(child: Text('No posts yet...')),
+                      )
+                    : Container(
+                        color: Colors.white,
+                        child: Center(
+                          child: SpinKitThreeBounce(color: Colors.teal[400]),
+                        )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -147,6 +158,16 @@ class _ForumsState extends State<Forums> {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: TextField(
                         controller: _postMessageController,
+                        onChanged: (value) => {
+                          if (value.length > 0)
+                            {
+                              setState(() => {_isChatValid = true})
+                            }
+                          else
+                            {
+                              setState(() => {_isChatValid = false})
+                            }
+                        },
                         decoration: new InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -160,7 +181,9 @@ class _ForumsState extends State<Forums> {
                   ),
                 ),
                 GestureDetector(
-                    onTap: () => {print('clicked'), sendNewMessage()},
+                    onTap: () => _isChatValid
+                        ? {print('clicked'), sendNewMessage()}
+                        : {print('empty post')},
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(Icons.send),
@@ -192,17 +215,19 @@ class _ForumsState extends State<Forums> {
       });
       prefs.setString('token', res['token'].toString());
     } else {
-      _chatEmpty = true;
+      if (res['message'] == 'There are no messages') {
+        setState(() {
+          _chatEmpty = true;
+        });
+      }
       print('Response didn\'t fetch');
       print(res);
     }
   }
 
   sendNewMessage() async {
-    // print('check this');
-    // print(
-    //     '{success: true, message: Forum messages have been acquired, token: 0b8548b1c1c284483402661585940a55437d3ec7ab3888cbd98f8d5aec2dc801, data: {forum_stuff: {classroom_uid: 737c056eaa3d4179915b97d0fe5a1f37, classroom_owner_uid: 342a159f-d594-445c-ab46-9e7eff0ae977, classroom_owner_username: testing, forum_id: 737c056eaa3d4179915b97d0fe5a1f37-F, thread: main, posts: [{message_id: WKlBr0SIUDACKII, reply_user_id: , reply_username: , reply_msg_id: , user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, username: testing, message: First Message, date: 27-03-2021, time: 10:26:35}, {message_id: vlUNIzBkcCEbFwD, reply_user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, reply_username: testing, reply_msg_id: WKlBr0SIUDACKII, user_id: 342a159f-d594-445c-ab46-9e7eff0ae977, username: testing, message: First Message, date: 27-03-2021, time: 10:27:40}, {message_id: tIUwA');
     print('send message');
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> _headers = {'token': prefs.getString('token')};
     print(this.widget.classId);
@@ -213,6 +238,7 @@ class _ForumsState extends State<Forums> {
       "reply_user_id": "",
       "reply_msg_id": "",
     });
+    _postMessageController.clear();
     var response = await http.post(sendMessage, body: _body, headers: _headers);
 
     var res = json.decode(response.body.toString());
@@ -222,7 +248,6 @@ class _ForumsState extends State<Forums> {
       });
       this.build.call(context); // Don't change this at any cost
 
-      _postMessageController.clear();
       _controller.jumpTo(_controller.position.maxScrollExtent);
       prefs.setString('token', res['token'].toString());
     } else {
