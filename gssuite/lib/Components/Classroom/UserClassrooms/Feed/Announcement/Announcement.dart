@@ -37,70 +37,80 @@ class _AnnouncementState extends State<Announcement> {
               ? _isAnnEmpty
                   ? Center(child: Text('No Announcements yet'))
                   : Container(
+                      color: Colors.white,
                       child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: _announcementList.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: 150,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    _announcementList[index]['creator'],
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Container(
-                                    width: 370,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Expanded(
-                                            child: Text(_announcementList[index]
-                                                ['announcement']),
-                                          ),
-                                          IconButton(
-                                              icon: Icon(
-                                                Icons.copy,
-                                                size: 20,
-                                                color: Colors.lightBlue,
-                                              ),
-                                              onPressed: () => {
-                                                    Clipboard.setData(ClipboardData(
-                                                        text: _announcementList[
-                                                                index]
-                                                            ['announcement']))
-                                                  })
-                                        ],
+                        scrollDirection: Axis.vertical,
+                        itemCount: _announcementList.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 180,
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _announcementList[index]['creator'],
+                                        style: TextStyle(fontSize: 20),
                                       ),
                                     ),
-                                    decoration: BoxDecoration(
-                                        color: Colors.blueGrey[50],
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0))),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(_announcementList[index]
-                                            ['datetime']
-                                        .toString()
-                                        .substring(11, 16)),
-                                  )
-                                ],
+                                    Container(
+                                      width: 370,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  _announcementList[index]
+                                                      ['announcement']),
+                                            ),
+                                            IconButton(
+                                                icon: Icon(
+                                                  Icons.copy,
+                                                  size: 20,
+                                                  color: Colors.lightBlue,
+                                                ),
+                                                onPressed: () => {
+                                                      Clipboard.setData(ClipboardData(
+                                                          text: _announcementList[
+                                                                  index]
+                                                              ['announcement']))
+                                                    })
+                                          ],
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: Colors.blueGrey[50],
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0))),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _announcementList[index]['datetime']
+                                            .toString()
+                                            .substring(11, 16),
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            color: Colors.grey[500],
+                                            fontSize: 15),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ))
+                          );
+                        },
+                      ))
               : Center(
                   child: SpinKitThreeBounce(
                     color: Colors.teal[400],
