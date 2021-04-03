@@ -42,3 +42,6 @@ final createForum = 'https://gs-suite-dev.herokuapp.com/create_forum/';
 final forumChats = 'https://gs-suite-dev.herokuapp.com/get_forum_chat/';
 
 final sendMessage = 'https://gs-suite-dev.herokuapp.com/send_message/';
+
+final createAnnouncementPane =
+    'https://gs-suite-dev.herokuapp.com/create_announcement_pane/';

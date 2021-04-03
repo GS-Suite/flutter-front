@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './Announcement/Announcement.dart';
+import './Lectures/Lecture.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -35,12 +37,8 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
       ),
       body: TabBarView(
         children: <Widget>[
-          Center(
-            child: Text("Home"),
-          ),
-          Center(
-            child: Text("Email"),
-          ),
+          Lecture(),
+          Announcement(),
         ],
         controller: _tabController,
       ),
