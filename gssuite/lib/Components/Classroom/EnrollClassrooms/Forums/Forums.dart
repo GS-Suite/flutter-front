@@ -15,8 +15,8 @@ class Forums extends StatefulWidget {
 }
 
 class _ForumsState extends State<Forums> {
+  final ScrollController _scrollController = ScrollController();
   TextEditingController _postMessageController;
-  final _controller = ScrollController();
   var _chatEmpty;
   var _chatList = null;
   var _classroom_owner_uid;
@@ -50,7 +50,7 @@ class _ForumsState extends State<Forums> {
                 ? Container(
                     color: Colors.white,
                     child: ListView.builder(
-                      controller: _controller,
+                      controller: _scrollController,
                       itemCount: _chatList.length,
                       shrinkWrap: true,
                       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -195,6 +195,14 @@ class _ForumsState extends State<Forums> {
         _chatList = forum_dets['posts'];
       });
       prefs.setString('token', res['token'].toString());
+      _chatList != null
+          ? _scrollController.hasClients
+              ? _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.fastOutSlowIn)
+              : print('controller not attached')
+          : print('still empty');
     } else {
       _chatEmpty = true;
       print('Response didn\'t fetch');
@@ -224,7 +232,6 @@ class _ForumsState extends State<Forums> {
       this.build.call(context); // Don't change this at any cost
 
       _postMessageController.clear();
-      _controller.jumpTo(_controller.position.maxScrollExtent);
       prefs.setString('token', res['token'].toString());
     } else {
       print('Response didn\'t fetch');
