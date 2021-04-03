@@ -42,7 +42,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
             )
           : DefaultTabController(
               length: 3,
-              initialIndex: 1,
+              initialIndex: 0,
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(
@@ -146,7 +146,9 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                   padding: const EdgeInsets.all(8.0),
                   child: TabBarView(
                     children: [
-                      Feed(),
+                      Feed(
+                        classId: this.widget.classId,
+                      ),
                       Attendance(
                         classId: this.widget.classId,
                       ),

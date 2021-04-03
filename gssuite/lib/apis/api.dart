@@ -45,3 +45,6 @@ final sendMessage = 'https://gs-suite-dev.herokuapp.com/send_message/';
 
 final createAnnouncementPane =
     'https://gs-suite-dev.herokuapp.com/create_announcement_pane/';
+
+final fetchAnnouncements =
+    'https://gs-suite-dev.herokuapp.com/get_all_announcements/';
