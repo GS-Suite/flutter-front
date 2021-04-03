@@ -145,7 +145,9 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                     Attendance(
                       classId: this.widget.classId,
                     ),
-                    Forums(),
+                    Forums(
+                      classId: this.widget.classId,
+                    ),
                   ],
                 ),
                 drawer: AppDrawer(),
