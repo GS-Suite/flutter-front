@@ -62,6 +62,7 @@ class _DashboardState extends State<Dashboard> {
           for (var i = 0; i < res['data'].length; i++) {
             print('data !!!!!!!!!!!!!!!!!!!!!!!!!!!!');
             print(res['data'][i]['uid']);
+            var temp = {'teacher': res['data'][i]['teacher']};
             var _body = json.encode({'classroom_uid': res['data'][i]['uid']});
             var val = await http.post(getClassroomDetail,
                 headers: _headers, body: _body);
@@ -72,10 +73,14 @@ class _DashboardState extends State<Dashboard> {
               print('yuor truly');
               setState(() {
                 print(valRes['data']['name']);
-                _userEnrolledClasrooms.add({
-                  'name': valRes['data']['name'],
-                  'uid': valRes['data']['uid'],
-                });
+                temp['name'] = valRes['data']['name'];
+                temp['uid'] = valRes['data']['uid'];
+                // _userEnrolledClasrooms.add({
+                //   'name': valRes['data']['name'],
+                //   'uid': valRes['data']['uid'],
+                //   'teacher': valRes['data']['teacher']
+                // });
+                _userEnrolledClasrooms.add(temp);
               });
             } else {
               print('failed');

@@ -114,11 +114,10 @@ class ChannelList extends StatelessWidget {
                                         Text(
                                           enrolled
                                               ? this
-                                                  .classrooms[index]['name']
+                                                  .classrooms[index]['teacher']
+                                                      ['username']
                                                   .toString()
-                                              : this
-                                                  .classrooms[index]['name']
-                                                  .toString(),
+                                              : 'You',
                                           style: TextStyle(
                                               fontFamily: 'Montseratt',
                                               fontSize: 16.0),
