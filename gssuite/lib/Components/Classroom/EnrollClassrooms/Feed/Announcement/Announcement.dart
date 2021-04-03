@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:gssuite/apis/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
 class Announcement extends StatefulWidget {
   final classId;
@@ -18,6 +19,7 @@ class Announcement extends StatefulWidget {
 }
 
 class _AnnouncementState extends State<Announcement> {
+  Timer timer;
   var _announcementList;
   var _isAnnEmpty;
   var _isLoading = true;
@@ -26,6 +28,8 @@ class _AnnouncementState extends State<Announcement> {
     // TODO: implement initState
     super.initState();
     getAnnouncements();
+    timer =
+        Timer.periodic(Duration(seconds: 2), (Timer t) => {getAnnouncements()});
   }
 
   @override
