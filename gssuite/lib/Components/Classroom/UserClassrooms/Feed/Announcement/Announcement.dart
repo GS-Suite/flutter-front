@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:gssuite/Components/Classroom/UserClassrooms/Feed/Announcement/AddAnnouncement.dart';
 import 'package:gssuite/apis/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -119,7 +120,12 @@ class _AnnouncementState extends State<Announcement> {
                   )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => AddAnnouncement(
+                    classId: this.widget.classId,
+                  )))
+        },
         child: Icon(Icons.add),
       ),
     );
