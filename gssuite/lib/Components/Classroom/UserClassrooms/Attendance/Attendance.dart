@@ -60,23 +60,46 @@ class _AttendanceState extends State<Attendance> {
                             style: TextStyle(
                                 fontSize: 18,
                                 fontFamily: 'Montseratt',
-                                color: Colors.red[300])))
+                                color: Colors.red[300]))),
                   ],
                 ),
               )
             : Center(
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    onPressed: () => {
-                          generateAttendanceToken(),
-                        },
-                    child: Text('Take Attendance',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Montseratt',
-                            color: Colors.teal[400])))));
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            onPressed: () => {
+                                  generateAttendanceToken(),
+                                },
+                            child: Text('Take Attendance',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Montseratt',
+                                    color: Colors.teal[400])))),
+                    Center(
+                        child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            onPressed: () => {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ViewAttendance(
+                                            classId: this.widget.classId,
+                                          ))),
+                                },
+                            child: Text('View Attendance',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Montseratt',
+                                    color: Colors.teal[400])))),
+                  ],
+                ),
+              ));
   }
 
   _disabledButton() {
