@@ -135,7 +135,7 @@ class ChannelList extends StatelessWidget {
                                                 child: Text("Invite Code"),
                                                 value: "invite_code"),
                                         PopupMenuItem(
-                                            child: Text("Students"),
+                                            child: Text("View Students"),
                                             value: "students"),
                                       ],
                                       onSelected: (route) async {

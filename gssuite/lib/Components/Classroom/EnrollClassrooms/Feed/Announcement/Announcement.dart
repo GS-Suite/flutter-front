@@ -28,8 +28,8 @@ class _AnnouncementState extends State<Announcement> {
     // TODO: implement initState
     super.initState();
     getAnnouncements();
-    timer =
-        Timer.periodic(Duration(seconds: 2), (Timer t) => {getAnnouncements()});
+    // timer =
+    //     Timer.periodic(Duration(seconds: 2), (Timer t) => {getAnnouncements()});
   }
 
   @override

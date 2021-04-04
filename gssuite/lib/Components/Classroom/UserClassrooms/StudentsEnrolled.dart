@@ -61,68 +61,74 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
       body: Container(
         child: !_isLoading
             ? _studentList != null
-                ? Container(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: _studentList.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 3),
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10.0),
-                                width: 250,
-                                child: ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: 0, vertical: -4),
-                                  contentPadding: EdgeInsets.all(0),
-                                  title: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 8.0, left: 0, bottom: 8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Icon(
-                                                    Icons.account_circle_sharp,
-                                                    size: 35,
-                                                    color: Colors.grey[600],
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: _studentList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 3),
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  width: 250,
+                                  child: ListTile(
+                                    visualDensity: VisualDensity(
+                                        horizontal: 0, vertical: -4),
+                                    contentPadding: EdgeInsets.all(0),
+                                    title: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 0, bottom: 8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .account_circle_sharp,
+                                                      size: 35,
+                                                      color: Colors.grey[600],
+                                                    ),
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    _studentList[index]
-                                                        ['username'],
-                                                    style: TextStyle(
-                                                        fontSize: 25,
-                                                        color:
-                                                            Colors.grey[600]),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      _studentList[index]
+                                                          ['username'],
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          color:
+                                                              Colors.grey[600]),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Colors.black26)))),
-                          );
-                        }),
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Colors.black26)))),
+                            );
+                          }),
+                    ),
                   )
                 : Container(
                     child: Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gssuite/Components/Classroom/UserClassrooms/ClassroomPanel.dart';
 import '../../../../Drawer Component/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -184,29 +185,18 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
         await http.post(addAnnouncement, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());
     print(res);
-    // if (res['success'] == true) {
-    //   // var classRoomData = Classroom.fromJson(res);
-    //   // if (classRoomData.data.uid != null) {
-    //   //   // For Creating Forum
-    //   //   print('creating forum');
-    //   //   var _forBody = json.encode({'classroom_uid': classRoomData.data.uid});
-    //   //   var _forResponse =
-    //   //       await http.post(createForum, body: _forBody, headers: _headers);
-    //   //   var _forRes = json.decode(_forResponse.body.toString());
-    //   //   if (_forRes['success'] == true) {
-    //   //     print(_forRes['token']);
-    //   //     Navigator.of(context).push(MaterialPageRoute(
-    //   //         builder: (context) => ClassroomPanel(
-    //   //               classId: classRoomData.data.uid,
-    //   //               forumId: _forRes['token'],
-    //   //             )));
-    //     } else {
-    //       print('error creating post');
-    //       _showBasicsFlash(
-    //         message: 'Post creation error',
-    //         flashStyle: FlashStyle.grounded,
-    //       );
-    //     }
+    if (res['success'] == true) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ClassroomPanel(
+                classId: this.widget.classId,
+              )));
+    } else {
+      print('error creating post');
+      _showBasicsFlash(
+        message: 'Post creation error',
+        flashStyle: FlashStyle.grounded,
+      );
+    }
     // For Creating Announcement Pane
 
     //   }
