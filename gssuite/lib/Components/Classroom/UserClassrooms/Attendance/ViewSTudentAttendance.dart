@@ -4,8 +4,10 @@ import '../../../Drawer Component/drawer.dart';
 class ViewStudentsAttendance extends StatefulWidget {
   final studentList;
   final dateTime;
+  final anyoneMarked;
 
-  const ViewStudentsAttendance({Key key, this.studentList, this.dateTime})
+  const ViewStudentsAttendance(
+      {Key key, this.studentList, this.dateTime, this.anyoneMarked})
       : super(key: key);
   @override
   _ViewStudentsAttendanceState createState() => _ViewStudentsAttendanceState();
@@ -36,7 +38,7 @@ class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
                       fontSize: 33),
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'Attendance}', // To be changed
+                        text: 'Attendance', // To be changed
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black)),
                   ],
@@ -46,8 +48,10 @@ class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
           ),
         ),
         drawer: AppDrawer(),
-        body: Container(
-          child: Text('stulist'),
-        ));
+        body: this.widget.anyoneMarked
+            ? Container(
+                child: Center(child: Text('stulist')),
+              )
+            : Container(child: Center(child: Text('No one attended'))));
   }
 }

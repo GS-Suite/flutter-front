@@ -127,6 +127,23 @@ class _AttendanceState extends State<Attendance> {
                               fontFamily: 'Montseratt',
                               color: Colors.teal[400]))),
                 ),
+                Center(
+                  child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      onPressed: () => {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ViewAttendance(
+                                      classId: this.widget.classId,
+                                    )))
+                          },
+                      child: Text('View Attendance',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Montseratt',
+                              color: Colors.teal[400]))),
+                )
               ],
             ),
     );

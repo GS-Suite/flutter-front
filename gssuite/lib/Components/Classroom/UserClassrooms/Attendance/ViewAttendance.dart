@@ -62,6 +62,7 @@ class _ViewAttendanceState extends State<ViewAttendance> {
       ),
       drawer: AppDrawer(),
       body: Container(
+        color: Colors.white,
         child: _attendanceList != null
             ? Container(
                 child: ListView.builder(
@@ -79,38 +80,52 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                               contentPadding: EdgeInsets.all(0),
                               title: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 8.0, left: 0, bottom: 8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            _attendanceList[index]
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
+                                        child: Icon(
+                                          Icons.my_library_books_sharp,
+                                          size: 30,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8.0, left: 15, bottom: 8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                _attendanceList[index]
+                                                        .toString()
+                                                        .substring(11, 19) +
+                                                    ' Hrs',
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                _attendanceList[index]
                                                     .toString()
-                                                    .substring(11, 19) +
-                                                ' Hrs',
-                                            style: TextStyle(fontSize: 18),
-                                          ),
+                                                    .substring(0, 10),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.grey[600]),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            _attendanceList[index]
-                                                .toString()
-                                                .substring(0, 10),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[600]),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -122,6 +137,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       ViewStudentsAttendance(
+                                                        anyoneMarked: _val_list[
+                                                                        index][
+                                                                    'attended_count'] >
+                                                                0
+                                                            ? true
+                                                            : false,
                                                         studentList:
                                                             _val_list[index]
                                                                 ['students'],
