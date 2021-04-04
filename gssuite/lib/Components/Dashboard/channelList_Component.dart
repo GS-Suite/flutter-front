@@ -8,6 +8,7 @@ import '../../apis/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
+import '../Classroom/UserClassrooms/StudentsEnrolled.dart';
 
 class ChannelList extends StatelessWidget {
   final List classrooms;
@@ -156,14 +157,14 @@ class ChannelList extends StatelessWidget {
                                               fontSize: 16.0);
                                         }
                                         if (route == "students") {
-                                          Fluttertoast.showToast(
-                                              msg:
-                                                  "View Students Under Development",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.SNACKBAR,
-                                              backgroundColor: Colors.grey[200],
-                                              textColor: Colors.black38,
-                                              fontSize: 16.0);
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StudentEnrolled(
+                                                        classId:
+                                                            this.classrooms[
+                                                                index]['uid'],
+                                                      )));
                                         }
                                       },
                                     ),

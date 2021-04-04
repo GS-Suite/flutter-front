@@ -50,3 +50,6 @@ final fetchAnnouncements =
     'https://gs-suite-dev.herokuapp.com/get_all_announcements/';
 
 final addAnnouncement = 'https://gs-suite-dev.herokuapp.com/post_announcement/';
+
+final getEnrolledStudents =
+    'https://gs-suite-dev.herokuapp.com/get_classroom_enrolled/';
