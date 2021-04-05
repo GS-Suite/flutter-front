@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:any_link_preview/web_analyzer.dart';
 import 'dart:async';
+import 'AddLecture/AddLecture.dart';
 
 class Lecture extends StatefulWidget {
   final classId;
@@ -42,7 +43,6 @@ class _LectureState extends State<Lecture> {
                     : Container(
                         color: Colors.white,
                         child: ListView.builder(
-                          reverse: true,
                           scrollDirection: Axis.vertical,
                           itemCount: _fetchList.length,
                           itemBuilder: (context, index) {
@@ -134,10 +134,11 @@ class _LectureState extends State<Lecture> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //     builder: (context) => AddAnnouncement(
-          //           classId: this.widget.classId,
-          //         )))
+          print('fab'),
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => AddLecture(
+                    classId: this.widget.classId,
+                  )))
         },
         child: Icon(Icons.add),
       ),
