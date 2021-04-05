@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Playlist/Playlist.dart';
 import './Announcement/Announcement.dart';
 import './Lectures/Lecture.dart';
 
@@ -16,7 +17,7 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
   }
 
   @override
@@ -32,15 +33,26 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
             tabs: <Widget>[
               Tab(
                 icon: Icon(Icons.list),
+                child: Text('Lectures'),
+              ),
+              Tab(
+                icon: Icon(Icons.playlist_play_outlined),
+                child: Text('Playlists'),
               ),
               Tab(
                 icon: Icon(Icons.announcement_outlined),
+                child: Text('Alerts'),
               ),
             ]),
       ),
       body: TabBarView(
         children: <Widget>[
-          Lecture(),
+          Lecture(
+            classId: this.widget.classId,
+          ),
+          PlayList(
+            classId: this.widget.classId,
+          ),
           Announcement(
             classId: this.widget.classId,
           ),

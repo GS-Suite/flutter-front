@@ -7,6 +7,7 @@ import '../../../../../apis/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:any_link_preview/web_analyzer.dart';
+import 'dart:async';
 
 class Lecture extends StatefulWidget {
   final classId;
@@ -21,6 +22,8 @@ class _LectureState extends State<Lecture> {
   var _lectureList;
   var _isLectureEmpty;
   var _isLoading = true;
+  Timer timer;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -39,22 +42,32 @@ class _LectureState extends State<Lecture> {
                     : Container(
                         color: Colors.white,
                         child: ListView.builder(
+                          reverse: true,
                           scrollDirection: Axis.vertical,
                           itemCount: _fetchList.length,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                color: Colors.lightGreen[100],
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                            return Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Colors.grey[200]),
+                                      color: Colors.blueGrey[50],
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
                                   child: Row(
                                     children: <Widget>[
-                                      Image.network(
-                                        _fetchList[index]['image'],
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.blueGrey[50],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(11.0))),
+                                        child: Image.network(
+                                          _fetchList[index]['image'],
+                                          width: 120,
+                                          height: 120,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                       Flexible(
                                           child: Padding(
@@ -64,7 +77,7 @@ class _LectureState extends State<Lecture> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              _fetchList[index]['title'],
+                                              _fetchList[index]['lecture_name'],
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black),
@@ -73,7 +86,8 @@ class _LectureState extends State<Lecture> {
                                               height: 4,
                                             ),
                                             Text(
-                                              _fetchList[index]['description'],
+                                              _fetchList[index]
+                                                  ['lecture_description'],
                                             ),
                                             SizedBox(
                                               height: 4,
@@ -88,7 +102,11 @@ class _LectureState extends State<Lecture> {
                                                 SizedBox(
                                                   width: 4,
                                                 ),
-                                                Text(_fetchList[index]['url'],
+                                                Text(
+                                                    _fetchList[index]['url']
+                                                            .toString()
+                                                            .substring(0, 20) +
+                                                        '...',
                                                     style: TextStyle(
                                                         color: Colors.grey,
                                                         fontSize: 12))
@@ -100,10 +118,14 @@ class _LectureState extends State<Lecture> {
                                     ],
                                   ),
                                 ),
-                              ),
+                                SizedBox(
+                                  height: 10.0,
+                                )
+                              ],
                             );
                           },
-                        ))
+                        ),
+                      )
                 : Center(
                     child: SpinKitThreeBounce(
                       color: Colors.teal[400],
@@ -133,11 +155,9 @@ class _LectureState extends State<Lecture> {
       'classroom_uid': this.widget.classId.toString(),
     });
     print('body');
-    print(_body);
     var response =
         await http.post(getClassroomLectures, body: _body, headers: _headers);
     print('Lectures');
-    // print(response.body.toString());
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       setState(() {
@@ -146,7 +166,11 @@ class _LectureState extends State<Lecture> {
         _lectureList = res['data'];
       });
       _lectureList.forEach((e) async {
-        var temp = {'url': e['lecture_link']};
+        var temp = {
+          'url': e['lecture_link'],
+          'lecture_description': e['lecture_description'],
+          'lecture_name': e['lecture_name']
+        };
         await FetchPreview().fetch(e['lecture_link']).then((res) {
           temp['title'] = res['title'];
           temp['image'] = res['image'];
@@ -157,7 +181,7 @@ class _LectureState extends State<Lecture> {
           _fetchList.add(temp);
         });
 
-        print(_fetchList);
+        // print(_fetchList);
       });
       prefs.setString('token', res['token'].toString());
     } else {

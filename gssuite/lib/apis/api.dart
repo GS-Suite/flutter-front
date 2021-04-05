@@ -55,4 +55,4 @@ final getEnrolledStudents =
     'https://gs-suite-dev.herokuapp.com/get_classroom_enrolled/';
 
 final getClassroomLectures =
-    'https://gs-suite-dev.herokuapp.com/get_classroom_lectures/';
+    'https://gs-suite-dev.herokuapp.com/get_classroom_lecture_videos/';
