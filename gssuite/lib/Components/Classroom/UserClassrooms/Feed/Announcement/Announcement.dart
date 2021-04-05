@@ -22,6 +22,8 @@ class _AnnouncementState extends State<Announcement> {
   var _announcementList;
   var _isAnnEmpty;
   var _isLoading = true;
+
+  var _controller = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
@@ -40,6 +42,7 @@ class _AnnouncementState extends State<Announcement> {
                     : Container(
                         color: Colors.white,
                         child: ListView.builder(
+                          controller: _controller,
                           scrollDirection: Axis.vertical,
                           itemCount: _announcementList.length,
                           itemBuilder: (context, index) {

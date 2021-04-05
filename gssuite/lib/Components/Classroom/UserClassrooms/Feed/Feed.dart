@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './Announcement/Announcement.dart';
 import './Lectures/Lecture.dart';
+import './Playlist/Playlist.dart';
 
 class Feed extends StatefulWidget {
   final classId;
@@ -17,33 +18,42 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Material(
+      bottomNavigationBar: Container(
         color: Colors.white,
-        child: TabBar(
-            controller: _tabController,
-            indicatorColor: Colors.teal[400],
-            labelColor: Colors.teal[400],
-            unselectedLabelColor: Colors.black54,
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.list),
-                child: Text('Lectures'),
-              ),
-              Tab(
-                icon: Icon(Icons.announcement_outlined),
-                child: Text('Announcements'),
-              ),
-            ]),
+        child: Container(
+          child: TabBar(
+              controller: _tabController,
+              indicatorColor: Colors.teal[400],
+              labelColor: Colors.teal[400],
+              unselectedLabelColor: Colors.black54,
+              tabs: <Widget>[
+                Tab(
+                  icon: Icon(Icons.list),
+                  child: Text('Lectures'),
+                ),
+                Tab(
+                  icon: Icon(Icons.playlist_play_outlined),
+                  child: Text('Playlists'),
+                ),
+                Tab(
+                  icon: Icon(Icons.announcement_outlined),
+                  child: Text('Alerts'),
+                ),
+              ]),
+        ),
       ),
       body: TabBarView(
         children: <Widget>[
-          Lecture(),
+          Lecture(
+            classId: this.widget.classId,
+          ),
+          PlayList(),
           Announcement(
             classId: this.widget.classId,
           ),

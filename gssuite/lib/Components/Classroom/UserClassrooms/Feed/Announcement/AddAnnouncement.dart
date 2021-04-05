@@ -192,10 +192,14 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
               )));
     } else {
       print('error creating post');
-      _showBasicsFlash(
-        message: 'Post creation error',
-        flashStyle: FlashStyle.grounded,
-      );
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ClassroomPanel(
+                classId: this.widget.classId,
+              )));
+      // _showBasicsFlash(
+      //   message: 'Post creation error',
+      //   flashStyle: FlashStyle.grounded,
+      // );
     }
     // For Creating Announcement Pane
 
