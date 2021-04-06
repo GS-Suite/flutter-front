@@ -5,8 +5,8 @@ import './Playlist/Playlist.dart';
 
 class Feed extends StatefulWidget {
   final classId;
-
-  const Feed({Key key, this.classId}) : super(key: key);
+  final firstIndex;
+  const Feed({Key key, this.classId, this.firstIndex}) : super(key: key);
   @override
   _FeedState createState() => _FeedState();
 }

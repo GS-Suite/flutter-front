@@ -10,10 +10,12 @@ import 'Forums/Forums.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ClassroomPanel extends StatefulWidget {
+  final firstIndex, secondIndex;
   String _className;
   final String classId;
   final String forumId;
-  ClassroomPanel({this.classId, this.forumId});
+  ClassroomPanel(
+      {this.classId, this.forumId, this.firstIndex, this.secondIndex});
 
   @override
   _ClassroomPanelState createState() => _ClassroomPanelState();
@@ -42,7 +44,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
             )
           : DefaultTabController(
               length: 3,
-              initialIndex: 0,
+              initialIndex: this.widget.firstIndex ?? 0,
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(
@@ -147,6 +149,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                   child: TabBarView(
                     children: [
                       Feed(
+                        firstIndex: this.widget.secondIndex,
                         classId: this.widget.classId,
                       ),
                       Attendance(

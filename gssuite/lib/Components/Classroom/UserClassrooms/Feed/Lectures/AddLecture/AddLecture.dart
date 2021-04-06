@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gssuite/apis/api.dart';
 import '../../../../../Drawer Component/drawer.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../ClassroomPanel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddLecture extends StatefulWidget {
   final classId;
@@ -39,6 +45,43 @@ class _AddLectureState extends State<AddLecture> {
     lectureLinkController.dispose();
     playlistController.dispose();
     lectureDescController.dispose();
+  }
+
+  createLecture() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+
+    //For create post
+    var _body = json.encode({
+      "lecture_name": lectureNameController.text,
+      "lecture_link": lectureLinkController.text,
+      "playlists": [playlistController.text],
+      "lecture_description": lectureDescController.text,
+      "classroom_uid": this.widget.classId
+    });
+    var response = await http.post(addLecture, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    print(res);
+    if (res['success'] == true) {
+      print(res);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ClassroomPanel(
+                classId: this.widget.classId,
+                firstIndex: 0,
+                secondIndex: 0,
+              )));
+    } else {
+      print('error creating post');
+      Fluttertoast.showToast(
+          msg: 'Unable to create Lecture at the moment',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -88,6 +131,8 @@ class _AddLectureState extends State<AddLecture> {
                           if (value.length > 3) {
                             if (value.length < 5) {
                               isLectureNameValid = false;
+                            } else {
+                              isLectureNameValid = true;
                             }
                             setState(() {});
                           }
@@ -113,6 +158,8 @@ class _AddLectureState extends State<AddLecture> {
                         if (value.length > 5) {
                           if (!value.startsWith('http')) {
                             isLectureLinkValid = false;
+                          } else {
+                            isLectureLinkValid = true;
                           }
                           setState(() {});
                         }
@@ -139,12 +186,14 @@ class _AddLectureState extends State<AddLecture> {
                         if (value.length > 5) {
                           if (value.contains('!@#^&*')) {
                             isPlaylistValid = false;
+                          } else {
+                            isPlaylistValid = true;
                           }
                           setState(() {});
                         }
                       },
                       decoration: InputDecoration(
-                          hintText: 'Last name',
+                          hintText: 'Playlist name',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
@@ -169,36 +218,37 @@ class _AddLectureState extends State<AddLecture> {
                         }
                       },
                       decoration: InputDecoration(
-                          hintText: 'Email',
+                          hintText: 'About',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
                               color: Colors.grey),
-                          errorText:
-                              isLectureDescValid ? null : "Invalid email"),
+                          errorText: isLectureDescValid
+                              ? null
+                              : "Invalid description"),
                       controller: lectureDescController,
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      child: Column(children: [
-                        Container(
-                          height: 40,
-                          child: Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.teal[400],
-                            elevation: 7.0,
-                            child: GestureDetector(
-                              onTap: () {
-                                print('tapped');
-                                // register();
-                              },
+                  GestureDetector(
+                    onTap: () {
+                      print('tapped');
+                      createLecture();
+                    },
+                    child: Container(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Column(children: [
+                          Container(
+                            height: 40,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.teal[400],
+                              elevation: 7.0,
                               child: Center(
                                 child: Text(
-                                  'REGISTER',
+                                  'CREATE',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -207,11 +257,11 @@ class _AddLectureState extends State<AddLecture> {
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ]))
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ])),
+                  )
                 ])));
   }
 }
