@@ -58,3 +58,5 @@ final getClassroomLectures =
     'https://gs-suite-dev.herokuapp.com/get_classroom_lecture_videos/';
 
 final addLecture = 'https://gs-suite-dev.herokuapp.com/add_lecture';
+
+final profile = 'https://gs-suite-dev.herokuapp.com/get_any_user_profile/';

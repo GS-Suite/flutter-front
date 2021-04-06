@@ -48,7 +48,10 @@ class _DashboardState extends State<Dashboard> {
         });
         prefs.setString('token', res['token'].toString());
       } else {
-        print('Response didn\'t fetch');
+        if (res['message'] == 'Invalid token or non-existent user') {
+          Navigator.of(context).pushNamed('/login');
+          prefs.setString('token', '');
+        }
         print(res);
       }
 
@@ -60,7 +63,6 @@ class _DashboardState extends State<Dashboard> {
           print("you're not enrolled");
         } else {
           for (var i = 0; i < res['data'].length; i++) {
-            print('data !!!!!!!!!!!!!!!!!!!!!!!!!!!!');
             print(res['data'][i]['uid']);
             var temp = {'teacher': res['data'][i]['teacher']};
             var _body = json.encode({'classroom_uid': res['data'][i]['uid']});
@@ -91,6 +93,10 @@ class _DashboardState extends State<Dashboard> {
           print(_userEnrolledClasrooms);
         }
       } else {
+        if (res['message'] == 'Invalid token or non-existent user') {
+          prefs.setString('token', null);
+          Navigator.of(context).pushNamed('/login');
+        }
         print('Response didn\'t fetch');
         print(res);
       }

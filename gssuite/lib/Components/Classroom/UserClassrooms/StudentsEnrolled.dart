@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gssuite/Components/Profile/profile.dart';
 import 'package:gssuite/apis/api.dart';
 import '../../Drawer Component/drawer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -73,53 +74,66 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
                               child: Container(
                                   margin: EdgeInsets.only(right: 10.0),
                                   width: 250,
-                                  child: ListTile(
-                                    visualDensity: VisualDensity(
-                                        horizontal: 0, vertical: -4),
-                                    contentPadding: EdgeInsets.all(0),
-                                    title: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.0, left: 0, bottom: 8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Icon(
-                                                      Icons
-                                                          .account_circle_sharp,
-                                                      size: 35,
-                                                      color: Colors.grey[600],
+                                  child: GestureDetector(
+                                    onTap: () => {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                              builder: (context) => Profile(
+                                                    userId: _studentList[index]
+                                                        ['uid'],
+                                                    username:
+                                                        _studentList[index]
+                                                            ['username'],
+                                                  )))
+                                    },
+                                    child: ListTile(
+                                      visualDensity: VisualDensity(
+                                          horizontal: 0, vertical: -4),
+                                      contentPadding: EdgeInsets.all(0),
+                                      title: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.0, left: 0, bottom: 8.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Icon(
+                                                        Icons
+                                                            .account_circle_sharp,
+                                                        size: 35,
+                                                        color: Colors.grey[600],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      _studentList[index]
-                                                          ['username'],
-                                                      style: TextStyle(
-                                                          fontSize: 25,
-                                                          color:
-                                                              Colors.grey[600]),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        _studentList[index]
+                                                            ['username'],
+                                                        style: TextStyle(
+                                                            fontSize: 25,
+                                                            color: Colors
+                                                                .grey[600]),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   decoration: BoxDecoration(

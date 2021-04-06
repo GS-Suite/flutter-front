@@ -53,7 +53,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
 
     if (res['success'] == true) {
       var userData = User.fromJson(res);
-
       prefs.setString('token', userData.token);
       print(prefs.getString('token'));
     }
@@ -292,18 +291,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     if (user == null) {
       print('Sign In Failed');
     } else {
-      print(_baseLog);
-      print(user.displayName.substring(0, user.displayName.indexOf(' ')));
-      print(googleAuth.accessToken);
-      print({
-        'id': user.id,
-        'image': user.photoUrl,
-        'username': user.displayName.contains(' ')
-            ? user.displayName.substring(0, user.displayName.indexOf(' '))
-            : user.displayName,
-        'password':
-            generateCreds(user.hashCode.toString(), user.email.toString())
-      });
       var _body = json.encode({
         'username': user.displayName.contains(' ')
             ? user.displayName.substring(0, user.displayName.indexOf(' '))
@@ -317,9 +304,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (res['success'] == true) {
         var userData = User.fromJson(res);
-
         prefs.setString('token', userData.token);
-        print('Token' + prefs.getString('token'));
       }
       if (prefs.getString('token') != null) {
         print(prefs.getString('token'));
