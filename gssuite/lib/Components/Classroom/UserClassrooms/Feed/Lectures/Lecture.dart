@@ -9,6 +9,7 @@ import 'package:any_link_preview/any_link_preview.dart';
 import 'package:any_link_preview/web_analyzer.dart';
 import 'dart:async';
 import 'AddLecture/AddLecture.dart';
+import 'VideoPlayer/Video.dart';
 
 class Lecture extends StatefulWidget {
   final classId;
@@ -48,74 +49,86 @@ class _LectureState extends State<Lecture> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.grey[200]),
-                                      color: Colors.blueGrey[50],
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10.0))),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.blueGrey[50],
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(11.0))),
-                                        child: Image.network(
-                                          _fetchList[index]['image'],
-                                          width: 120,
-                                          height: 120,
-                                          fit: BoxFit.contain,
+                                GestureDetector(
+                                  onTap: () => {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => Video(
+                                                  url: _fetchList[index]['url'],
+                                                )))
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: Colors.grey[200]),
+                                        color: Colors.blueGrey[50],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0))),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.blueGrey[50],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(11.0))),
+                                          child: Image.network(
+                                            _fetchList[index]['image'],
+                                            width: 120,
+                                            height: 120,
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
-                                      ),
-                                      Flexible(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              _fetchList[index]['lecture_name'],
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black),
-                                            ),
-                                            SizedBox(
-                                              height: 4,
-                                            ),
-                                            Text(
-                                              _fetchList[index]
-                                                  ['lecture_description'],
-                                            ),
-                                            SizedBox(
-                                              height: 4,
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                Image.network(
-                                                  _fetchList[index]['favIcon'],
-                                                  height: 12,
-                                                  width: 12,
-                                                ),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Text(
-                                                    _fetchList[index]['url']
-                                                            .toString()
-                                                            .substring(0, 20) +
-                                                        '...',
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 12))
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                                    ],
+                                        Flexible(
+                                            child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text(
+                                                _fetchList[index]
+                                                    ['lecture_name'],
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black),
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                _fetchList[index]
+                                                    ['lecture_description'],
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Row(
+                                                children: <Widget>[
+                                                  Image.network(
+                                                    _fetchList[index]
+                                                        ['favIcon'],
+                                                    height: 12,
+                                                    width: 12,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Text(
+                                                      _fetchList[index]['url']
+                                                              .toString()
+                                                              .substring(
+                                                                  0, 20) +
+                                                          '...',
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 12))
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(

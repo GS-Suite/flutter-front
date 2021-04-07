@@ -60,3 +60,5 @@ final getClassroomLectures =
 final addLecture = 'https://gs-suite-dev.herokuapp.com/add_lecture/';
 
 final profile = 'https://gs-suite-dev.herokuapp.com/get_any_user_profile/';
+
+final unenroll = 'https://gs-suite-dev.herokuapp.com/unenroll/';

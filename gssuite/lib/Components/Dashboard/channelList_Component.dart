@@ -15,10 +15,9 @@ class ChannelList extends StatelessWidget {
   final Function onRefresh;
   final bool enrolled;
 
-  const ChannelList({Key key, this.classrooms, this.onRefresh, this.enrolled})
+  ChannelList({Key key, this.classrooms, this.onRefresh, this.enrolled})
       : super(key: key);
 
-  timer() {}
   @override
   Widget build(BuildContext context) {
     return this.classrooms.length == 0
@@ -127,6 +126,9 @@ class ChannelList extends StatelessWidget {
                                     ),
                                     PopupMenuButton(
                                       itemBuilder: (BuildContext bc) => [
+                                        PopupMenuItem(
+                                            child: Text("View Students"),
+                                            value: "students"),
                                         !this.enrolled
                                             ? PopupMenuItem(
                                                 child: Text("Invite Code"),
@@ -134,9 +136,6 @@ class ChannelList extends StatelessWidget {
                                             : PopupMenuItem(
                                                 child: Text("Unenroll"),
                                                 value: "unenroll"),
-                                        PopupMenuItem(
-                                            child: Text("View Students"),
-                                            value: "students"),
                                       ],
                                       onSelected: (route) async {
                                         if (route == "invite_code") {
@@ -148,13 +147,10 @@ class ChannelList extends StatelessWidget {
                                           print(joincCode);
                                         }
                                         if (route == 'unenroll') {
-                                          Fluttertoast.showToast(
-                                              msg: "Under Development",
-                                              toastLength: Toast.LENGTH_LONG,
-                                              gravity: ToastGravity.SNACKBAR,
-                                              backgroundColor: Colors.grey[200],
-                                              textColor: Colors.black38,
-                                              fontSize: 16.0);
+                                          var unenroll = _unenroll(
+                                              context: context,
+                                              classId: this.classrooms[index]
+                                                  ['uid']);
                                         }
                                         if (route == "students") {
                                           Navigator.of(context).push(
@@ -179,7 +175,6 @@ class ChannelList extends StatelessWidget {
           );
   }
 
-  // ignore: non_constant_identifier_names
   Future<String> generate_join_code({String classroom_uid}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, String> _headers = {
@@ -202,6 +197,42 @@ class ChannelList extends StatelessWidget {
       return joinCode;
     } else {
       print('error');
+    }
+  }
+
+  _unenroll({String classId, BuildContext context}) async {
+    print('unenroll');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+    print(_headers);
+    print(classId);
+    var _body = json.encode({'classroom_uid': classId});
+    var response = await http.post(unenroll, body: _body, headers: _headers);
+    var res = json.decode(response.body.toString());
+    if (res['success'] == true) {
+      Fluttertoast.showToast(
+          msg: res['message'],
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+
+      prefs.setString('token', res['token'].toString());
+      print('unenrolled');
+      Navigator.pushNamed(context, '/dashboard');
+    } else {
+      Fluttertoast.showToast(
+          msg: res['message'],
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+      print('Response didn\'t fetch');
+      print(res);
     }
   }
 }
