@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             child: Column(
                                               children: <Widget>[
                                                 Text(
-                                                  "Posts",
+                                                  "Some",
                                                   style: TextStyle(
                                                     color: Colors.redAccent,
                                                     fontSize: 22.0,
@@ -116,7 +116,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             child: Column(
                                               children: <Widget>[
                                                 Text(
-                                                  "Followers",
+                                                  "User",
                                                   style: TextStyle(
                                                     color: Colors.redAccent,
                                                     fontSize: 22.0,
@@ -140,7 +140,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                             child: Column(
                                               children: <Widget>[
                                                 Text(
-                                                  "Follow",
+                                                  "Dets",
                                                   style: TextStyle(
                                                     color: Colors.redAccent,
                                                     fontSize: 22.0,
@@ -170,6 +170,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                           )),
                     ),
                     Container(
+                      color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 10.0, right: 16.0, left: 16.0),
@@ -181,10 +182,18 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               labelColor: Colors.teal[400],
                               tabs: [
                                 Tab(
-                                  child: Text('Owned'),
+                                  child: Text(
+                                    'Owned',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 Tab(
-                                  child: Text('Enrolled'),
+                                  child: Text(
+                                    'Enrolled',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 )
                               ],
                               controller: _tabController,
@@ -197,8 +206,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     Expanded(
                       child: TabBarView(controller: _tabController, children: [
                         // first tab bar view widget
-
                         Container(
+                            color: Colors.white,
                             child: _userClassrooms != null
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -215,14 +224,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                       margin: EdgeInsets.only(
                                                           right: 10.0),
                                                       width: 250,
-                                                      child: ListTile(
-                                                        visualDensity:
-                                                            VisualDensity(
-                                                                horizontal: 0,
-                                                                vertical: -4),
-                                                        contentPadding:
-                                                            EdgeInsets.all(0),
-                                                        title: Column(
+                                                      child: Card(
+                                                        child: Column(
                                                           children: [
                                                             Padding(
                                                               padding:
@@ -264,12 +267,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                             ),
                                                           ],
                                                         ),
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                          border: Border(
-                                                              bottom: BorderSide(
-                                                                  color: Colors
-                                                                      .black26)))));
+                                                      )));
                                             })))
                                 :
                                 // second tab bar viiew widget
@@ -279,6 +277,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     ),
                                   )),
                         Container(
+                            color: Colors.white,
                             child: _userClassrooms != null
                                 ? Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -292,59 +291,54 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                                       const EdgeInsets.only(
                                                           top: 3),
                                                   child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 10.0),
-                                                      width: 250,
-                                                      child: ListTile(
-                                                        visualDensity:
-                                                            VisualDensity(
-                                                                horizontal: 0,
-                                                                vertical: -4),
-                                                        title: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                top: 8.0,
-                                                                left: 0,
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Row(
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(8.0),
-                                                                        child:
-                                                                            Text(
-                                                                          _userEnrolled[index]
-                                                                              [
-                                                                              'name'],
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              color: Colors.grey[600]),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
+                                                    margin: EdgeInsets.only(
+                                                        right: 10.0),
+                                                    width: 250,
+                                                    child: Card(
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                              top: 8.0,
+                                                              left: 0,
                                                             ),
-                                                          ],
-                                                        ),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        _userEnrolled[index]
+                                                                            [
+                                                                            'name'],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.grey[600]),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      decoration: BoxDecoration(
-                                                          border: Border(
-                                                              bottom: BorderSide(
-                                                                  color: Colors
-                                                                      .black26)))));
+                                                    ),
+                                                  ));
                                             })))
                                 :
                                 // second tab bar viiew widget
@@ -374,6 +368,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     var response = await http.post(profile, body: _body, headers: _headers);
     print(response.body.toString());
     var res = json.decode(response.body.toString());
+    print(res);
     if (res['success'] == true) {
       setState(() {
         _isLoading = false;

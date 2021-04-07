@@ -59,7 +59,8 @@ class _AddLectureState extends State<AddLecture> {
       "lecture_link": lectureLinkController.text,
       "playlists": [playlistController.text],
       "lecture_description": lectureDescController.text,
-      "classroom_uid": this.widget.classId
+      "classroom_uid": this.widget.classId,
+      "lecture_resources": ''
     });
     var response = await http.post(addLecture, body: _body, headers: _headers);
     var res = json.decode(response.body.toString());

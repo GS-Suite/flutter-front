@@ -87,7 +87,7 @@ class ChannelList extends StatelessWidget {
                                 color: Color(
                                         (math.Random().nextDouble() * 0xFFFFFF)
                                             .toInt())
-                                    .withOpacity(0.30),
+                                    .withOpacity(0.60),
                                 child: Container(
                                   height: 130,
                                   child: Padding(
@@ -129,11 +129,11 @@ class ChannelList extends StatelessWidget {
                                       itemBuilder: (BuildContext bc) => [
                                         this.enrolled
                                             ? PopupMenuItem(
-                                                child: Text("Unenroll"),
-                                                value: "unenroll")
-                                            : PopupMenuItem(
                                                 child: Text("Invite Code"),
-                                                value: "invite_code"),
+                                                value: "invite_code")
+                                            : PopupMenuItem(
+                                                child: Text("Unenroll"),
+                                                value: "unenroll"),
                                         PopupMenuItem(
                                             child: Text("View Students"),
                                             value: "students"),
