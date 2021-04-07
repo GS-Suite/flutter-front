@@ -127,7 +127,7 @@ class ChannelList extends StatelessWidget {
                                     ),
                                     PopupMenuButton(
                                       itemBuilder: (BuildContext bc) => [
-                                        this.enrolled
+                                        !this.enrolled
                                             ? PopupMenuItem(
                                                 child: Text("Invite Code"),
                                                 value: "invite_code")

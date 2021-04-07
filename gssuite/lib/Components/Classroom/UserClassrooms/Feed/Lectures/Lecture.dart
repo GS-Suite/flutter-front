@@ -39,7 +39,7 @@ class _LectureState extends State<Lecture> {
         child: Container(
             child: !_isLoading
                 ? _isLectureEmpty
-                    ? Center(child: Text('No Announcements yet'))
+                    ? Center(child: Text('No Lectures yet'))
                     : Container(
                         color: Colors.white,
                         child: ListView.builder(
@@ -186,7 +186,8 @@ class _LectureState extends State<Lecture> {
       });
       prefs.setString('token', res['token'].toString());
     } else {
-      if (res['message'] == 'Lecture could not be retrieved.') {
+      if (res['message'] == 'Lecture videos could not be retrieved.') {
+        print('empty');
         setState(() {
           _isLectureEmpty = true;
           _isLoading = false;
