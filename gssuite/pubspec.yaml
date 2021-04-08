@@ -49,9 +49,7 @@ dev_dependencies:
   html:
   flutter_link_preview: ^1.5.6
   analyzer:
-  video_player:
-  youtube_player_iframe:
-  flutter_youtube: "^1.1.6"
+  flutter_inappwebview:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

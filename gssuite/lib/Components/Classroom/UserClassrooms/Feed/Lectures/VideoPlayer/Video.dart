@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:flutter_youtube/flutter_youtube.dart';
+import 'dart:convert';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class Video extends StatefulWidget {
   final url;
@@ -12,20 +11,23 @@ class Video extends StatefulWidget {
 }
 
 class _VideoState extends State<Video> {
-  YoutubePlayerController _controller;
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
+  InAppWebViewController webView;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: FlutterYoutube.playYoutubeVideoByUrl(
-      apiKey: "AIzaSyB4aDtQwesmWPxwscZWowaFb8HXKwVLUQM",
-      videoUrl: "https://www.youtube.com/watch?v=UkEA5cSYgdE",
-    ));
+    return Container(
+      child: InAppWebView(
+        initialUrl: this.widget.url,
+        onWebViewCreated: (InAppWebViewController controller) {
+          webView = controller;
+        },
+      ),
+    );
   }
 }
