@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import 'package:gssuite/Components/Dashboard/UniversalSearchPanel.dart';
 import 'subscription_Component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Drawer Component/drawer.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../apis/api.dart';
+import 'searchPanel.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -20,12 +22,14 @@ class _DashboardState extends State<Dashboard> {
   static String _user;
   var _userClassrooms;
   var _userEnrolledClasrooms = [];
+  TextEditingController _searchController;
 
   @override
   void initState() {
     print('init');
     super.initState();
     pref();
+    _searchController = TextEditingController();
   }
 
   pref() async {
@@ -105,6 +109,19 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.teal[400],
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(Icons.menu),
+        onPressed: () {
+          _scaffoldKey.currentState.openDrawer();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_user == null || _userClassrooms == []) {
@@ -115,71 +132,150 @@ class _DashboardState extends State<Dashboard> {
         ),
       ));
     } else {
+      var size = MediaQuery.of(context).size.height;
+      Color kPrimaryColor = Colors.teal[400];
+      const kTextColor = Color(0xFF3C4046);
+      const kBackgroundColor = Color(0xFFF9F8FD);
+
+      const double kDefaultPadding = 20.0;
       return WillPopScope(
         onWillPop: _onBackPressed,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              centerTitle: false,
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title: Padding(
-                padding: const EdgeInsets.only(left: 0, top: 15),
-                child: GestureDetector(
-                  onTap: () => _scaffoldKey.currentState.openDrawer(),
-                  child: RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                      text: '# ',
-                      style: TextStyle(
-                          color: Colors.teal[400],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 33),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: _user.contains(' ')
-                                ? 'Hi, ' +
-                                    _user.substring(0, _user.indexOf(' ')) +
-                                    '!'
-                                : _user, // To be changed
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
+            appBar: buildAppBar(),
+            drawer: AppDrawer(),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
+                    // It will cover 20% of our total height
+                    height: size * 0.2,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: kDefaultPadding,
+                            right: kDefaultPadding,
+                            bottom: 36 + kDefaultPadding,
+                          ),
+                          height: size * 0.2 - 27,
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(36),
+                              bottomRight: Radius.circular(36),
+                            ),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                '${_user.contains(' ') ? 'Hi, ' + _user.substring(0, _user.indexOf(' ')) + '!' : 'Hi, ' + _user}!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                              Spacer(),
+                              // Image.asset("assets/images/logo.png")
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: kDefaultPadding),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: kDefaultPadding),
+                            height: 54,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 10),
+                                  blurRadius: 50,
+                                  color: kPrimaryColor.withOpacity(0.23),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: TextField(
+                                    controller: _searchController,
+                                    onChanged: (value) {},
+                                    decoration: InputDecoration(
+                                      hintText: "Search",
+                                      hintStyle: TextStyle(
+                                        color: kPrimaryColor.withOpacity(0.5),
+                                      ),
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () => {
+                                          showSearch(
+                                              context: context,
+                                              delegate: UniversalSearchPanel(
+                                                _userClassrooms,
+                                                _userEnrolledClasrooms,
+                                                _searchController.text,
+                                              ))
+                                        },
+                                    child: Icon(Icons.search)),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-              ),
-            ),
-            drawer: AppDrawer(),
-            body: Container(
-              alignment: Alignment.topLeft,
-              width: double.infinity,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: _userClassrooms != null
-                    ? Column(
-                        children: [
-                          SubscribedCourses(
-                            title: 'Your Classes',
-                            classrooms: _userClassrooms,
-                            enrolled: false,
-                          ),
-                          SizedBox(height: 20.0),
-                          SubscribedCourses(
-                            title: 'Enrolled Classes',
-                            classrooms: _userEnrolledClasrooms,
-                            enrolled: true,
-                          ),
-                        ],
-                      )
-                    : Center(
-                        child: SpinKitThreeBounce(
-                          color: Colors.teal[400],
-                        ),
-                      ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: _userClassrooms != null
+                          ? Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: SubscribedCourses(
+                                    context: context,
+                                    title: 'Your Classes',
+                                    classrooms: _userClassrooms,
+                                    enrolled: false,
+                                  ),
+                                ),
+                                SizedBox(height: 20.0),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: SubscribedCourses(
+                                    context: context,
+                                    title: 'Enrolled Classes',
+                                    classrooms: _userEnrolledClasrooms,
+                                    enrolled: true,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Center(
+                              child: SpinKitThreeBounce(
+                                color: Colors.teal[400],
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
               ),
             ),
             floatingActionButton: FloatingActionButton(

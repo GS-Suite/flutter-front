@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'channelList_Component.dart';
+import 'searchPanel.dart';
 
 class SubscribedCourses extends StatelessWidget {
   final String title;
   final List classrooms;
   final Function onRefresh;
   final bool enrolled;
+  final BuildContext context;
   const SubscribedCourses(
-      {Key key, this.title, this.classrooms, this.onRefresh, this.enrolled})
+      {Key key,
+      this.title,
+      this.classrooms,
+      this.onRefresh,
+      this.enrolled,
+      this.context})
       : super(key: key);
 
   @override
@@ -26,6 +33,19 @@ class SubscribedCourses extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_forward_outlined),
+                  onPressed: () => {
+                    showSearch(
+                        context: context,
+                        delegate: DataSearch(this.classrooms, this.enrolled))
+                  },
+                  color: Colors.black,
+                  iconSize: 20,
+                ),
+              )
             ],
           ),
           SizedBox(
@@ -36,4 +56,12 @@ class SubscribedCourses extends StatelessWidget {
       ),
     );
   }
+
+  // viewAll() {
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //       builder: (context) => SearchList(
+  //             classList: this.classrooms,
+  //             enrolled: this.enrolled,
+  //           )));
+  // }
 }

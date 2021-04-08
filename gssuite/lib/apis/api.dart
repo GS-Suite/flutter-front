@@ -15,7 +15,7 @@ final getUserClassrooms =
     'https://gs-suite-dev.herokuapp.com/get_user_classrooms/';
 
 final generateJoinCode =
-    'https://gs-suite-dev.herokuapp.com/generate_classroom_join_code';
+    'https://gs-suite-dev.herokuapp.com/generate_classroom_join_code/';
 
 final enrollClassroom = 'https://gs-suite-dev.herokuapp.com/enroll/';
 

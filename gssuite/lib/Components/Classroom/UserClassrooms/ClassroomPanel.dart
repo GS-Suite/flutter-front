@@ -66,8 +66,11 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                               fontSize: 33),
                           children: <TextSpan>[
                             TextSpan(
-                                text: this.widget._className ??
-                                    'Loading ...', // To be changed
+                                text: this.widget._className.length > 15
+                                    ? this.widget._className.substring(0, 15) +
+                                        ' ...'
+                                    : this.widget._className ??
+                                        'Loading ...', // To be changed
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
