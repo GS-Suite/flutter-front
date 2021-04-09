@@ -110,17 +110,33 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                _attendanceList[index]
-                                                    .toString()
-                                                    .substring(0, 10),
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.grey[600]),
-                                              ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    _attendanceList[index]
+                                                        .toString()
+                                                        .substring(0, 10),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Colors.grey[600]),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 8),
+                                                  child: Text(
+                                                    '|  Code: ' +
+                                                        _val_list[index]
+                                                            ['token'],
+                                                    style:
+                                                        TextStyle(fontSize: 14),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
