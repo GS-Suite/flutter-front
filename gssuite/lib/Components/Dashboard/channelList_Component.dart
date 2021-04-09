@@ -95,7 +95,9 @@ class ChannelList extends StatelessWidget {
                                         child: Text(
                                       this.classrooms[index]['name'].toString(),
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 36.0),
+                                          fontFamily: 'Montseratt',
+                                          color: Colors.white,
+                                          fontSize: 36.0),
                                     )),
                                   ),
                                 ),

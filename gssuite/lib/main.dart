@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignIn(title: 'Flutter Demo Home Page'),
+      home: SignIn(title: 'GS Suite'),
     );
   }
 }

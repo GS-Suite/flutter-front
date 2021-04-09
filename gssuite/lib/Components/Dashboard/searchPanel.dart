@@ -86,7 +86,8 @@ class DataSearch extends SearchDelegate<String> {
     return ListView.builder(
         itemCount: classList.length,
         itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4.0),
               child: Container(
                 margin: EdgeInsets.only(right: 10.0),
                 width: 250,

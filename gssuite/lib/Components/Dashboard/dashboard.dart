@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:gssuite/Components/Dashboard/UniversalSearchPanel.dart';
+import 'package:gssuite/Components/Profile/profile.dart';
 import 'subscription_Component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Drawer Component/drawer.dart';
@@ -9,7 +9,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../apis/api.dart';
-import 'searchPanel.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -111,7 +110,7 @@ class _DashboardState extends State<Dashboard> {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.teal[400],
+      backgroundColor: Colors.teal[300],
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.menu),
@@ -133,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
       ));
     } else {
       var size = MediaQuery.of(context).size.height;
-      Color kPrimaryColor = Colors.teal[400];
+      Color kPrimaryColor = Colors.teal[300];
       const kTextColor = Color(0xFF3C4046);
       const kBackgroundColor = Color(0xFFF9F8FD);
 
@@ -179,7 +178,23 @@ class _DashboardState extends State<Dashboard> {
                                         fontWeight: FontWeight.bold),
                               ),
                               Spacer(),
-                              // Image.asset("assets/images/logo.png")
+                              GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Profile(
+                                            username: _user,
+                                            userId: '',
+                                          )))
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: Color(0xffE6E6E6),
+                                  radius: 25,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Color(0xffCCCCCC),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -212,7 +227,7 @@ class _DashboardState extends State<Dashboard> {
                                     controller: _searchController,
                                     onChanged: (value) {},
                                     decoration: InputDecoration(
-                                      hintText: "Search",
+                                      hintText: "Search users...",
                                       hintStyle: TextStyle(
                                         color: kPrimaryColor.withOpacity(0.5),
                                       ),
@@ -222,15 +237,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                                 GestureDetector(
-                                    onTap: () => {
-                                          showSearch(
-                                              context: context,
-                                              delegate: UniversalSearchPanel(
-                                                _userClassrooms,
-                                                _userEnrolledClasrooms,
-                                                _searchController.text,
-                                              ))
-                                        },
+                                    onTap: () => {getSearch()},
                                     child: Icon(Icons.search)),
                               ],
                             ),
@@ -281,9 +288,10 @@ class _DashboardState extends State<Dashboard> {
             floatingActionButton: FloatingActionButton(
               child: Icon(
                 Icons.add,
-                color: Colors.white,
+                color: Colors.teal[400],
+                size: 30,
               ),
-              backgroundColor: Colors.teal[400],
+              backgroundColor: Colors.white,
               onPressed: () => {
                 showDialog(
                     context: context,
@@ -416,5 +424,31 @@ class _DashboardState extends State<Dashboard> {
         return alert(context);
       },
     );
+  }
+
+  getSearch() async {
+    print('get search');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {'token': prefs.getString('token')};
+    print('headers:');
+    print(_headers);
+    var _body = json
+        .encode({'query': _searchController.text.toLowerCase(), 'filter': ''});
+    print('body');
+    var response = await http.post(unisearch, body: _body, headers: _headers);
+    print('Lectures');
+    var res = json.decode(response.body.toString());
+    print(res);
+    if (res['success'] == true) {
+      _searchController.text = '';
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UniversalSearchPanel(
+                userList: res['data']['results'],
+              )));
+      prefs.setString('token', res['token'].toString());
+    } else {
+      print('Response didn\'t fetch');
+      print(res);
+    }
   }
 }

@@ -122,6 +122,8 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
                                                         _studentList[index]
                                                             ['username'],
                                                         style: TextStyle(
+                                                            fontFamily:
+                                                                'Montseratt',
                                                             fontSize: 25,
                                                             color: Colors
                                                                 .grey[600]),

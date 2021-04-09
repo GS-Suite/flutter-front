@@ -8,11 +8,21 @@ class AppDrawer extends StatelessWidget {
         Positioned(
             bottom: 12.0,
             left: 16.0,
-            child: Text("GS - Suite",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w500))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("GS ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500)),
+                Text("Suite ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500))
+              ],
+            )),
       ]),
       decoration: BoxDecoration(
         color: Colors.teal[400],
