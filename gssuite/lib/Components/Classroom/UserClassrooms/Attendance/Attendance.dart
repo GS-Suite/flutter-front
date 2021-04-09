@@ -7,12 +7,13 @@ import '../../../../apis/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import './ViewAttendance.dart';
-import '../Feed/Lectures/Lecture.dart';
+import './takeAttendance.dart';
 
 class Attendance extends StatefulWidget {
   final classId;
+  final initialTab;
 
-  Attendance({this.classId});
+  Attendance({this.classId, this.initialTab});
 
   @override
   _AttendanceState createState() => _AttendanceState();
@@ -36,6 +37,7 @@ class _AttendanceState extends State<Attendance> with TickerProviderStateMixin {
       bottomNavigationBar: Container(
         color: Colors.white,
         child: Container(
+          color: Colors.white,
           child: TabBar(
               controller: _tabController,
               indicatorColor: Colors.teal[400],
@@ -55,7 +57,7 @@ class _AttendanceState extends State<Attendance> with TickerProviderStateMixin {
       ),
       body: TabBarView(
         children: <Widget>[
-          Lecture(
+          TakeAttendance(
             classId: this.widget.classId,
           ),
           ViewAttendance(

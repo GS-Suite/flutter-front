@@ -51,6 +51,7 @@ dev_dependencies:
   analyzer:
   flutter_inappwebview:
   flutter_svg: ^0.19.1
+  qr_flutter: ^4.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
