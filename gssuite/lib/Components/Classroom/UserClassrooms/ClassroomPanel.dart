@@ -8,6 +8,7 @@ import 'Feed/Feed.dart';
 import 'Attendance/Attendance.dart';
 import 'Forums/Forums.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'StudentsEnrolled.dart';
 
 class ClassroomPanel extends StatefulWidget {
   final firstIndex, secondIndex;
@@ -48,6 +49,36 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(
+                  actions: [
+                    PopupMenuButton(
+                      icon: Icon(
+                        Icons.more_vert,
+                        color: Colors.black,
+                      ),
+                      itemBuilder: (BuildContext bc) => [
+                        PopupMenuItem(
+                            child: Text("View Students"), value: "students"),
+                        PopupMenuItem(
+                            child: Text("Manage Resources"),
+                            value: "resources"),
+                        PopupMenuItem(
+                            child: Text("Settings"), value: "settings"),
+                        PopupMenuItem(
+                            child: Text("Delete Class"), value: "delete"),
+                      ],
+                      onSelected: (route) async {
+                        if (route == "invite_code") {}
+                        if (route == 'unenroll') {}
+                        if (route == "students") {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => StudentEnrolled(
+                                    classId: this.widget.classId,
+                                    owner: true,
+                                  )));
+                        }
+                      },
+                    ),
+                  ],
                   automaticallyImplyLeading: false,
                   centerTitle: false,
                   elevation: 0,
@@ -67,7 +98,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                           children: <TextSpan>[
                             TextSpan(
                                 text: this.widget._className.length > 15
-                                    ? this.widget._className.substring(0, 15) +
+                                    ? this.widget._className.substring(0, 11) +
                                         ' ...'
                                     : this.widget._className ??
                                         'Loading ...', // To be changed

@@ -6,11 +6,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../../apis/api.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class StudentEnrolled extends StatefulWidget {
   final classId;
+  final owner;
 
-  const StudentEnrolled({Key key, this.classId}) : super(key: key);
+  const StudentEnrolled({Key key, this.classId, this.owner}) : super(key: key);
   @override
   _StudentEnrolledState createState() => _StudentEnrolledState();
 }
@@ -72,76 +75,87 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
                             return Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Container(
-                                  margin: EdgeInsets.only(right: 10.0),
-                                  width: 250,
-                                  child: GestureDetector(
-                                    onTap: () => {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (context) => Profile(
-                                                    userId: _studentList[index]
-                                                        ['uid'],
-                                                    username:
-                                                        _studentList[index]
-                                                            ['username'],
-                                                  )))
-                                    },
-                                    child: ListTile(
-                                      visualDensity: VisualDensity(
-                                          horizontal: 0, vertical: -4),
-                                      contentPadding: EdgeInsets.all(0),
-                                      title: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, left: 0, bottom: 8.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Icon(
-                                                        Icons
-                                                            .account_circle_sharp,
-                                                        size: 35,
-                                                        color: Colors.grey[600],
-                                                      ),
+                                margin: EdgeInsets.only(right: 10.0),
+                                width: 250,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => Profile(
+                                                  userId: _studentList[index]
+                                                      ['uid'],
+                                                  username: _studentList[index]
+                                                      ['username'],
+                                                )))
+                                  },
+                                  child: Card(
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 0, bottom: 8.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .account_circle_sharp,
+                                                      size: 35,
+                                                      color: Colors.grey[600],
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Text(
-                                                        _studentList[index]
-                                                            ['username'],
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Montseratt',
-                                                            fontSize: 25,
-                                                            color: Colors
-                                                                .grey[600]),
-                                                      ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      _studentList[index]
+                                                          ['username'],
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'Montseratt',
+                                                          fontSize: 25,
+                                                          color:
+                                                              Colors.grey[600]),
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                  ),
+                                                  Spacer(),
+                                                  this.widget.owner
+                                                      ? IconButton(
+                                                          icon: Icon(Icons
+                                                              .remove_circle_outline_sharp),
+                                                          onPressed: () {
+                                                            _unenroll(
+                                                                classId: this
+                                                                    .widget
+                                                                    .classId,
+                                                                username: _studentList[
+                                                                        index][
+                                                                    'username'],
+                                                                uid: _studentList[
+                                                                        index]
+                                                                    ['uid']);
+                                                          })
+                                                      : Container()
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Colors.black26)))),
+                                ),
+                              ),
                             );
                           }),
                     ),
@@ -185,5 +199,41 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
       print(res);
     }
     print(_studentList);
+  }
+
+  void _unenroll({String classId, String uid, String username}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {
+      'token': prefs.getString('token'),
+    };
+
+    //For create class
+    var _body = json.encode({'classroom_uid': classId, 'user_id': uid});
+    print(jsonDecode(_body));
+    var response =
+        await http.post(unenroll_user, body: _body, headers: _headers);
+    print(response);
+    var res = json.decode(response.body.toString());
+    print(res);
+    if (res['success'] == true) {
+      setState(() {
+        getStudentList();
+      });
+      Fluttertoast.showToast(
+          msg: '$username removed successfully',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Error removing $username',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.grey[200],
+          textColor: Colors.black38,
+          fontSize: 16.0);
+    }
   }
 }

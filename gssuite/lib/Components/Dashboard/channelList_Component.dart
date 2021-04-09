@@ -159,10 +159,12 @@ class ChannelList extends StatelessWidget {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       StudentEnrolled(
-                                                        classId:
-                                                            this.classrooms[
-                                                                index]['uid'],
-                                                      )));
+                                                          classId:
+                                                              this.classrooms[
+                                                                  index]['uid'],
+                                                          owner: !this.enrolled
+                                                              ? true
+                                                              : false)));
                                         }
                                       },
                                     ),
@@ -183,8 +185,10 @@ class ChannelList extends StatelessWidget {
       'token': prefs.getString('token'),
     };
     var _body = json.encode({'classroom_uid': classroom_uid});
+    print(json.decode(_body));
     var response =
         await http.post(generateJoinCode, body: _body, headers: _headers);
+    print(response.body.toString());
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       var joinCode = res['data']['entry_code'].toString();

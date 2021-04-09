@@ -15,6 +15,7 @@ class _VideoState extends State<Video> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _id = this.widget.url.toString().substring(8).startsWith('www')
         ? this.widget.url.toString().substring(12).startsWith('you')
             ? this.widget.url.toString().substring(
