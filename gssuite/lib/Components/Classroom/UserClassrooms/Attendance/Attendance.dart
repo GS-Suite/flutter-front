@@ -7,6 +7,7 @@ import '../../../../apis/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import './ViewAttendance.dart';
+import '../Feed/Lectures/Lecture.dart';
 
 class Attendance extends StatefulWidget {
   final classId;
@@ -17,89 +18,53 @@ class Attendance extends StatefulWidget {
   _AttendanceState createState() => _AttendanceState();
 }
 
-class _AttendanceState extends State<Attendance> {
+class _AttendanceState extends State<Attendance> with TickerProviderStateMixin {
   var _attendanceToken;
   bool shouldButtonEnabled = true;
+  TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = new TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: _attendanceToken != null
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(_attendanceToken,
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'Montseratt',
-                              color: Colors.teal[400])),
-                      IconButton(
-                          icon: Icon(
-                            Icons.copy,
-                            color: Colors.blueAccent,
-                          ),
-                          onPressed: () => {
-                                Clipboard.setData(
-                                    new ClipboardData(text: _attendanceToken))
-                              })
-                    ]),
-                    RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        onPressed: () => {
-                              stopTakingAttendance(),
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ViewAttendance(
-                                        classId: this.widget.classId,
-                                      )))
-                            },
-                        child: Text('Stop Attendance',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontFamily: 'Montseratt',
-                                color: Colors.red[300]))),
-                  ],
+    return Scaffold(
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child: Container(
+          child: TabBar(
+              controller: _tabController,
+              indicatorColor: Colors.teal[400],
+              labelColor: Colors.teal[400],
+              unselectedLabelColor: Colors.black54,
+              tabs: <Widget>[
+                Tab(
+                  icon: Icon(Icons.list),
+                  child: Text('Take Attendance'),
                 ),
-              )
-            : Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            onPressed: () => {
-                                  generateAttendanceToken(),
-                                },
-                            child: Text('Take Attendance',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Montseratt',
-                                    color: Colors.teal[400])))),
-                    Center(
-                        child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            onPressed: () => {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ViewAttendance(
-                                            classId: this.widget.classId,
-                                          ))),
-                                },
-                            child: Text('View Attendance',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Montseratt',
-                                    color: Colors.teal[400])))),
-                  ],
+                Tab(
+                  icon: Icon(Icons.playlist_play_outlined),
+                  child: Text('Attendance Logs'),
                 ),
-              ));
+              ]),
+        ),
+      ),
+      body: TabBarView(
+        children: <Widget>[
+          Lecture(
+            classId: this.widget.classId,
+          ),
+          ViewAttendance(
+            classId: this.widget.classId,
+          )
+        ],
+        controller: _tabController,
+      ),
+    );
   }
 
   _disabledButton() {
