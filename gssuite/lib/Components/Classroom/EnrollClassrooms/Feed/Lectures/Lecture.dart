@@ -38,6 +38,7 @@ class _LectureState extends State<Lecture> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
+          color: Colors.white,
           child: Container(
               child: !_isLoading
                   ? _isLectureEmpty
