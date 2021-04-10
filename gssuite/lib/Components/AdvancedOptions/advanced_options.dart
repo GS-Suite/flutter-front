@@ -68,7 +68,7 @@ class AdvancedOption extends StatelessWidget {
                         Center(child: Icon(Icons.bug_report_outlined)),
                         SizedBox(width: 10.0),
                         Center(
-                          child: Text('Report an Issue',
+                          child: Text('Report issue or request feature',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat')),

@@ -2,7 +2,10 @@ final signUp = 'https://gs-suite-dev.herokuapp.com/sign_up/';
 
 final signIn = 'https://gs-suite-dev.herokuapp.com/sign_in/';
 
-final mail = 'mailto:jaisal13shah@gmail.com?subject=Report an Issue';
+final mail =
+    'mailto:jaisal13shah@gmail.com?subject=Report issue/Request feature';
+
+final whatsNew = 'https://gs-suite.herokuapp.com/';
 
 final refreshToken = 'https://gs-suite-dev.herokuapp.com/refresh_token/';
 
@@ -72,3 +75,15 @@ final allPlaylist =
 
 final getPlaylistVideos =
     'https://gs-suite-dev.herokuapp.com/get_classroom_playlist_videos/';
+
+final getAllResources =
+    'https://gs-suite-dev.herokuapp.com/resources/get_files_and_folders/';
+
+final getDownloadLink =
+    'https://gs-suite-dev.herokuapp.com/resources/get_file_download_link/';
+
+final uploadResource =
+    Uri.parse('https://gs-suite-dev.herokuapp.com/resources/upload_file/');
+
+final getOwnerName =
+    'https://gs-suite-dev.herokuapp.com/get_classroom_owner_from_class_uid/';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../apis/api.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget _createHeader() {
@@ -57,22 +59,25 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           _createHeader(),
           _createDrawerItem(
-            icon: Icons.note_outlined,
-            text: 'Saved Notes',
-          ),
+              icon: Icons.local_fire_department_sharp,
+              text: 'What\'s new',
+              tap: () async => await canLaunch(whatsNew)
+                  ? await launch(whatsNew)
+                  : throw 'Could not launch'),
           _createDrawerItem(
               icon: Icons.collections_bookmark_outlined, text: 'Bookmarks'),
           Divider(
             indent: 5,
           ),
-          _createDrawerItem(
-              icon: Icons.fingerprint_outlined, text: 'Attendance'),
           _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),
           Divider(),
           _createDrawerItem(
               icon: Icons.settings_outlined,
               text: 'Advanced Options',
               tap: () => Navigator.pushNamed(context, '/advanced_options')),
+          SizedBox(
+            height: 165,
+          ),
           Divider(),
           _createDrawerItem(
               icon: Icons.power_settings_new_outlined,

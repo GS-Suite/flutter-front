@@ -5,8 +5,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../../../apis/api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:any_link_preview/any_link_preview.dart';
-import 'package:any_link_preview/web_analyzer.dart';
 import 'dart:async';
 import '../../../UserClassrooms/Feed/Lectures/VideoPlayer/Video.dart';
 

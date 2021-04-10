@@ -45,13 +45,13 @@ dev_dependencies:
   fluttertoast:
   adv_fab: ^1.0.5
   timer_button: ^1.0.1
-  any_link_preview: ^1.0.8
   html:
   flutter_link_preview: ^1.5.6
   analyzer:
   flutter_inappwebview:
   flutter_svg: ^0.19.1
   qr_flutter: ^4.0.0
+  file_picker: 2.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

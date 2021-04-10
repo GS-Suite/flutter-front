@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gssuite/Components/Classroom/Info.dart';
+import 'package:gssuite/Components/Classroom/UserClassrooms/Resource/resource.dart';
 import '../../Drawer Component/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -45,7 +47,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
             )
           : DefaultTabController(
               length: 3,
-              initialIndex: this.widget.firstIndex ?? 1,
+              initialIndex: this.widget.firstIndex ?? 0,
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(
@@ -61,18 +63,28 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
                         PopupMenuItem(
                             child: Text("Manage Resources"),
                             value: "resources"),
-                        PopupMenuItem(
-                            child: Text("Settings"), value: "settings"),
-                        PopupMenuItem(
-                            child: Text("Delete Class"), value: "delete"),
+                        PopupMenuItem(child: Text("Info"), value: "info"),
                       ],
                       onSelected: (route) async {
-                        if (route == "invite_code") {}
-                        if (route == 'unenroll') {}
+                        if (route == "resources") {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Resource(
+                                    owner: true,
+                                    classId: this.widget.classId,
+                                  )));
+                        }
                         if (route == "students") {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => StudentEnrolled(
                                     classId: this.widget.classId,
+                                    owner: true,
+                                  )));
+                        }
+                        if (route == "info") {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Info(
+                                    classId: this.widget.classId,
+                                    className: this.widget._className,
                                     owner: true,
                                   )));
                         }

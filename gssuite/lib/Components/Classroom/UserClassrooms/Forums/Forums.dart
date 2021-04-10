@@ -46,152 +46,157 @@ class _ForumsState extends State<Forums> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: _chatList != null
-                ? Container(
-                    color: Colors.white,
-                    child: ListView.builder(
-                      controller: _controller,
-                      itemCount: _chatList.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      itemBuilder: (context, index) {
-                        return Container(
-                            width: 25,
-                            padding:
-                                EdgeInsets.only(left: 14, right: 14, top: 10),
-                            child: Align(
-                              alignment: (_chatList[index]['username'] !=
-                                      _classroom_owner_username
-                                  ? Alignment.topLeft
-                                  : Alignment.topRight),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: _chatList[index]['username'] ==
-                                          _classroom_owner_username
-                                      ? BorderRadius.only(
-                                          bottomLeft: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15))
-                                      : BorderRadius.only(
-                                          bottomRight: Radius.circular(15),
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15)),
-                                  color: (_chatList[index]['username'] !=
-                                          _classroom_owner_username
-                                      ? Colors.grey.shade200
-                                      : Colors.blue[200]),
-                                ),
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: _chatList[index]
-                                              ['username'] ==
-                                          _classroom_owner_username
-                                      ? CrossAxisAlignment.end
-                                      : CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _chatList[index]['username'] ==
-                                              _classroom_owner_username
-                                          ? 'You'
-                                          : _chatList[index]['username'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        _chatList[index]['message'],
-                                        textAlign: _chatList[index]
-                                                    ['username'] ==
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: _chatList != null
+                  ? Container(
+                      color: Colors.white,
+                      child: ListView.builder(
+                        controller: _controller,
+                        itemCount: _chatList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        itemBuilder: (context, index) {
+                          return Container(
+                              width: 25,
+                              padding:
+                                  EdgeInsets.only(left: 14, right: 14, top: 10),
+                              child: Align(
+                                alignment: (_chatList[index]['username'] !=
+                                        _classroom_owner_username
+                                    ? Alignment.topLeft
+                                    : Alignment.topRight),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: _chatList[index]
+                                                ['username'] ==
+                                            _classroom_owner_username
+                                        ? BorderRadius.only(
+                                            bottomLeft: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15))
+                                        : BorderRadius.only(
+                                            bottomRight: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15)),
+                                    color: (_chatList[index]['username'] !=
+                                            _classroom_owner_username
+                                        ? Colors.grey.shade200
+                                        : Colors.blue[200]),
+                                  ),
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: _chatList[index]
+                                                ['username'] ==
+                                            _classroom_owner_username
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _chatList[index]['username'] ==
                                                 _classroom_owner_username
-                                            ? TextAlign.end
-                                            : TextAlign.start,
+                                            ? 'You'
+                                            : _chatList[index]['username'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                          _chatList[index]['datetimestamp']
-                                              .toString()
-                                              .substring(11, 16),
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey[600],
-                                          )),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(
+                                          _chatList[index]['message'],
+                                          textAlign: _chatList[index]
+                                                      ['username'] ==
+                                                  _classroom_owner_username
+                                              ? TextAlign.end
+                                              : TextAlign.start,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(
+                                            _chatList[index]['datetimestamp']
+                                                .toString()
+                                                .substring(11, 16),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[600],
+                                            )),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ));
-                      },
-                    ),
-                  )
-                : _chatEmpty
-                    ? Container(
-                        child: Center(child: Text('No posts yet...')),
-                      )
-                    : Container(
-                        color: Colors.white,
-                        child: Center(
-                          child: SpinKitThreeBounce(color: Colors.teal[400]),
-                        )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  height: 60,
-                  width: 335,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TextField(
-                        controller: _postMessageController,
-                        onChanged: (value) => {
-                          if (value.length > 0)
-                            {
-                              setState(() => {_isChatValid = true})
-                            }
-                          else
-                            {
-                              setState(() => {_isChatValid = false})
-                            }
+                              ));
                         },
-                        decoration: new InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            hintText: "Post a message",
-                            hintStyle: TextStyle(color: Colors.grey[400])),
+                      ),
+                    )
+                  : _chatEmpty
+                      ? Container(
+                          child: Center(child: Text('No posts yet...')),
+                        )
+                      : Container(
+                          color: Colors.white,
+                          child: Center(
+                            child: SpinKitThreeBounce(color: Colors.teal[400]),
+                          )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                    height: 60,
+                    width: 335,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: TextField(
+                          controller: _postMessageController,
+                          onChanged: (value) => {
+                            if (value.length > 0)
+                              {
+                                setState(() => {_isChatValid = true})
+                              }
+                            else
+                              {
+                                setState(() => {_isChatValid = false})
+                              }
+                          },
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              hintText: "Post a message",
+                              hintStyle: TextStyle(color: Colors.grey[400])),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                    onTap: () => _isChatValid
-                        ? {print('clicked'), sendNewMessage()}
-                        : {print('empty post')},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.send),
-                    ))
-              ],
+                  GestureDetector(
+                      onTap: () => _isChatValid
+                          ? {print('clicked'), sendNewMessage()}
+                          : {print('empty post')},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.send),
+                      ))
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

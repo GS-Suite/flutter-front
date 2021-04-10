@@ -44,10 +44,8 @@
 
 //   // WebViewController _controller;
 //   // final AssetBundle rootBundle = _initRootBundle();
-//   // 
+//   //
 //   InAppWebViewController webView;
-
-  
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@
 
 //               if(result != null) {
 //                 PlatformFile file = result.files.first;
-                
+
 //                 print(file.name);
 //                 print(file.bytes);
 //                 print(file.size);
@@ -100,18 +98,14 @@
 //               print('Hello');
 //             }
 //           )
-        
+
 //       )
 //     );
 //   }
 // }
 
-
-
-
 // The Splash Screen
-// 
-
+//
 
 // import 'dart:async';
 
@@ -159,12 +153,11 @@
 //   void initState() {
 //     super.initState();
 //     Timer(Duration(seconds: 3), () => Navigator.push(
-//         context, 
+//         context,
 //         MaterialPageRoute(builder: (context) => Page())
 //       )
 //     );
 //   }
-  
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -228,4 +221,3 @@
 //     );
 //   }
 // }
-

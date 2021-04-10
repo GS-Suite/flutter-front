@@ -8,6 +8,8 @@ import './Feed/Feed.dart';
 import 'Attendance/Attendance.dart';
 import 'Forums/Forums.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../UserClassrooms/StudentsEnrolled.dart';
+import '../UserClassrooms/Resource/resource.dart';
 
 class ClassroomPanelEnrolled extends StatefulWidget {
   String _className;
@@ -44,6 +46,41 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(
+                  actions: [
+                    PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.black,
+                        ),
+                        itemBuilder: (BuildContext bc) => [
+                              PopupMenuItem(
+                                  child: Text("View Students"),
+                                  value: "students"),
+                              PopupMenuItem(
+                                  child: Text("View Resources"),
+                                  value: "resources"),
+                              PopupMenuItem(child: Text("Info"), value: "info"),
+                              PopupMenuItem(
+                                  child: Text("Delete Class"), value: "delete"),
+                            ],
+                        onSelected: (route) async {
+                          if (route == "resources") {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Resource(
+                                      owner: false,
+                                      classId: this.widget.classId,
+                                    )));
+                          }
+                          if (route == 'unenroll') {}
+                          if (route == "students") {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => StudentEnrolled(
+                                      classId: this.widget.classId,
+                                      owner: false,
+                                    )));
+                          }
+                        })
+                  ],
                   automaticallyImplyLeading: false,
                   centerTitle: false,
                   elevation: 0,
@@ -62,8 +99,11 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                               fontSize: 33),
                           children: <TextSpan>[
                             TextSpan(
-                                text: this.widget._className ??
-                                    'Loading ...', // To be changed
+                                text: this.widget._className.length > 15
+                                    ? this.widget._className.substring(0, 11) +
+                                        ' ...'
+                                    : this.widget._className ??
+                                        'Loading ...', // To be changed
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),

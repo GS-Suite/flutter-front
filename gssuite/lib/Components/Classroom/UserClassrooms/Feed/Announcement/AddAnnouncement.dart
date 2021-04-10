@@ -196,48 +196,35 @@ class _AddAnnouncementState extends State<AddAnnouncement> {
           builder: (context) => ClassroomPanel(
                 classId: this.widget.classId,
               )));
-      // _showBasicsFlash(
-      //   message: 'Post creation error',
-      //   flashStyle: FlashStyle.grounded,
-      // );
     }
-    // For Creating Announcement Pane
 
-    //   }
-    //   print(classRoomData);
-    //   print(classRoomData.data.uid);
-    // } else {
-    //   _showBasicsFlash(
-    //     flashStyle: FlashStyle.grounded,
-    //   );
-  }
-
-  void _showBasicsFlash({
-    Duration duration,
-    flashStyle = FlashStyle.floating,
-    String message,
-  }) {
-    showFlash(
-      context: context,
-      duration: duration,
-      builder: (context, controller) {
-        return Flash(
-            controller: controller,
-            style: flashStyle,
-            boxShadows: kElevationToShadow[4],
-            horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-            child: FlashBar(
-              actions: [
-                FlatButton(
-                    onPressed: () => {
-                          announcementController.text = '',
-                          controller.dismiss()
-                        },
-                    child: Text('Try Again')),
-              ],
-              message: Text(message ?? 'Post creation Error'),
-            ));
-      },
-    );
+    void _showBasicsFlash({
+      Duration duration,
+      flashStyle = FlashStyle.floating,
+      String message,
+    }) {
+      showFlash(
+        context: context,
+        duration: duration,
+        builder: (context, controller) {
+          return Flash(
+              controller: controller,
+              style: flashStyle,
+              boxShadows: kElevationToShadow[4],
+              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+              child: FlashBar(
+                actions: [
+                  FlatButton(
+                      onPressed: () => {
+                            announcementController.text = '',
+                            controller.dismiss()
+                          },
+                      child: Text('Try Again')),
+                ],
+                message: Text(message ?? 'Post creation Error'),
+              ));
+        },
+      );
+    }
   }
 }
