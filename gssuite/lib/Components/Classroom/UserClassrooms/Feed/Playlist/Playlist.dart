@@ -33,7 +33,7 @@ class _PlayListState extends State<PlayList> {
         child: Container(
             child: !_isLoading
                 ? _isPLaylistEmpty
-                    ? Center(child: Text('No Lectures yet'))
+                    ? Center(child: Text('No Playlists made yet'))
                     : Container(
                         color: Colors.white,
                         child: ListView.builder(
@@ -139,6 +139,7 @@ class _PlayListState extends State<PlayList> {
           {
             setState(() {
               _isPLaylistEmpty = true;
+              _isLoading = false;
             });
           }
         }

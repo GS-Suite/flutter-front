@@ -153,7 +153,7 @@ class _PlaylistVideoState extends State<PlaylistVideo> {
     });
     print('body');
     var response =
-        await http.post(getClassroomLectures, body: _body, headers: _headers);
+        await http.post(getPlaylistVideos, body: _body, headers: _headers);
     print('Lectures');
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
