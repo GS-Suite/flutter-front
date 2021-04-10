@@ -45,7 +45,7 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
             )
           : DefaultTabController(
               length: 3,
-              initialIndex: this.widget.firstIndex ?? 0,
+              initialIndex: this.widget.firstIndex ?? 1,
               child: Scaffold(
                 key: _scaffoldKey,
                 appBar: AppBar(

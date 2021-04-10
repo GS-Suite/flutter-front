@@ -144,14 +144,17 @@ class _LectureState extends State<Lecture> {
                   )),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal[400],
         onPressed: () => {
-          print('fab'),
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AddLecture(
                     classId: this.widget.classId,
                   )))
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -172,6 +175,8 @@ class _LectureState extends State<Lecture> {
     print('Lectures');
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
+      print(res);
+      print(true);
       setState(() {
         _isLectureEmpty = false;
         _isLoading = false;
@@ -183,7 +188,11 @@ class _LectureState extends State<Lecture> {
           'lecture_description': e['lecture_description'],
           'lecture_name': e['lecture_name']
         };
-        await FetchPreview().fetch(e['lecture_link']).then((res) {
+        await FetchPreview()
+            .fetch(e['lecture_link'].toString().endsWith('/')
+                ? e['lecture_link']
+                : e['lecture_link'] + '/')
+            .then((res) {
           temp['title'] = res['title'];
           temp['image'] = res['image'];
           temp['description'] = res['description'];
@@ -192,12 +201,10 @@ class _LectureState extends State<Lecture> {
         setState(() {
           _fetchList.add(temp);
         });
-
-        // print(_fetchList);
       });
       prefs.setString('token', res['token'].toString());
     } else {
-      if (res['message'] == 'Lecture videos could not be retrieved.') {
+      if (res['message'] == 'There are no lectures to retrieve') {
         print('empty');
         setState(() {
           _isLectureEmpty = true;

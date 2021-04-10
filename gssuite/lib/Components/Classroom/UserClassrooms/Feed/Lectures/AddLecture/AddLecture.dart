@@ -56,7 +56,9 @@ class _AddLectureState extends State<AddLecture> {
     //For create post
     var _body = json.encode({
       "lecture_name": lectureNameController.text,
-      "lecture_link": lectureLinkController.text,
+      "lecture_link": lectureLinkController.text.toString().endsWith('/')
+          ? lectureLinkController.text
+          : lectureLinkController.text + '/',
       "playlists": [playlistController.text],
       "lecture_description": lectureDescController.text,
       "classroom_uid": this.widget.classId,

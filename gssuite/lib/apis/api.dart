@@ -15,7 +15,7 @@ final getUserClassrooms =
     'https://gs-suite-dev.herokuapp.com/get_user_classrooms/';
 
 final generateJoinCode =
-    'https://gs-suite-dev.herokuapp.com/generate_classroom_join_code';
+    'https://gs-suite-dev.herokuapp.com/generate_classroom_join_code/';
 
 final enrollClassroom = 'https://gs-suite-dev.herokuapp.com/enroll/';
 
@@ -66,3 +66,6 @@ final unenroll = 'https://gs-suite-dev.herokuapp.com/unenroll/';
 final unenroll_user = 'https://gs-suite-dev.herokuapp.com/unenroll_user/';
 
 final unisearch = 'https://gs-suite-dev.herokuapp.com/search/';
+
+final allPlaylist =
+    'https://gs-suite-dev.herokuapp.com/get_classroom_lecture_playlists/';

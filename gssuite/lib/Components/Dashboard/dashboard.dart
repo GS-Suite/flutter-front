@@ -46,9 +46,11 @@ class _DashboardState extends State<Dashboard> {
       var res = json.decode(response.body.toString());
       if (res['success'] == true) {
         print(res);
-        setState(() {
-          _userClassrooms = res['data'];
-        });
+        if (mounted) {
+          setState(() {
+            _userClassrooms = res['data'];
+          });
+        }
         prefs.setString('token', res['token'].toString());
       } else {
         if (res['message'] == 'Invalid token or non-existent user') {
@@ -74,19 +76,18 @@ class _DashboardState extends State<Dashboard> {
             var valRes = json.decode(val.body.toString());
             print(valRes);
             if (valRes['success'] == true) {
+              var tempEnroll = [];
               print(true);
               print('yuor truly');
-              setState(() {
-                print(valRes['data']['name']);
-                temp['name'] = valRes['data']['name'];
-                temp['uid'] = valRes['data']['uid'];
-                // _userEnrolledClasrooms.add({
-                //   'name': valRes['data']['name'],
-                //   'uid': valRes['data']['uid'],
-                //   'teacher': valRes['data']['teacher']
-                // });
-                _userEnrolledClasrooms.add(temp);
-              });
+              print(valRes['data']['name']);
+              temp['name'] = valRes['data']['name'];
+              temp['uid'] = valRes['data']['uid'];
+              tempEnroll.add(temp);
+              if (mounted) {
+                setState(() {
+                  _userEnrolledClasrooms = tempEnroll;
+                });
+              }
             } else {
               print('failed');
             }

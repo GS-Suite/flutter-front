@@ -53,7 +53,9 @@ class _FeedState extends State<Feed> with TickerProviderStateMixin {
           Lecture(
             classId: this.widget.classId,
           ),
-          PlayList(),
+          PlayList(
+            classId: this.widget.classId,
+          ),
           Announcement(
             classId: this.widget.classId,
           ),

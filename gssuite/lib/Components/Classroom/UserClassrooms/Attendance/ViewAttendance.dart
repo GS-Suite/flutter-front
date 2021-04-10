@@ -32,35 +32,6 @@ class _ViewAttendanceState extends State<ViewAttendance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 0, top: 15),
-          child: GestureDetector(
-            onTap: () => _scaffoldKey.currentState.openDrawer(),
-            child: RichText(
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                text: '# ',
-                style: TextStyle(
-                    color: Colors.teal[400],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 33),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Attendance Logs', // To be changed
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      drawer: AppDrawer(),
       body: Container(
         color: Colors.white,
         child: _attendanceList != null

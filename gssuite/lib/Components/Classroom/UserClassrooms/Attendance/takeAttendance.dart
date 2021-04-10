@@ -116,11 +116,6 @@ class _TakeAttendanceState extends State<TakeAttendance> {
               ));
   }
 
-  _disabledButton() {
-    shouldButtonEnabled = false;
-    Timer(Duration(seconds: 30), () => shouldButtonEnabled = true);
-  }
-
   generateAttendanceToken() async {
     {
       print('take attendance');
