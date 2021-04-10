@@ -175,6 +175,7 @@ class _LectureState extends State<Lecture> {
     print('Lectures');
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
+      var tempList = [];
       print(res);
       print(true);
       setState(() {
@@ -198,18 +199,23 @@ class _LectureState extends State<Lecture> {
           temp['description'] = res['description'];
           temp['favIcon'] = res['favIcon'];
         });
-        setState(() {
-          _fetchList.add(temp);
-        });
+        tempList.add(temp);
+        if (mounted) {
+          setState(() {
+            _fetchList = tempList;
+          });
+        }
       });
       prefs.setString('token', res['token'].toString());
     } else {
       if (res['message'] == 'There are no lectures to retrieve') {
         print('empty');
-        setState(() {
-          _isLectureEmpty = true;
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLectureEmpty = true;
+            _isLoading = false;
+          });
+        }
       } else {
         print('Response didn\'t fetch');
         print(res);

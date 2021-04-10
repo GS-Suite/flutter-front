@@ -216,9 +216,11 @@ class _StudentEnrolledState extends State<StudentEnrolled> {
     var res = json.decode(response.body.toString());
     print(res);
     if (res['success'] == true) {
-      setState(() {
-        getStudentList();
-      });
+      if (mounted) {
+        setState(() {
+          getStudentList();
+        });
+      }
       Fluttertoast.showToast(
           msg: '$username removed successfully',
           toastLength: Toast.LENGTH_LONG,

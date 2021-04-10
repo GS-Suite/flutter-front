@@ -150,18 +150,22 @@ class _AnnouncementState extends State<Announcement> {
     print(response.body.toString());
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
-      setState(() {
-        _isAnnEmpty = false;
-        _isLoading = false;
-        _announcementList = res['data']['forum_stuff']['posts'];
-      });
+      if (mounted) {
+        setState(() {
+          _isAnnEmpty = false;
+          _isLoading = false;
+          _announcementList = res['data']['forum_stuff']['posts'];
+        });
+      }
       prefs.setString('token', res['token'].toString());
     } else {
       if (res['message'] == 'There are no announcements') {
-        setState(() {
-          _isAnnEmpty = true;
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isAnnEmpty = true;
+            _isLoading = false;
+          });
+        }
       } else {
         print('Response didn\'t fetch');
         print(res);

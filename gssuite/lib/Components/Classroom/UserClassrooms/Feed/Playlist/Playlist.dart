@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gssuite/Components/Classroom/UserClassrooms/Feed/Playlist/PlaylistVideo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -43,11 +44,13 @@ class _PlayListState extends State<PlayList> {
                               children: [
                                 GestureDetector(
                                   onTap: () => {
-                                    // Navigator.of(context)
-                                    //     .push(MaterialPageRoute(
-                                    //         builder: (context) => Video(
-                                    //               url: _playlistList[index]['url'],
-                                    //             )))
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => PlaylistVideo(
+                                                  classId: this.widget.classId,
+                                                  playlistName:
+                                                      _playlistList[index],
+                                                )))
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -82,7 +85,7 @@ class _PlayListState extends State<PlayList> {
                                                 _playlistList[index],
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 28,
+                                                    fontSize: 24,
                                                     color: Colors.black),
                                               ),
                                               SizedBox(

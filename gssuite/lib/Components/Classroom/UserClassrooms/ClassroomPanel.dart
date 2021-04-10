@@ -215,9 +215,11 @@ class _ClassroomPanelState extends State<ClassroomPanel> {
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       print(res);
-      setState(() {
-        this.widget._className = res['data']['name'];
-      });
+      if (mounted) {
+        setState(() {
+          this.widget._className = res['data']['name'];
+        });
+      }
       prefs.setString('token', res['token'].toString());
     } else {
       print('Response didn\'t fetch');

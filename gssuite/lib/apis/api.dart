@@ -69,3 +69,6 @@ final unisearch = 'https://gs-suite-dev.herokuapp.com/search/';
 
 final allPlaylist =
     'https://gs-suite-dev.herokuapp.com/get_classroom_lecture_playlists/';
+
+final getPlaylistVideos =
+    'https://gs-suite-dev.herokuapp.com/get_classroom_playlist_videos/';

@@ -207,18 +207,22 @@ class _ForumsState extends State<Forums> {
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       var forum_dets = res['data']['forum_stuff'];
-      setState(() {
-        _chatEmpty = false;
-        _classroom_owner_uid = forum_dets['classroom_owner_uid'];
-        _classroom_owner_username = forum_dets['classroom_owner_username'];
-        _chatList = forum_dets['posts'];
-      });
+      if (mounted) {
+        setState(() {
+          _chatEmpty = false;
+          _classroom_owner_uid = forum_dets['classroom_owner_uid'];
+          _classroom_owner_username = forum_dets['classroom_owner_username'];
+          _chatList = forum_dets['posts'];
+        });
+      }
       prefs.setString('token', res['token'].toString());
     } else {
       if (res['message'] == 'There are no messages') {
-        setState(() {
-          _chatEmpty = true;
-        });
+        if (mounted) {
+          setState(() {
+            _chatEmpty = true;
+          });
+        }
       }
       print('Response didn\'t fetch');
       print(res);
@@ -243,9 +247,11 @@ class _ForumsState extends State<Forums> {
 
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
-      setState(() {
-        getForumChat();
-      });
+      if (mounted) {
+        setState(() {
+          getForumChat();
+        });
+      }
       this.build.call(context); // Don't change this at any cost
 
       _controller.jumpTo(_controller.position.maxScrollExtent);

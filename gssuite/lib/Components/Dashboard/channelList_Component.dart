@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/services.dart';
 import '../Classroom/UserClassrooms/StudentsEnrolled.dart';
+import '../../utils/colorGenerator.dart';
 
 class ChannelList extends StatelessWidget {
   final List classrooms;
@@ -83,9 +84,10 @@ class ChannelList extends StatelessWidget {
                                       topLeft: Radius.circular(7),
                                       topRight: Radius.circular(7)),
                                 ),
-                                color: Color(
-                                        (math.Random().nextDouble() * 0xFFFFFF)
-                                            .toInt())
+                                color: Color((col[this
+                                        .classrooms[index]['uid']
+                                        .toString()
+                                        .substring(0, 1)]))
                                     .withOpacity(0.60),
                                 child: Container(
                                   height: 130,
