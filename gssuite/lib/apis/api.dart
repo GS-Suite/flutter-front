@@ -38,7 +38,7 @@ final viewClassroomAttendance =
     'https://gs-suite-dev.herokuapp.com/view_classroom_attendance/';
 
 final studentViewAttendance =
-    'https://gs-suite-dev.herokuapp.com/view_student_attendance';
+    'https://gs-suite-dev.herokuapp.com/view_student_attendance/';
 
 final createForum = 'https://gs-suite-dev.herokuapp.com/create_forum/';
 
