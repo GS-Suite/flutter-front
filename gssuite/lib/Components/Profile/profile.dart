@@ -370,12 +370,15 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     var res = json.decode(response.body.toString());
     print(res);
     if (res['success'] == true) {
-      setState(() {
-        _isLoading = false;
-        _userProfile = res['data']['user_profile'];
-        _userClassrooms = res['data']['user_created_classrooms'];
-        _userEnrolled = res['data']['user_enrolled_classrooms'];
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _userProfile = res['data']['user_profile'];
+          _userClassrooms = res['data']['user_created_classrooms'];
+          _userEnrolled = res['data']['user_enrolled_classrooms'];
+        });
+      }
+
       prefs.setString('token', res['token'].toString());
     } else {
       print('Response didn\'t fetch');

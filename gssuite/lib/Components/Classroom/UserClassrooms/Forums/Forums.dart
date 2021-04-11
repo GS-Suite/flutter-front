@@ -121,7 +121,7 @@ class _ForumsState extends State<Forums> {
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
                                         child: Text(
-                                            _chatList[index]['datetimestamp']
+                                            _chatList[index]['datetime']
                                                 .toString()
                                                 .substring(11, 16),
                                             style: TextStyle(

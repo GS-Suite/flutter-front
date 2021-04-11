@@ -177,6 +177,7 @@ class _ResourceState extends State<Resource> {
                   }
                 } else {
                   // User canceled the picker
+                  print('User canceled the picker');
                 }
                 print('Hello');
               },
