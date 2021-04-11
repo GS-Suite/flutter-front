@@ -85,5 +85,8 @@ final getDownloadLink =
 final uploadResource =
     Uri.parse('https://gs-suite-dev.herokuapp.com/resources/upload_file/');
 
-final getOwnerName =
+final getOwnerId =
     'https://gs-suite-dev.herokuapp.com/get_classroom_owner_from_class_uid/';
+
+final getUserName =
+    'https://gs-suite-dev.herokuapp.com/get_username_from_user_id/';

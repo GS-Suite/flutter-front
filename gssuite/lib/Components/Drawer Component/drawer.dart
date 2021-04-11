@@ -86,7 +86,7 @@ class AppDrawer extends StatelessWidget {
                 SharedPreferences preferences =
                     await SharedPreferences.getInstance();
                 await preferences.clear();
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushReplacementNamed(context, '/login');
               }),
         ],
       ),

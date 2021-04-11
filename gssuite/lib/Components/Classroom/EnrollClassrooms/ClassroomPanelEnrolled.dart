@@ -10,6 +10,7 @@ import 'Forums/Forums.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../UserClassrooms/StudentsEnrolled.dart';
 import '../UserClassrooms/Resource/resource.dart';
+import '../Info.dart';
 
 class ClassroomPanelEnrolled extends StatefulWidget {
   String _className;
@@ -60,8 +61,6 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                                   child: Text("View Resources"),
                                   value: "resources"),
                               PopupMenuItem(child: Text("Info"), value: "info"),
-                              PopupMenuItem(
-                                  child: Text("Delete Class"), value: "delete"),
                             ],
                         onSelected: (route) async {
                           if (route == "resources") {
@@ -71,7 +70,14 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
                                       classId: this.widget.classId,
                                     )));
                           }
-                          if (route == 'unenroll') {}
+                          if (route == 'info') {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Info(
+                                      classId: this.widget.classId,
+                                      className: this.widget._className,
+                                      owner: false,
+                                    )));
+                          }
                           if (route == "students") {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => StudentEnrolled(
