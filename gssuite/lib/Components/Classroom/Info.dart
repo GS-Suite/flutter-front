@@ -90,7 +90,15 @@ class _InfoState extends State<Info> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      this.widget.className,
+                                      this.widget.className.toString().length >
+                                              15
+                                          ? this
+                                                  .widget
+                                                  .className
+                                                  .toString()
+                                                  .substring(0, 15) +
+                                              ' ...'
+                                          : this.widget.className.toString(),
                                       style: TextStyle(
                                         fontSize: 28,
                                       ),

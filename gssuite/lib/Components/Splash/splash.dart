@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../Login_Screen/login.dart';
 
-class Scaffold extends StatefulWidget {
-  Scaffold({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class Splash extends StatefulWidget {
   @override
-  _ScaffoldState createState() => _ScaffoldState();
+  _SplashState createState() => _SplashState();
 }
 
-class _ScaffoldState extends State<Scaffold> {
+class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
@@ -22,59 +17,58 @@ class _ScaffoldState extends State<Scaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(color: Colors.white54),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ClipOval(
-                          child: Image.asset(
-                            'assets/growth.gif',
-                            height: 200,
-                            width: 200,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                        ),
-                        Text(
-                          'GS Suite.',
-                          style: TextStyle(
-                              fontSize: 30.0, color: Colors.greenAccent),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
+          child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: BoxDecoration(color: Colors.white54),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(
-                        backgroundColor: Colors.yellow,
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/plant_grow.gif',
+                          height: 200,
+                          width: 200,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                      SizedBox(
+                        height: 50.0,
+                      ),
+                      Text(
+                        'GS Suite.',
+                        style: TextStyle(
+                            fontSize: 30.0, color: Colors.greenAccent),
                       )
                     ],
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-      ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      backgroundColor: Colors.yellow,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      )),
     );
   }
 }

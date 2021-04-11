@@ -127,8 +127,9 @@ class _DashboardState extends State<Dashboard> {
     if (_user == null || _userClassrooms == []) {
       return Center(
           child: Container(
-        child: SpinKitWanderingCubes(
-          color: Colors.blueAccent,
+        color: Colors.white,
+        child: SpinKitThreeBounce(
+          color: Colors.teal[400],
         ),
       ));
     } else {

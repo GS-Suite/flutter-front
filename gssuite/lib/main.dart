@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'Components/Create Class/create_class_form.dart';
 import 'Components/Join Class/joinClassForm.dart';
 import './Components/AdvancedOptions/advanced_options.dart';
+import './Components/Splash/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignIn(title: 'GS Suite'),
+      home: Splash(),
     );
   }
 }
