@@ -21,7 +21,7 @@ class ChannelList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return this.classrooms.length == 0
+    return this.classrooms == [] || this.classrooms == null
         ? Container(
             height: 165,
             child: Center(
@@ -34,7 +34,9 @@ class ChannelList extends StatelessWidget {
                   size: 40,
                 ),
                 Text(
-                  "You haven't created any classrooms",
+                  enrolled
+                      ? "You haven't enrolled into any classrooms yet"
+                      : "You haven't created any classrooms",
                   style: TextStyle(color: Colors.grey[400]),
                 )
               ],

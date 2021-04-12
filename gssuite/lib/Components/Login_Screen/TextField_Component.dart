@@ -44,11 +44,13 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
     var username = usernameController.text;
     var _body = json
         .encode({'username': username, 'password': passwordController.text});
+    print(_body);
     var response = await http.post(
       'https://gs-suite-dev.herokuapp.com/sign_in/',
       body: _body,
     );
     var res = json.decode(response.body.toString());
+    print(res);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (res['success'] == true) {
@@ -63,6 +65,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         '/dashboard',
       );
     } else {
+      print(res);
       showBasicsFlash(
         flashStyle: FlashStyle.grounded,
       );
@@ -101,17 +104,6 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           Container(
             height: 60,
             child: TextField(
-              onChanged: (text) {
-                if (text.length > 4 && text.length < 9) {
-                  setState(() {
-                    isPasswordValid = false;
-                  });
-                } else {
-                  setState(() {
-                    isPasswordValid = true;
-                  });
-                }
-              },
               obscureText: _showPassword,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -130,28 +122,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.bold,
                     color: Colors.grey),
-                errorText: isPasswordValid
-                    ? null
-                    : "Password is atleaast 8 characters!",
               ),
               controller: passwordController,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            alignment: Alignment(1.0, 0.0),
-            padding: EdgeInsets.only(top: 10),
-            child: InkWell(
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(
-                    color: Colors.teal[400],
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Montserrat',
-                    decoration: TextDecoration.underline),
-              ),
             ),
           ),
           SizedBox(
@@ -301,8 +273,10 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
       var response = await http
           .post('https://gs-suite-dev.herokuapp.com/sign_in/', body: _body);
       var res = json.decode(response.body.toString());
+      print(res);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (res['success'] == true) {
+        print(res);
         var userData = User.fromJson(res);
         prefs.setString('token', userData.token);
       }
@@ -313,6 +287,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           '/dashboard',
         );
       } else {
+        print(res);
         showBasicsFlash(
           flashStyle: FlashStyle.grounded,
         );

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../Drawer Component/drawer.dart';
+import '../../../../apis/api.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewStudentsAttendance extends StatefulWidget {
   final studentList;
@@ -14,7 +18,43 @@ class ViewStudentsAttendance extends StatefulWidget {
 }
 
 class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
+  var _nameList = [];
+  var _stuList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('init');
+    print(this.widget.studentList);
+    if (mounted) {
+      _stuList = this.widget.studentList.keys.toList();
+    }
+    print('dlfj');
+
+    getNameList();
+  }
+
+  Future<String> getName({String uid}) async {
+    var name = '';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, String> _headers = {'token': prefs.getString('token')};
+    print('get name');
+    var _bodyOwner = json.encode({
+      'user_uid': uid,
+    });
+    print(_bodyOwner);
+    var respOwner =
+        await http.post(getUserName, body: _bodyOwner, headers: _headers);
+    var resOwner = jsonDecode(respOwner.body.toString());
+
+    if (resOwner['success'] == true) {
+      print(resOwner);
+      name = resOwner['data']['username'];
+    }
+    return name;
+  }
+
   @override
   Widget build(BuildContext context) {
     print(this.widget.studentList);
@@ -52,7 +92,7 @@ class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
             ? Container(
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: this.widget.studentList.length,
+                    itemCount: this._stuList.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 3),
@@ -88,10 +128,7 @@ class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                this
-                                                    .widget
-                                                    .studentList[index]
-                                                    .toString(),
+                                                this._stuList[index].toString(),
                                                 style: TextStyle(fontSize: 18),
                                               ),
                                             ),
@@ -111,5 +148,14 @@ class _ViewStudentsAttendanceState extends State<ViewStudentsAttendance> {
                     }),
               )
             : Container(child: Center(child: Text('No one attended'))));
+  }
+
+  void getNameList() async {
+    if (mounted) {
+      setState(() async {
+        _nameList = _stuList.map((e) async => await getName(uid: e)).toList();
+      });
+      print(_nameList);
+    }
   }
 }

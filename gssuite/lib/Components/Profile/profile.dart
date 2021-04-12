@@ -58,21 +58,13 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      _userProfile['profile_pic'] ??
-                                          "https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=612x612&w=0&h=NGxdexflb9EyQchqjQP0m6wYucJBYLfu46KCLNMHZYM=",
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        'assets/profile.jfif',
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                     radius: 50.0,
-                                  ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Text(
-                                    '@ ${_userProfile['username']}',
-                                    style: TextStyle(
-                                      fontSize: 22.0,
-                                      color: Colors.white,
-                                    ),
                                   ),
                                   SizedBox(
                                     height: 10.0,
@@ -87,76 +79,58 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8.0, vertical: 22.0),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: <Widget>[
-                                          Expanded(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Some",
-                                                  style: TextStyle(
-                                                    color: Colors.redAccent,
-                                                    fontSize: 22.0,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 4.0,
+                                                horizontal: 20.0),
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "${_userProfile['first_name']} ${_userProfile['last_name']}",
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 25.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.0,
+                                                    ),
+                                                    Text(
+                                                      "@${_userProfile["username"]}",
+                                                      style: TextStyle(
+                                                        fontSize: 16.0,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5.0,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        final url =
+                                                            'mailto:${_userProfile['email']}';
+                                                        try {
+                                                          await launch(url);
+                                                        } catch (e) {}
+                                                      },
+                                                      child: Text(
+                                                        "${_userProfile["email"]}",
+                                                        style: TextStyle(
+                                                            fontSize: 12.0,
+                                                            color: Colors
+                                                                .grey[600]),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  "5200",
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.pinkAccent,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  "User",
-                                                  style: TextStyle(
-                                                    color: Colors.redAccent,
-                                                    fontSize: 22.0,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  "28.5K",
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.pinkAccent,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Dets",
-                                                  style: TextStyle(
-                                                    color: Colors.redAccent,
-                                                    fontSize: 22.0,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 5.0,
-                                                ),
-                                                Text(
-                                                  "1300",
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    color: Colors.pinkAccent,
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ),
@@ -183,14 +157,14 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               tabs: [
                                 Tab(
                                   child: Text(
-                                    'Owned',
+                                    'Owned (${_userClassrooms.length})',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 Tab(
                                   child: Text(
-                                    'Enrolled',
+                                    'Enrolled (${_userEnrolled.length})',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),

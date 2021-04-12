@@ -60,14 +60,14 @@ class _ForumsState extends State<Forums> {
                             padding:
                                 EdgeInsets.only(left: 14, right: 14, top: 10),
                             child: Align(
-                              alignment: (_chatList[index]['username'] !=
-                                      _loggedInUsername
+                              alignment: (_chatList[index]['username'] ==
+                                      _classroom_owner_username
                                   ? Alignment.topLeft
                                   : Alignment.topRight),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: _chatList[index]['username'] ==
-                                          _loggedInUsername
+                                  borderRadius: _chatList[index]['username'] !=
+                                          _classroom_owner_username
                                       ? BorderRadius.only(
                                           bottomLeft: Radius.circular(15),
                                           topLeft: Radius.circular(15),
@@ -76,22 +76,22 @@ class _ForumsState extends State<Forums> {
                                           bottomRight: Radius.circular(15),
                                           topLeft: Radius.circular(15),
                                           topRight: Radius.circular(15)),
-                                  color: (_chatList[index]['username'] !=
-                                          _loggedInUsername
+                                  color: (_chatList[index]['username'] ==
+                                          _classroom_owner_username
                                       ? Colors.grey.shade200
                                       : Colors.blue[200]),
                                 ),
                                 padding: EdgeInsets.all(16),
                                 child: Column(
                                   crossAxisAlignment: _chatList[index]
-                                              ['username'] ==
-                                          _loggedInUsername
+                                              ['username'] !=
+                                          _classroom_owner_username
                                       ? CrossAxisAlignment.end
                                       : CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _chatList[index]['username'] ==
-                                              _loggedInUsername
+                                      _chatList[index]['username'] !=
+                                              _classroom_owner_username
                                           ? 'You'
                                           : _chatList[index]['username'],
                                       style: TextStyle(
@@ -104,7 +104,7 @@ class _ForumsState extends State<Forums> {
                                         _chatList[index]['message'],
                                         textAlign: _chatList[index]
                                                     ['username'] ==
-                                                _loggedInUsername
+                                                _classroom_owner_username
                                             ? TextAlign.end
                                             : TextAlign.start,
                                       ),
@@ -112,7 +112,7 @@ class _ForumsState extends State<Forums> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
-                                          _chatList[index]['datetimestamp']
+                                          _chatList[index]['datetime']
                                               .toString()
                                               .substring(11, 16),
                                           style: TextStyle(
@@ -188,12 +188,15 @@ class _ForumsState extends State<Forums> {
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
       var forum_dets = res['data']['forum_stuff'];
-      setState(() {
-        _chatEmpty = false;
-        _classroom_owner_uid = forum_dets['classroom_owner_uid'];
-        _classroom_owner_username = forum_dets['classroom_owner_username'];
-        _chatList = forum_dets['posts'];
-      });
+      if (mounted) {
+        setState(() {
+          _chatEmpty = false;
+          _classroom_owner_uid = forum_dets['classroom_owner_uid'];
+          _classroom_owner_username = forum_dets['classroom_owner_username'];
+          _chatList = forum_dets['posts'];
+        });
+      }
+
       prefs.setString('token', res['token'].toString());
       _chatList != null
           ? _scrollController.hasClients
@@ -226,9 +229,12 @@ class _ForumsState extends State<Forums> {
 
     var res = json.decode(response.body.toString());
     if (res['success'] == true) {
-      setState(() {
-        getForumChat();
-      });
+      if (mounted) {
+        setState(() {
+          getForumChat();
+        });
+      }
+
       this.build.call(context); // Don't change this at any cost
 
       _postMessageController.clear();

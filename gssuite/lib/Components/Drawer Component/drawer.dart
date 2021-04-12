@@ -64,20 +64,13 @@ class AppDrawer extends StatelessWidget {
               tap: () async => await canLaunch(whatsNew)
                   ? await launch(whatsNew)
                   : throw 'Could not launch'),
-          _createDrawerItem(
-              icon: Icons.collections_bookmark_outlined, text: 'Bookmarks'),
-          Divider(
-            indent: 5,
+          SizedBox(
+            height: 300,
           ),
-          _createDrawerItem(icon: Icons.forum_outlined, text: 'Forums'),
-          Divider(),
           _createDrawerItem(
               icon: Icons.settings_outlined,
               text: 'Advanced Options',
               tap: () => Navigator.pushNamed(context, '/advanced_options')),
-          SizedBox(
-            height: 165,
-          ),
           Divider(),
           _createDrawerItem(
               icon: Icons.power_settings_new_outlined,

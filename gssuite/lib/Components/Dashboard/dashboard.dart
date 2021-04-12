@@ -19,7 +19,8 @@ class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   SharedPreferences prefs;
   static String _user;
-  var _userClassrooms;
+  var _loading = true;
+  var _userClassrooms = [];
   var _userEnrolledClasrooms = [];
   TextEditingController _searchController;
 
@@ -48,6 +49,7 @@ class _DashboardState extends State<Dashboard> {
         print(res);
         if (mounted) {
           setState(() {
+            _loading = false;
             _userClassrooms = res['data'];
           });
         }
@@ -85,6 +87,7 @@ class _DashboardState extends State<Dashboard> {
               tempEnroll.add(temp);
               if (mounted) {
                 setState(() {
+                  _loading = false;
                   _userEnrolledClasrooms = tempEnroll;
                 });
               }
@@ -92,7 +95,6 @@ class _DashboardState extends State<Dashboard> {
               print('failed');
             }
           }
-
           print('over');
           print(_userEnrolledClasrooms);
         }
@@ -135,8 +137,6 @@ class _DashboardState extends State<Dashboard> {
     } else {
       var size = MediaQuery.of(context).size.height;
       Color kPrimaryColor = Colors.teal[300];
-      const kTextColor = Color(0xFF3C4046);
-      const kBackgroundColor = Color(0xFFF9F8FD);
 
       const double kDefaultPadding = 20.0;
       return WillPopScope(
@@ -146,145 +146,194 @@ class _DashboardState extends State<Dashboard> {
             appBar: buildAppBar(),
             drawer: AppDrawer(),
             body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
-                    // It will cover 20% of our total height
-                    height: size * 0.2,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: kDefaultPadding,
-                            right: kDefaultPadding,
-                            bottom: 36 + kDefaultPadding,
-                          ),
-                          height: size * 0.2 - 27,
-                          decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(36),
-                              bottomRight: Radius.circular(36),
+              child: Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 1.5,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
+                      // It will cover 20% of our total height
+                      height: size * 0.2,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: kDefaultPadding,
+                              right: kDefaultPadding,
+                              bottom: 36 + kDefaultPadding,
                             ),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                '${_user.contains(' ') ? 'Hi, ' + _user.substring(0, _user.indexOf(' ')) + '!' : 'Hi, ' + _user}!',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    .copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                              GestureDetector(
-                                onTap: () => {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => Profile(
-                                            username: _user,
-                                            userId: '',
-                                          )))
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xffE6E6E6),
-                                  radius: 25,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Color(0xffCCCCCC),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding),
-                            height: 54,
+                            height: size * 0.2 - 27,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0, 10),
-                                  blurRadius: 50,
-                                  color: kPrimaryColor.withOpacity(0.23),
-                                ),
-                              ],
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(36),
+                                bottomRight: Radius.circular(36),
+                              ),
                             ),
                             child: Row(
                               children: <Widget>[
-                                Expanded(
-                                  child: TextField(
-                                    controller: _searchController,
-                                    onChanged: (value) {},
-                                    decoration: InputDecoration(
-                                      hintText: "Search users...",
-                                      hintStyle: TextStyle(
-                                        color: kPrimaryColor.withOpacity(0.5),
+                                Text(
+                                  '${_user.contains(' ') ? 'Hi, ' + _user.substring(0, _user.indexOf(' ')) + '!' : 'Hi, ' + _user}!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                ),
+                                Spacer(),
+                                GestureDetector(
+                                  onTap: () => {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => Profile(
+                                                  username: _user,
+                                                  userId: '',
+                                                )))
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xffE6E6E6),
+                                    radius: 25,
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        'assets/profile.jfif',
+                                        fit: BoxFit.cover,
                                       ),
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
                                     ),
                                   ),
                                 ),
-                                GestureDetector(
-                                    onTap: () => {getSearch()},
-                                    child: Icon(Icons.search)),
                               ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: _userClassrooms != null
-                          ? Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: SubscribedCourses(
-                                    context: context,
-                                    title: 'Your Classes',
-                                    classrooms: _userClassrooms,
-                                    enrolled: false,
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding),
+                              height: 54,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0, 10),
+                                    blurRadius: 50,
+                                    color: kPrimaryColor.withOpacity(0.23),
                                   ),
-                                ),
-                                SizedBox(height: 20.0),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: SubscribedCourses(
-                                    context: context,
-                                    title: 'Enrolled Classes',
-                                    classrooms: _userEnrolledClasrooms,
-                                    enrolled: true,
+                                ],
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _searchController,
+                                      onChanged: (value) {},
+                                      decoration: InputDecoration(
+                                        hintText: "Search users...",
+                                        hintStyle: TextStyle(
+                                          color: kPrimaryColor.withOpacity(0.5),
+                                        ),
+                                        enabledBorder: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Center(
-                              child: SpinKitThreeBounce(
-                                color: Colors.teal[400],
+                                  GestureDetector(
+                                      onTap: () => {getSearch()},
+                                      child: Icon(Icons.search)),
+                                ],
                               ),
                             ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      alignment: Alignment.topLeft,
+                      width: double.infinity,
+                      child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: !_loading
+                              ? (_userClassrooms != null ||
+                                      _userEnrolledClasrooms != null)
+                                  ? Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: SubscribedCourses(
+                                            context: context,
+                                            title: 'Your Classes',
+                                            classrooms: _userClassrooms,
+                                            enrolled: false,
+                                          ),
+                                        ),
+                                        SizedBox(height: 20.0),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: SubscribedCourses(
+                                            context: context,
+                                            title: 'Enrolled Classes',
+                                            classrooms: _userEnrolledClasrooms,
+                                            enrolled: true,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Center(
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 165,
+                                              child: Center(
+                                                  child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/plant_grow.gif',
+                                                        height: 95,
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      "Welcome, start by creating a classroom/enrolling into one",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.grey[400]),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                              : SpinKitThreeBounce(
+                                  color: Colors.teal[400],
+                                )),
+                    ),
+                  ],
+                ),
               ),
             ),
             floatingActionButton: FloatingActionButton(

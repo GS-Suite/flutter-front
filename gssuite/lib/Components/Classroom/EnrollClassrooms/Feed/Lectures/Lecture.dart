@@ -185,9 +185,11 @@ class _LectureState extends State<Lecture> {
           temp['description'] = res['description'];
           temp['favIcon'] = res['favIcon'];
         });
-        setState(() {
-          _fetchList.add(temp);
-        });
+        if (mounted) {
+          setState(() {
+            _fetchList.add(temp);
+          });
+        }
 
         // print(_fetchList);
       });

@@ -178,11 +178,14 @@ class _LectureState extends State<Lecture> {
       var tempList = [];
       print(res);
       print(true);
-      setState(() {
-        _isLectureEmpty = false;
-        _isLoading = false;
-        _lectureList = res['data'];
-      });
+      if (mounted) {
+        setState(() {
+          _isLectureEmpty = false;
+          _isLoading = false;
+          _lectureList = res['data'];
+        });
+      }
+
       _lectureList.forEach((e) async {
         var temp = {
           'url': e['lecture_link'],

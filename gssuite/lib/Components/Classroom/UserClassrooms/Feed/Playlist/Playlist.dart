@@ -134,7 +134,7 @@ class _PlayListState extends State<PlayList> {
       });
       prefs.setString('token', res['token'].toString());
     } else {
-      if (res['message'] == 'There are no lectures to retrieve') {
+      if (res['message'] == 'Classroom playlists could not be retrieved.') {
         if (mounted) {
           {
             setState(() {

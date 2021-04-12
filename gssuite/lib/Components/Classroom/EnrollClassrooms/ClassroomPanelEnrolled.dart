@@ -42,7 +42,7 @@ class _ClassroomPanelEnrolledState extends State<ClassroomPanelEnrolled> {
               )),
             )
           : DefaultTabController(
-              initialIndex: 1,
+              initialIndex: 0,
               length: 3,
               child: Scaffold(
                 key: _scaffoldKey,
